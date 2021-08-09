@@ -4,7 +4,7 @@ import {
     Route
   } from 'react-router-dom';
   import Whtsappscreen from './Component/whtsapp/whtsappscreen';
-  
+  import ChatRoom from './Component/chatroom/ChatRoom';
   import { createStore } from 'redux';
   import { Provider } from 'react-redux';
   import reducers from './reducers/combineReducers'
@@ -23,7 +23,7 @@ import {
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={Whtsappscreen} />
-                
+                <Route path='/ChatRoom' exact component={ChatRoom}/>
                 <Route path="*" component={PageNotFound} />
             </Switch>
   

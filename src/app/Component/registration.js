@@ -9,7 +9,7 @@ export default class Createaccount extends Component {
         this.username=React.createRef();
     }
     display=()=>{
-        let user=this.username.current.value;
+        let user=this.username.current.value; 
         this.props.history.push({
             pathname:'/chats',
             state:{user:user}
