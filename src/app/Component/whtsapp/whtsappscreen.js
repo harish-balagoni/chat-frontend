@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import Data from './rawdata.json';
-import './whtsappscreen.css'
+import './whtsappscreen.css';
+import ChatRoom from '../chatroom/ChatRoom';
 export default class Whtsappscreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
             Data: null,
             isLoading:true,
-            user:null
+            user:null,
+            user: this.props.location.state && this.props.location.state.user
         }
     }
     componentDidMount() {
@@ -20,7 +22,7 @@ export default class Whtsappscreen extends Component {
             let index=null,details=[];
             res.map((user,index)=>{
                 
-                if(user.username === 'renu'){
+                if(user.username === 'suma'){
                     this.setState({user:user});
                     index=index;
                     
@@ -36,7 +38,13 @@ export default class Whtsappscreen extends Component {
             this.setState({Data:details,isLoading:false});
         })
     }
-    
+    open= (user)=> {
+        this.props.history.push({
+            pathname:'/ChatRoom',
+            userDetails: this.state.user,
+            client2: user
+        })
+    }
     render() {
         const {isLoading,Data}=this.state;
         console.log(Data);
@@ -60,10 +68,7 @@ export default class Whtsappscreen extends Component {
                     <div key={index}>
                     <img style={{height:40,width:40,borderRadius:40/2,marginLeft:10}} src={user.profile}className="image"></img>
                        <div className="text">
-                        <h1>{user.username}</h1>
-                        
-                        {/* <p>{user.item.message}</p> */}
-
+                        <h1 onClick={()=>{this.open(user)}}>{user.username}</h1>
                         </div>
                     </div>
 
