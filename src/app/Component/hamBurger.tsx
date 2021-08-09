@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchUser } from '../actions/actions'
+import { fetchUser } from '../actions/actions';
+import io from "socket.io-client";
+
+const socket = io('https://ptchatindia.herokuapp.com/', {transports: ['websocket']});
 
 interface IProps {
     history:any, 
@@ -28,6 +31,16 @@ class HamburgerMenu extends Component<IProps,IState> {
                 phone:0
             }
         }
+    }
+    componentDidMount(){
+        socket.emit("joinRoom", { username: 'harish', roomname: 'harish-raghu' });
+        socket.emit("chat", { msg: 'message'});
+        socket.on("message",(data)=>{
+            console.log('msg came successfully',data);
+        });
+        fetch('https://ptchatindia.herokuapp.com/').then(res=>{
+            console.log(res,'response from server');
+        })
     }
     settings=()=>{
         this.props.fetchUser(this.state.user);
