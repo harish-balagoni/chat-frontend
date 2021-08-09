@@ -7,7 +7,8 @@ export default class Whtsappscreen extends Component {
         this.state = {
             Data: null,
             isLoading:true,
-            user:null
+            user:null,
+            user: this.props.location.state && this.props.location.state.user
         }
     }
     componentDidMount() {
@@ -19,8 +20,8 @@ export default class Whtsappscreen extends Component {
             console.log("response",res);
             let index=null,details=[];
             res.map((user,index)=>{
-                
-                if(user.username === 'renu'){
+                console.log(this.state.user);
+                if(user.username === this.state.user){
                     this.setState({user:user});
                     index=index;
                     
