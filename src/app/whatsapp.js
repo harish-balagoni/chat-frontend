@@ -3,7 +3,7 @@ import {
     Switch,
     Route
   } from 'react-router-dom';
-  import hamBurger from './Component/hamBurger';
+  import Whtsappscreen from './Component/whtsapp/whtsappscreen';
   
   import { createStore } from 'redux';
   import { Provider } from 'react-redux';
@@ -22,7 +22,7 @@ import {
       <Provider store={store}>
         <BrowserRouter>
             <Switch>
-                <Route path="/" exact component={hamBurger} />
+                <Route path="/" exact component={Whtsappscreen} />
                 
                 <Route path="*" component={PageNotFound} />
             </Switch>
