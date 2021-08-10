@@ -14,7 +14,7 @@ import {
 
 function PageNotFound() {
     return (
-        <div class="pageNotFound">Page Not Found</div>
+        <div className="pageNotFound">Page Not Found</div>
     )
 }
 export default class Routing extends React.Component {

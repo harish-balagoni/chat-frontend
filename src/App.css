@@ -65,3 +65,33 @@ display: flex;
   height: 50px;
   
 }
+
+.msg-container{
+  width: 100%;
+  height: 80%;
+background-color: rgb(172, 141, 202);
+display: flex;
+flex-direction: column;
+}
+
+.message-field{
+ margin-top: 10px;
+}
+
+.msg-right{
+  background: #695c5c;
+    border-radius: 5%;
+    padding: 5px;
+    float: right;
+    margin-right: 5px;
+    color: white;
+}
+
+.msg-left{
+  background: #695c5c;
+    border-radius: 5%;
+    padding: 5px;
+    float: left;
+    margin-right: 5px;
+    color: white;
+}

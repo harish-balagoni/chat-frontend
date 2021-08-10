@@ -17,6 +17,7 @@ export default class Whtsappscreen extends Component {
         this.getContacts();
     }
     getContacts=()=>{
+        //https://ptchatindia.herokuapp.com/contacts
         fetch("https://ptchatindia.herokuapp.com/contacts").then(res => res.json()).then(res=>{
             console.log("response",res);
             let index=null,details=[];
