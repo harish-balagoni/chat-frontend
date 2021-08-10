@@ -1,0 +1,20 @@
+.login{
+    background-color: aqua;
+    padding: 50px;
+}
+
+.heading{
+    background-color: rgb(255, 192, 75);
+    margin-right: 900px;
+}
+
+.para{
+    width: 200px;
+    height: 30px;
+}
+
+.submit{
+    padding: 5px;
+    background-color: aquamarine;
+    color: brown;
+}
