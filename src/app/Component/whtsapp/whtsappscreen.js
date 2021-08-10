@@ -105,7 +105,6 @@ export default class Whtsappscreen extends Component {
                         <h1 onClick={()=>{this.open(user)}}>{user.username}</h1>
                         </div>
                     </div>
-
                 )})}
             </div>
             </div>
