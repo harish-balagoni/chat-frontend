@@ -2,11 +2,12 @@
 
 .image{
     float: left;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
     margin-left: 20px;
-    margin-top: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .headings{
     margin-left: 20px;
@@ -60,14 +61,17 @@
 h2{
     color:#ffff;
     font :16px sans-serif;
-    margin: 0px 0px 3.2px;
+    /* margin: 0px 0px 3.2px; */
+    margin-top: 20px;
 }
 p{
     color: #ffffffB3;
     font :16px sans-serif;
+    margin-bottom: 20px;
 }
 .time-text{
     color:#ffff;
-    font:12.8px sans-serif;
+    font:12.8px sans-serif; 
+    text-align: right;
     
 }
