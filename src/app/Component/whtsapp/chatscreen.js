@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import './whtsappscreen.css';
+import './chatscreen.css';
 import ChatRoom from '../chatroom/ChatRoom';
-export default class Whtsappscreen extends Component {
+export default class ChatScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
             Data: null,
             isLoading:true,
             user: this.props.location.state && this.props.location.state.user,
-            color:this.props.location&&this.props.location.color,
+            menu:false,
+            settingDetails:false,
         }
         console.log(this.props);
     }
@@ -45,25 +46,8 @@ export default class Whtsappscreen extends Component {
     settings=()=>{
         this.setState({menu:true})
     }
-    profile=()=>{
-        this.props.history.push({
-            pathname:"/profile",
-            user:this.state.user,
-            color:this.state.color,
-        })
-    }
-    themes=()=>{
-        this.props.history.push({
-            pathname:"/themes",
-            user:this.state.user
-        })
-    }
-    help=()=>{
-        this.props.history.push({
-            pathname:"/help",
-            user:this.state.user,
-            color:this.state.color,
-        })
+    settingDetails=()=>{
+        this.setState({settingDetails:true})
     }
     render() {
         const {isLoading,Data}=this.state;
@@ -81,17 +65,31 @@ export default class Whtsappscreen extends Component {
             <div className="header">
                 <div className="headings"><h1>Chats</h1></div>
                 <div>
-                {this.state.menu?
-                    <div style={{width:10,marginLeft: 1000,height:200}}>
-                        <button style={{padding:10,paddingRight:40}} onClick={()=>{this.profile()}}>Profile</button>
-                        <button style={{padding:10,paddingRight:30}} onClick={()=>{this.themes()}}>Themes</button>
-                        <button style={{padding:10,paddingRight:50}} onClick={()=>{this.help()}}>Help</button>
-                    </div>
-                :
-                <div>
-                    <button style={{marginLeft:1100}} onClick={()=>{this.settings()}}><img style={{width:30,height:30}} src="https://w7.pngwing.com/pngs/83/115/png-transparent-equals-symbol-menu-hamburger-button-logo-chef-menu-button-text-cooking-musician.png" /></button>
-                </div>
-                }
+                    {this.state.menu?
+                        this.state.settingDetails?
+                            <div className="screen-pop-up">
+                                <div className="settings-details-header">
+                                    <button onClick={()=>{this.cancel()}}>X</button>
+                                    <h1 style={{color:'white'}}>About</h1>
+                                </div>
+                                <div className="settings-details-body">
+                                    <img src="" />
+                                    <span>name</span>
+                                </div>
+                            </div>
+                        :
+
+                        <div className="screen-pop-up">
+                            <div onClick={()=>{this.settingDetails()}} style={{padding:10,paddingRight:40,cursor:'pointer'}} > <img src="https://cdn3.vectorstock.com/i/1000x1000/08/37/profile-icon-male-user-person-avatar-symbol-vector-20910837.jpg" style={{width:20,height:20}} /> Profile</div>
+                            <div style={{padding:10,paddingRight:30,cursor:'pointer'}} ><img src="https://static.vecteezy.com/system/resources/thumbnails/001/500/478/small/theme-icon-free-vector.jpg" style={{width:20,height:20}} />Themes</div>
+                            <div style={{padding:10,paddingRight:50,cursor:'pointer'}} ><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbGk-AsWSk4bsvhARgxG4RxWrx41LLfscW1g&usqp=CAU" style={{width:20,height:20}} /> Help</div>
+                        </div>
+                        
+                    :
+                        <div style={{borderRadius:50}} >
+                            <button className="screen-menu" onClick={()=>{this.settings()}}><h2>⋮</h2></button>
+                        </div>
+                    }
                 </div>
             </div>
             <div style={{backgroundColor:this.state.color}}>
