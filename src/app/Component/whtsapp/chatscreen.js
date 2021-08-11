@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './chatscreen.css';
-import ChatRoom from '../chatroom/ChatRoom';
 export default class ChatScreen extends Component {
     constructor(props) {
         super(props)
@@ -20,7 +19,6 @@ export default class ChatScreen extends Component {
         this.getContacts();
     }
     getContacts=()=>{
-        //https://ptchatindia.herokuapp.com/contacts
         fetch("https://ptchatindia.herokuapp.com/contacts").then(res => res.json()).then(res=>{
             console.log("response",res);
             let idx=null,details=[];
@@ -56,7 +54,7 @@ export default class ChatScreen extends Component {
         console.log(Data);
         if(isLoading){
             return(
-                <div>
+                <div className="loading">
                     Loding...
                 </div>
             )
@@ -103,13 +101,15 @@ export default class ChatScreen extends Component {
                     <div className='profile-img'>
                         <img src={user.profile} className="image" alt="user profile"></img>
                         </div>
-                       <div className="text profile-nm">
+            
+                       <div className="text profile-nm" >
                         <h2>{user.username}</h2>
                         <p>{"hi"}</p>
                         </div> 
                          
                         <div className="time"><small class="time-text">12.06pm</small>
                         </div> 
+                    
 
                     </div>
                 )})}

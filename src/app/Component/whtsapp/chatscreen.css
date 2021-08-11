@@ -86,7 +86,9 @@ p{
     height:100%;
     padding-top: 20px;
 }
-
+.loading{
+    color: azure;
+}
 .screen-pop-up{
     z-index: 1;
     position: absolute;
