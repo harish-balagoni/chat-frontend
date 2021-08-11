@@ -106,8 +106,10 @@ export default class ChatScreen extends Component {
                        <div className="text profile-nm">
                         <h2 onClick={()=>{this.open(user)}}>{user.username}</h2>
                         <p>{"hi"}</p>
-                        </div>
-                        <div class="time"><small class="time-text">12.06pm</small></div>
+                        </div> 
+                         
+                        <div className="time"><small class="time-text">12.06pm</small>
+                        </div> 
 
                     </div>
                 )})}

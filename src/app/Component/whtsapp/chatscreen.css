@@ -63,16 +63,18 @@ h2{
     font :16px sans-serif;
     /* margin: 0px 0px 3.2px; */
     margin-top: 20px;
+    float:left;
 }
 p{
     color: #ffffffB3;
-    font :16px sans-serif;
+    font :10px sans-serif;
     margin-bottom: 20px;
 }
 .time-text{
     color:#ffff;
     font:12.8px sans-serif; 
-    text-align: right;
+    align-items: right;
+    position: 200px 200px;
     
 }
 
