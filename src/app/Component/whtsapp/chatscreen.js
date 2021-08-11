@@ -23,12 +23,12 @@ export default class ChatScreen extends Component {
         //https://ptchatindia.herokuapp.com/contacts
         fetch("https://ptchatindia.herokuapp.com/contacts").then(res => res.json()).then(res=>{
             console.log("response",res);
-            let index=null,details=[];
+            let idx=null,details=[];
             res.map((user,index)=>{
                 console.log(this.state.profileUser);
                 if(user.username === this.state.profileUser){
                     this.setState({user:user});
-                    index=index;
+                    idx=index;
                     
                 }
                 else{
@@ -82,9 +82,9 @@ export default class ChatScreen extends Component {
                         :
 
                         <div className="screen-pop-up">
-                            <div onClick={()=>{this.settingDetails()}} style={{padding:10,paddingRight:40,cursor:'pointer'}} > <img src="https://cdn3.vectorstock.com/i/1000x1000/08/37/profile-icon-male-user-person-avatar-symbol-vector-20910837.jpg" style={{width:20,height:20}} /> Profile</div>
-                            <div style={{padding:10,paddingRight:30,cursor:'pointer'}} ><img src="https://static.vecteezy.com/system/resources/thumbnails/001/500/478/small/theme-icon-free-vector.jpg" style={{width:20,height:20}} />Themes</div>
-                            <div style={{padding:10,paddingRight:50,cursor:'pointer'}} ><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbGk-AsWSk4bsvhARgxG4RxWrx41LLfscW1g&usqp=CAU" style={{width:20,height:20}} /> Help</div>
+                            <div onClick={()=>{this.settingDetails()}} style={{padding:10,paddingRight:40,cursor:'pointer'}} > <img src="https://cdn3.vectorstock.com/i/1000x1000/08/37/profile-icon-male-user-person-avatar-symbol-vector-20910837.jpg" alt="profile"style={{width:20,height:20}} /> Profile</div>
+                            <div style={{padding:10,paddingRight:30,cursor:'pointer'}} ><img src="https://static.vecteezy.com/system/resources/thumbnails/001/500/478/small/theme-icon-free-vector.jpg" style={{width:20,height:20}} alt="themes" />Themes</div>
+                            <div style={{padding:10,paddingRight:50,cursor:'pointer'}} ><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbGk-AsWSk4bsvhARgxG4RxWrx41LLfscW1g&usqp=CAU" style={{width:20,height:20}} alt="help" /> Help</div>
                         </div>
                         
                     :
@@ -99,12 +99,12 @@ export default class ChatScreen extends Component {
                 
                 {this.state.Data.map((user,index) => {
                     return(
-                    <div key={index} className='contact'>
+                    <div key={index} className='contact' onClick={()=>{this.open(user)}}>
                     <div className='profile-img'>
-                        <img src={user.profile} className="image"></img>
+                        <img src={user.profile} className="image" alt="user profile"></img>
                         </div>
                        <div className="text profile-nm">
-                        <h2 onClick={()=>{this.open(user)}}>{user.username}</h2>
+                        <h2>{user.username}</h2>
                         <p>{"hi"}</p>
                         </div> 
                          
