@@ -18,7 +18,7 @@ export default class Createaccount extends Component {
     render() {
         return (
             <div>
-                <h1>create Account</h1>
+                <h1>Login</h1>
                 <input type="text" ref={this.username} placeholder="Enter your name"/>
                 <button onClick={()=>{this.display()}}> submit</button>
             </div>

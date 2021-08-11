@@ -8,7 +8,7 @@ export default class Whtsappscreen extends Component {
             Data: null,
             isLoading:true,
             user:null,
-            user: this.props.location.state && this.props.location.state.user
+            profileUser: this.props.location.state && this.props.location.state.user
         }
     }
     componentDidMount() {
@@ -20,8 +20,8 @@ export default class Whtsappscreen extends Component {
             console.log("response",res);
             let index=null,details=[];
             res.map((user,index)=>{
-                console.log(this.state.user);
-                if(user.username === this.state.user){
+                console.log(this.state.profileUser);
+                if(user.username === this.state.profileUser){
                     this.setState({user:user});
                     index=index;
                     
@@ -29,10 +29,6 @@ export default class Whtsappscreen extends Component {
                 else{
                     details.push(user);
                 }
-                // if( user.username!== 'renu'){
-                //     return user;
-                // }
-            
             })
             this.setState({Data:details,isLoading:false});
         })
@@ -54,17 +50,13 @@ export default class Whtsappscreen extends Component {
                 <h1 style={{color:'white'}}>Chats</h1>
             </div>
             <div className="container">
-            <div style={{backgroundImage:'url("https://preview.redd.it/ts7vuoswhwf41.jpg?auto=wep&s=fe71ac2f8231b4349cfb849a027aa5f9df98add5.png")',height:"400px"}}>
-                
+            <div>
                 {this.state.Data.map((user,index) => {
                     return(
                     <div key={index}>
                     <img style={{height:40,width:40,borderRadius:40/2,marginLeft:10}} src={user.profile}className="image"></img>
                        <div className="text">
                         <h1>{user.username}</h1>
-                        
-                        {/* <p>{user.item.message}</p> */}
-
                         </div>
                     </div>
 
