@@ -21,6 +21,7 @@ export default class Routing extends React.Component {
     render() {
         return (
             <BrowserRouter>
+            <div className='dark'>
                 <Switch>
                     <Route path='/' exact component={Createaccount }></Route>
                     <Route path='/ChatRoom' exact component={ChatRoom}/>
@@ -30,7 +31,7 @@ export default class Routing extends React.Component {
                     <Route path='/help' exact component={Help}></Route>
                     <Route path='*' exact component={PageNotFound}></Route>
                 </Switch>
-
+                </div>
             </BrowserRouter>
         );
 

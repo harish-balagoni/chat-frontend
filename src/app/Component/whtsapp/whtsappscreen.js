@@ -79,7 +79,7 @@ export default class Whtsappscreen extends Component {
             <div className="entire-area">
                 
             <div className="header">
-                <div className="headings"><h1 style={{color:'black'}}>Chats</h1></div>
+                <div className="headings"><h1>Chats</h1></div>
                 <div>
                 {this.state.menu?
                     <div style={{width:10,marginLeft: 1000,height:200}}>
@@ -95,17 +95,18 @@ export default class Whtsappscreen extends Component {
                 </div>
             </div>
             <div style={{backgroundColor:this.state.color}}>
-            <div id="container">
+            <div className='chats'>
                 
                 {this.state.Data.map((user,index) => {
                     return(
-                    <div key={index}>
-                    <img src={user.profile} className="image"></img>
-                       <div className="text">
-                        <h1 onClick={()=>{this.open(user)}}>{user.username}</h1>
+                    <div key={index} className='contact'>
+                    <div className='profile-img'>
+                        <img src={user.profile} className="image"></img>
+                        </div>
+                       <div className="text profile-nm">
+                        <h2 onClick={()=>{this.open(user)}}>{user.username}</h2>
                         </div>
                     </div>
-
                 )})}
             </div>
             </div>

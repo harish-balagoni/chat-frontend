@@ -20,6 +20,7 @@ import {
   function Whatsapp(){
     return(
       <Provider store={store}>
+        <div className='dark'>
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={Whtsappscreen} />
@@ -28,6 +29,7 @@ import {
             </Switch>
   
         </BrowserRouter>
+        </div>
         </Provider>
     )
   }
