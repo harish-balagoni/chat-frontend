@@ -27,10 +27,15 @@ export default class ChatRoom extends Component {
       this.setState({ messages: messages });
     });
     this.socket.on("typing-start",(data)=>{
-      this.setState({isOponentTyping:data.typing})
+      if(this.props.location.userDetails.username!==data.username){
+        this.setState({isOponentTyping:data.typing});
+      }
+      
     });
     this.socket.on("typing-end",(data)=>{
-      this.setState({isOponentTyping:data.typing})
+      if(this.props.location.userDetails.username!==data.username){
+        this.setState({isOponentTyping:data.typing});
+      }
     });
     console.log(this.props.location);
   }
@@ -111,11 +116,14 @@ export default class ChatRoom extends Component {
             </div>)
           })}
           {this.state.isOponentTyping&&
-            <div className='messsage-field'>
-            <div className="msg-field-container aln-left">
-              <span className='msg-left chat-typing'></span>
+            <div class="loader">
+            <div class="bounce">
             </div>
-          </div>
+            <div class="bounce1">
+            </div>
+            <div class="bounce2">
+            </div>
+            </div>
           }
         </div>
         <div className='footer'>
