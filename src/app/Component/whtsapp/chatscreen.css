@@ -75,3 +75,26 @@ p{
     text-align: right;
     
 }
+
+.screen-pop-up{
+    z-index: 1;
+    position: absolute;
+    padding: 15px 0;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border-radius: 15px;
+    top: 30px;
+    right: 15px;
+}
+
+.screen-menu{
+    color: white;
+    margin-left: 1167px;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: 100px;
+    background: bottom;
+    margin-right: 30px;
+    margin-top: 15px;
+}
