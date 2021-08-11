@@ -3,7 +3,7 @@ import './App.css';
 import Routing from './app/Component/routing';
 function App() {
   return (
-    <div>
+    <div className='root-ct'>
       <Routing/>
     </div>
   );

@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import Data from './rawdata.json';
-import './whtsappscreen.css'
+import React, { Component } from 'react';
+import './whtsappscreen.css';
+import ChatRoom from '../chatroom/ChatRoom';
 export default class Whtsappscreen extends Component {
     constructor(props) {
         super(props)
@@ -8,14 +8,18 @@ export default class Whtsappscreen extends Component {
             Data: null,
             isLoading:true,
             user:null,
-            profileUser: this.props.location.state && this.props.location.state.user
+            profileUser: this.props.location.state && this.props.location.state.user,
+            user: this.props.location.state && this.props.location.state.user,
+            color:this.props.location&&this.props.location.color,
         }
+        console.log(this.props);
     }
     componentDidMount() {
         console.log(this.state.Data);
         this.getContacts();
     }
     getContacts=()=>{
+        //https://ptchatindia.herokuapp.com/contacts
         fetch("https://ptchatindia.herokuapp.com/contacts").then(res => res.json()).then(res=>{
             console.log("response",res);
             let index=null,details=[];
@@ -33,7 +37,36 @@ export default class Whtsappscreen extends Component {
             this.setState({Data:details,isLoading:false});
         })
     }
-    
+    open=(user)=> {
+        this.props.history.push({
+            pathname:'/ChatRoom',
+            userDetails: this.state.user,
+            client2: user
+        })
+    }
+    settings=()=>{
+        this.setState({menu:true})
+    }
+    profile=()=>{
+        this.props.history.push({
+            pathname:"/profile",
+            user:this.state.user,
+            color:this.state.color,
+        })
+    }
+    themes=()=>{
+        this.props.history.push({
+            pathname:"/themes",
+            user:this.state.user
+        })
+    }
+    help=()=>{
+        this.props.history.push({
+            pathname:"/help",
+            user:this.state.user,
+            color:this.state.color,
+        })
+    }
     render() {
         const {isLoading,Data}=this.state;
         console.log(Data);
@@ -45,21 +78,37 @@ export default class Whtsappscreen extends Component {
             )
         }
         return (
-            <div className="whtsapp-screen">
+            <div className="entire-area">
+                
             <div className="header">
-                <h1 style={{color:'white'}}>Chats</h1>
+                <div className="headings"><h1>Chats</h1></div>
+                <div>
+                {this.state.menu?
+                    <div style={{width:10,marginLeft: 1000,height:200}}>
+                        <button style={{padding:10,paddingRight:40}} onClick={()=>{this.profile()}}>Profile</button>
+                        <button style={{padding:10,paddingRight:30}} onClick={()=>{this.themes()}}>Themes</button>
+                        <button style={{padding:10,paddingRight:50}} onClick={()=>{this.help()}}>Help</button>
+                    </div>
+                :
+                <div>
+                    <button style={{marginLeft:1100}} onClick={()=>{this.settings()}}><img style={{width:30,height:30}} src="https://w7.pngwing.com/pngs/83/115/png-transparent-equals-symbol-menu-hamburger-button-logo-chef-menu-button-text-cooking-musician.png" /></button>
+                </div>
+                }
+                </div>
             </div>
-            <div className="container">
-            <div>
+            <div style={{backgroundColor:this.state.color}}>
+            <div className='chats'>
+                
                 {this.state.Data.map((user,index) => {
                     return(
-                    <div key={index}>
-                    <img style={{height:40,width:40,borderRadius:40/2,marginLeft:10}} src={user.profile}className="image"></img>
-                       <div className="text">
-                        <h1>{user.username}</h1>
+                    <div key={index} className='contact'>
+                    <div className='profile-img'>
+                        <img src={user.profile} className="image"></img>
+                        </div>
+                       <div className="text profile-nm">
+                        <h2 onClick={()=>{this.open(user)}}>{user.username}</h2>
                         </div>
                     </div>
-
                 )})}
             </div>
             </div>

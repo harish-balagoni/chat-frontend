@@ -1,38 +1,114 @@
-.App {
-  text-align: center;
+
+html, body{
+  height: 100%;
+}
+#root{
+  height: 100%;
+}
+.root-ct{
+  height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.chat-room{
+  height: 600px;
+  width: 100%;
+  top: 0;
+  left:0 ;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
+  width: 100%;
+  height: 10%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.container{
+  width: 100%;
+  height: 80%;
+background-color: #383a3f;
+display: flex;
+}
+.footer{
+  width: 100%;
+  height: 10%;
+  bottom: 0;
+  display: flex;
+}
+.message-input{
+  height: 100%;
+  width: 80%;
+
+}
+.submit-button{
+  height: 100%;
+  width: 20%;
+}
+.input{
+  height: 40px;
+  width: 500px;
+}
+.send{
+  height: 40px;
+  width: 100px;
+  color: black;
 }
 
-.App-link {
-  color: #61dafb;
+.profile-image {
+  height: 100%;
+  width: 170%; 
+  border-radius: 50%;
+  
+}
+.arrow-image {
+  height: 100%;
+  width: 80%;
+  border-radius: 50%;
+}
+.name{
+  padding-left: 60px;
+}
+.input-message{
+  position: absolute;
+  right: 0;
+  width: 100px;
+  height: 50px;
+  
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.msg-container{
+  width: 100%;
+  height: 80%;
+background-color: #383a3f;
+display: flex;
+flex-direction: column;
+}
+
+.message-field{
+ margin-top: 10px;
+}
+
+.msg-right{
+  background: #695c5c;
+    border-radius: 5%;
+    padding: 5px;
+    float: right;
+    margin-right: 5px;
+    color: white;
+}
+
+.msg-left{
+  background: #695c5c;
+    border-radius: 5%;
+    padding: 5px;
+    float: left;
+    margin-right: 5px;
+    color: white;
+}
+
+.dark{
+  background-color: #202124;
+  font-family: Nunito,sans-serif;
+  height: 100%;
+}
+
+.text{
+  color: #e2e2e3;
 }
