@@ -49,6 +49,9 @@ export default class ChatScreen extends Component {
     settingDetails=()=>{
         this.setState({settingDetails:true})
     }
+    cancel=()=>{
+        this.setState({menu:false,settingDetails:false})
+    }
     render() {
         const {isLoading,Data}=this.state;
         console.log(Data);

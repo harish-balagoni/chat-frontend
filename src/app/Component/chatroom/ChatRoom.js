@@ -100,6 +100,7 @@ export default class ChatRoom extends Component {
           </div>
         </div>
         <div className='msg-container'>
+          <div className='scroll'>
           {messages && !!messages.length && messages.map((message, index) => {
             console.log('hello', message, this.props.location);
             return (<div className='message-field' key={index}>
@@ -125,6 +126,7 @@ export default class ChatRoom extends Component {
             </div>
             </div>
           }
+          </div>
         </div>
         <div className='footer'>
           <div className='message-input'>
@@ -134,6 +136,7 @@ export default class ChatRoom extends Component {
             <button className='send' onClick={() => { this.send() }}>send</button>
           </div>
         </div>
+        
       </div>
     )
   }
