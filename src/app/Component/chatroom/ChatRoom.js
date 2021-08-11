@@ -58,12 +58,12 @@ export default class ChatRoom extends Component {
 
   sendTypingStartStatus=()=>{
     console.log('type start');
-    this.socket.emit("typing-start",{});
+    this.socket.emit("typing-start",{username: this.props.location.userDetails.username, client2: this.props.location.client2.username});
   }
 
   sendTypingEndStatus=()=>{
     console.log('type end');
-    this.socket.emit("typing-end",{});
+    this.socket.emit("typing-end",{username: this.props.location.userDetails.username, client2: this.props.location.client2.username});
   }
 
   render() {
