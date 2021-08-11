@@ -43,15 +43,9 @@ display: flex;
   width: 20%;
 }
 .input{
-  /* height: 35px;
-  width: 500px;
-  border-radius: .75rem!important;
-  /* height: auto; */
-  /* background-color: #383a3f;  */
   height: 35px;
     width: 100%;
     border-radius: .75rem!important;
-    /* height: auto; */
     font-size: 18px;
     background: none;
     margin-left: 20px;
