@@ -57,3 +57,17 @@
 .profile-nm{
     padding-left: 10px;
 }
+h2{
+    color:#ffff;
+    font :16px sans-serif;
+    margin: 0px 0px 3.2px;
+}
+p{
+    color: #ffffffB3;
+    font :16px sans-serif;
+}
+.time-text{
+    color:#ffff;
+    font:12.8px sans-serif;
+    
+}

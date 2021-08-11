@@ -107,7 +107,10 @@ export default class Whtsappscreen extends Component {
                         </div>
                        <div className="text profile-nm">
                         <h2 onClick={()=>{this.open(user)}}>{user.username}</h2>
+                        <p>{"hi"}</p>
                         </div>
+                        <div class="time"><small class="time-text">12.06pm</small></div>
+
                     </div>
                 )})}
             </div>
