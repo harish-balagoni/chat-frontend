@@ -5,6 +5,8 @@ import ChatRoom from "./chatroom/ChatRoom";
 import ProfileUser from "./HamBurgerMenu/profile";
 import Themes from "./HamBurgerMenu/themes";
 import Help from "./HamBurgerMenu/help";
+import Register from "./RegisterUser/RegisterUser";
+import Login from './Login/Login';
 import {
     BrowserRouter,
     Switch,
@@ -29,6 +31,8 @@ export default class Routing extends React.Component {
                     <Route path='/profile' exact component={ProfileUser}></Route>
                     <Route path='/themes' exact component={Themes}></Route>
                     <Route path='/help' exact component={Help}></Route>
+                    <Route path='/register' exact component={Register}></Route>
+                    <Route path='/login' exact component={Login} />
                     <Route path='*' exact component={PageNotFound}></Route>
                 </Switch>
                 </div>
