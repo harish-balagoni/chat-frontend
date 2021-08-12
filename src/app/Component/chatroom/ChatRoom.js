@@ -16,7 +16,7 @@ export default class ChatRoom extends Component {
   }
   socket = null;
   componentDidMount = () => {
-    this.socket = io('https://ptchatindia.herokuapp.com/', { transports: ['websocket'] });
+    this.socket = getSocket();
     this.socket.emit("joinRoom", { username: this.props.location.userDetails.username, client2: this.props.location.client2.username });
     this.socket.on("messages", (data) => {
       this.setState({ messages: data.messages });
