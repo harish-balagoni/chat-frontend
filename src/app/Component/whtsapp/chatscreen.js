@@ -70,32 +70,27 @@ export default class ChatScreen extends Component {
                 <div>
                     {this.state.menu?
                         this.state.settingDetails?
-                            <div className="screen-pop-up-profile">
+                            <div className="screen-pop-up">
                                 <div className="settings-details-header">
+                                    <button onClick={()=>{this.cancel()}}>X</button>
                                     <h1 style={{color:'white'}}>About</h1>
-                                    <span><button className="settings-details-cancel" onClick={()=>{this.cancel()}}>X</button></span>
                                 </div>
                                 <div className="settings-details-body">
-                                    <span><img className="settings-profile-image" src={this.state.user.profile} /></span>
-                                    <span className="settings-profile-text"><h5>{this.state.user.username}</h5></span>
-                                </div>
-                                <div className="settings-details-footer">
-                                    <span className="settings-profile-text"><h5>Email : </h5>{this.state.user.email}</span>
-                                    <span className="settings-profile-text"><h5>Phone : </h5>{this.state.user.mobile}</span>
+                                    <img src="" />
+                                    <span>name</span>
                                 </div>
                             </div>
                         :
 
                         <div className="screen-pop-up">
-                            <div className="screen-pop-up-heading srn-head" onClick={()=>{this.settingDetails()}}>  Profile</div>
-                            <div className="screen-pop-up-delete-user srn-delete">delete user</div>
-                            <div className="screen-pop-up-archieve srn-archieve">Add to archieve</div>
-                            <div className="screen-pop-up-block srn-block"> block</div>
+                            <div onClick={()=>{this.settingDetails()}} style={{padding:10,paddingRight:40,cursor:'pointer'}} > <img src="https://cdn3.vectorstock.com/i/1000x1000/08/37/profile-icon-male-user-person-avatar-symbol-vector-20910837.jpg" style={{width:20,height:20}} /> Profile</div>
+                            <div style={{padding:10,paddingRight:30,cursor:'pointer'}} ><img src="https://static.vecteezy.com/system/resources/thumbnails/001/500/478/small/theme-icon-free-vector.jpg" style={{width:20,height:20}} />Themes</div>
+                            <div style={{padding:10,paddingRight:50,cursor:'pointer'}} ><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbGk-AsWSk4bsvhARgxG4RxWrx41LLfscW1g&usqp=CAU" style={{width:20,height:20}} /> Help</div>
                         </div>
                         
                     :
-                        <div >
-                            <button className="screen-menu" onClick={()=>{this.settings()}}>...</button>
+                        <div style={{borderRadius:50}} >
+                            <button className="screen-menu" onClick={()=>{this.settings()}}><h2>⋮</h2></button>
                         </div>
                     }
                 </div>
