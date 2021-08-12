@@ -25,7 +25,6 @@
     left:0 ;
 }
 .entire-area{
-    /* background-color: #b6a2a281; */
     height: 600px;
 }
 
@@ -62,21 +61,129 @@
     z-index: 1;
     position: absolute;
     padding: 15px 0;
-    background-color: rgba(0,0,0,0.5);
+    background-color: #42444a;
     color: white;
     border-radius: 15px;
     top: 30px;
     right: 15px;
 }
 
+.screen-pop-up-profile{
+    z-index: 1;
+    position: absolute;
+    padding: 15px 0;
+    background-color: #44464d;
+    color: white;
+    border-radius: 15px;
+    top: 30px;
+    right: 15px;
+    width: 25%;
+    height: 80%;
+}
+
+.screen-pop-up-heading{
+    padding:10px;
+    padding-right:40px;
+    cursor:pointer;
+}
+
+.srn-head:hover{
+    background-color: #603e42 !important;
+}
+
+.screen-pop-up-delete-user{
+    padding:10px;
+    padding-right:30px;
+    cursor:pointer;
+}
+
+.srn-delete:hover{
+    background-color: #603e42 !important;
+}
+
+.screen-pop-up-archieve{
+    padding:10px;
+    padding-right:30px;
+    cursor:pointer;
+}
+
+.srn-archieve:hover{
+    background-color: #603e42 !important;
+}
+
+.screen-pop-up-block{
+    color: #f33333;
+    padding:10px;
+    padding-right:50px;
+    cursor:pointer;
+}
+
+.srn-block:hover{
+    background-color: #603e42 !important;
+}
+
 .screen-menu{
     color: white;
-    margin-left: 1167px;
+    margin-left: 1146px;
     cursor: pointer;
-    box-sizing: border-box;
-    margin-bottom: 16px;
+    background: #3a3f51;
+    height: 40px;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 20px;
+    margin-top: 27px;
+    padding-bottom: 10px;
+}
+
+.settings-details-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-details-body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.settings-profile-image{
+    width: 100px;
+    height:100px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+}
+
+.settings-profile-text{
+    margin-bottom: .25rem!important;
+    font-size: 1.25rem;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.settings-details-footer{
+    margin-bottom: .25rem!important;
+    font-size: 1.25rem;
+    padding: 30px;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.settings-details-cancel{
+    margin-top: -20px;
+    width: 40px;
+    height: 40px;
     border-radius: 100px;
-    background: bottom;
-    margin-right: 30px;
-    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px 0 rgb(0 0 0 / 15%);
+    background-color: #4b4e55;
+    border-color: #55585f;
+    color: hsla(0,0%,100%,.8);
+    margin-left: -258px;
 }
