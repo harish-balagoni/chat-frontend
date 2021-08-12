@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import io from "socket.io-client";
 import './chatroom.css';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import { getSocket } from '../../../service/socket';
 
 export default class ChatRoom extends Component {
   constructor(props) {
