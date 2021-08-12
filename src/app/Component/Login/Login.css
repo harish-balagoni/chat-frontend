@@ -1,0 +1,55 @@
+.container{
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background-image: 'https://cdn.wallpapersafari.com/81/63/VtEaQF.jpg';
+    background-color: #202124;
+}
+
+.container__body{
+    border-radius: 23px;
+    flex-direction: column;
+    display: flex;
+    background-color: #383a3f;
+    margin-top:  3px;
+    height: 53%;
+    width: 30%;
+    box-shadow: -1px 4px 2-px -6px rgb(0,0,0,0.75);
+}
+.content_container {
+    /* margin-left: 35%;
+    margin-right: 35%; */
+    align-self: center;
+    margin: 8%;
+
+}
+
+body.auth .form-wrapper form .form-control {
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-radius: 100px!important;
+}
+
+.form-control {
+    padding: 15px 30px;
+    height: auto;
+    border-radius: 7px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 1px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border-radius: 31px!important;
+    margin-bottom: 17px;
+}

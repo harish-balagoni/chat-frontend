@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import io from "socket.io-client";
 import './chatroom.css';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import { getSocket } from '../../../service/socket';
 
 export default class ChatRoom extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class ChatRoom extends Component {
   }
   socket = null;
   componentDidMount = () => {
-    this.socket = io('https://ptchatindia.herokuapp.com/', { transports: ['websocket'] });
+    this.socket = getSocket();
     this.socket.emit("joinRoom", { username: this.props.location.userDetails.username, client2: this.props.location.client2.username });
     this.socket.on("messages", (data) => {
       this.setState({ messages: data.messages });
