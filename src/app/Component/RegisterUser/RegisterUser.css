@@ -19,6 +19,8 @@
 .content_container {
     margin-left: 35%;
     margin-right: 35%;
+    align-self: center;
+
 }
 
 body.auth .form-wrapper form .form-control {

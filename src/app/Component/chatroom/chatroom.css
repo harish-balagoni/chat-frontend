@@ -1,0 +1,130 @@
+.pop-up{
+    z-index: 1;
+    position: absolute;
+    padding: 15px 0;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border-radius: 15px;
+    top: 30px;
+    right: 15px;
+}
+
+.menu{
+    color: white;
+    margin-left: 1067px;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: 100px;
+    background: bottom;
+    margin-right: 30px;
+    margin-top: 15px;
+}
+.msg-field-container{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column;
+}
+.aln-left{
+    align-items: flex-start !important;
+    margin-left: 5px !important;
+}
+.msg-time-right{
+    margin-right: 15px;
+    color: #828282;
+    font-style: italic;
+    font-size: 12px;
+}
+.msg-time-left{
+    margin-left: 5px;
+    color: #828282;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.loader{
+    height: 44px;
+    width: 60px;
+    background: #8a8787;
+    position: relative;
+    border-radius: 1rem;
+  }
+  
+  .bounce {
+  position: absolute;
+  bottom: 15px;
+  left: 25% ;
+  width: 5px;
+  height: 5px ;
+    background: #fff;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -ms-border-radius:50%;
+  border-radius:50%;
+  animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  -moz-animation: bounce 1s infinite;
+  -o-animation: bounce 1s infinite;
+  }
+  
+  .bounce1 {
+  position: absolute;
+  bottom: 15px;
+  left: 50% ;
+  width: 5px;
+  height: 5px ;
+    background: #fff;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -ms-border-radius:50%;
+  border-radius:50%;
+  animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  -moz-animation: bounce 1s infinite;
+  -o-animation: bounce 1s infinite;
+    animation-delay: 0.2s;
+  }
+  
+  .bounce2 {
+  position: absolute;
+  bottom: 15px;
+  left: 75% ;
+  width: 5px;
+  height: 5px ;
+    background: #fff;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -ms-border-radius:50%;
+  border-radius:50%;
+  animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  -moz-animation: bounce 1s infinite;
+  -o-animation: bounce 1s infinite;
+    animation-delay: 0.4s;
+  }
+   
+  @-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
+  40% {-webkit-transform: translateY(-10px);}
+  }
+   
+  @-moz-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);}
+  40% {-moz-transform: translateY(-10px);}
+  }
+   
+  @-o-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-o-transform: translateY(0);}
+  40% {-o-transform: translateY(-10px);}
+  }
+  @keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-10px);}
+  
+  }
+
+  .scroll{
+      overflow-y: auto;
+      margin-right: -20px;
+  }

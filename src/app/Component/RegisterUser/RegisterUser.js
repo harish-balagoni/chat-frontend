@@ -16,6 +16,7 @@ class Registration extends Component {
         this.email = React.createRef();
         this.password = React.createRef();
         this.mobile = React.createRef();
+        this.confirmPassword = React.createRef();
 
     }
 
@@ -31,14 +32,15 @@ class Registration extends Component {
 
 
     submit=()=> {
-        if (this.validationForm("all")) {
+        //if (this.validationForm("all")) {
+            console.log('api');
             axios.post("https://ptchatindia.herokuapp.com/register",{
            "username":this.state.username,
            "email":this.state.email,
            "mobile":this.state.mobile,
            "password":this.state.password})
            .then(res => console.log(res.status)).catch(error=>console.log(error));
-        }
+       // }
     }
 
     errors = {};
@@ -84,10 +86,13 @@ class Registration extends Component {
         }
         
         if(type === 'all' || type === 'confirmpassword'){
-            if(!this.confirmPassword){
+            if(!this.confirmPassword.current.value){
                 this.errors.cPassword = 'Please Enter Confirm Password';
             }else{
-                delete this.errors.cPassword;
+                if(this.confirmPassword.current.value === this.password.current.value)
+                {this.errors.cPassword = 'Password and Confirm password should be equal';}else{
+                    delete this.errors.cPassword;
+                }
             }
         }
         if(Object.keys(this.errors).length === 0){
@@ -129,19 +134,16 @@ class Registration extends Component {
                         {this.errors.password}
                     </div>
                     <div className='form-group'>
-                            <input className='form-control' type='confirmpassword' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
+                            <input className='form-control' type='password' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
                     </div>
                     <div style={{ color: '#FFFFFFBF' }}>
-                        {this.errors.password}
+                        {this.errors.cpassword}
                     </div>
                     <div className='form-group'>
                         <input className='form-control' type='number' placeholder="Enter Mobile Number" ref={this.mobile} onBlur={this.validationForm.bind(this, 'number')} maxLength={10}></input>
                     </div>
                     <div style={{ color: '#FFFFFFBF' }}>
                         {this.errors.mobile}
-                    </div>
-                    <div style={{ color: '#FFFFFFBF' }}>
-                        {this.errors.gender}
                     </div>
                     <div className='btn' >
                     <button style={{ backgroundColor: '#408bff',

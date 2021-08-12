@@ -1,6 +1,6 @@
 import React from "react";
 import Createaccount from "./registration";
-import Whtsappscreen from "./whtsapp/whtsappscreen";
+import ChatScreen from "./whtsapp/chatscreen";
 import ChatRoom from "./chatroom/ChatRoom";
 import ProfileUser from "./HamBurgerMenu/profile";
 import Themes from "./HamBurgerMenu/themes";
@@ -27,7 +27,7 @@ export default class Routing extends React.Component {
                 <Switch>
                     <Route path='/' exact component={Createaccount }></Route>
                     <Route path='/ChatRoom' exact component={ChatRoom}/>
-                    <Route path='/chats' exact component={Whtsappscreen}></Route>
+                    <Route path='/chats' exact component={ChatScreen}></Route>
                     <Route path='/profile' exact component={ProfileUser}></Route>
                     <Route path='/themes' exact component={Themes}></Route>
                     <Route path='/help' exact component={Help}></Route>
