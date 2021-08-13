@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import io from "socket.io-client";
 import './chatroom.css';
-import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+//import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 
 export default class ChatRoom extends Component {
@@ -143,17 +143,17 @@ export default class ChatRoom extends Component {
         <div className='footer'>
           <div className="emoji">
             {!isEmojiActive && <img alt='emoji' src={require('./../../../assests/emoji.png')} onClick={() => { this.handleEmoji() }} />}
-            {isEmojiActive &&
-              <Picker
-                onEmojiClick={(obj, data)=>{
-                  this.message.current.value = this.message.current.value + data.emoji;
-                }}
-                disableAutoFocus={true}
-                skinTone={SKIN_TONE_MEDIUM_DARK}
-                groupNames={{ smileys_people: 'PEOPLE' }}
-                pickerStyle={{top: '-280px', 'box-shadow': 'none'}}
-                native
-              />
+            {isEmojiActive && null
+              // <Picker
+              //   onEmojiClick={(obj, data)=>{
+              //     this.message.current.value = this.message.current.value + data.emoji;
+              //   }}
+              //   disableAutoFocus={true}
+              //   skinTone={SKIN_TONE_MEDIUM_DARK}
+              //   groupNames={{ smileys_people: 'PEOPLE' }}
+              //   pickerStyle={{top: '-280px', 'box-shadow': 'none'}}
+              //   native
+              // />
             }
           </div>
           <div className='message-input'>
