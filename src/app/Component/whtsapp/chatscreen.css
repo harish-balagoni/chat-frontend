@@ -12,6 +12,7 @@
 .headings{
     margin-left: 20px;
     color: #e2e2e3;
+    position: fixed;
 }
 .header{
     width: 100%;
@@ -26,7 +27,8 @@
     left:0 ;
 }
 .entire-area{
-    height: 600px;
+    height: auto;
+    background-color: black;
 }
 
 .chats{
@@ -34,26 +36,7 @@
  height: 100%;
  padding: 15px;
 }
- ::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #0000; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  }
-
-
+ 
 .contact{
  width: 95%;
  height: 80px;

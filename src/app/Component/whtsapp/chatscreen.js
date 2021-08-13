@@ -126,8 +126,9 @@ export default class ChatScreen extends Component {
                         </div> 
                     
 
-                    </div>
+                    </div>)})}
                 </div>
+            </div>
             </div>
         )
     }
