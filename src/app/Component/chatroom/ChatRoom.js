@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './chatroom.css';
-//import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
+import emoji from './../../../assests/emoji.png';
 
 class ChatRoom extends Component {
   constructor(props) {
@@ -47,6 +48,9 @@ class ChatRoom extends Component {
   }
 
   send = () => {
+    if(this.state.isEmojiActive){
+      this.setState({ isEmojiActive: false});
+    }
     if (this.message.current.value) {
       console.log('chat started', this.props.user);
       this.socket.emit("chat", {
@@ -162,18 +166,20 @@ class ChatRoom extends Component {
         </div>
         <div className='footer'>
           <div className="emoji">
-            {!isEmojiActive && <img alt='emoji' src={require('./../../../assests/emoji.png')} onClick={() => { this.handleEmoji() }} />}
-            {isEmojiActive && null
-              // <Picker
-              //   onEmojiClick={(obj, data)=>{
-              //     this.message.current.value = this.message.current.value + data.emoji;
-              //   }}
-              //   disableAutoFocus={true}
-              //   skinTone={SKIN_TONE_MEDIUM_DARK}
-              //   groupNames={{ smileys_people: 'PEOPLE' }}
-              //   pickerStyle={{top: '-280px', 'box-shadow': 'none'}}
-              //   native
-              // />
+            {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
+            {isEmojiActive &&
+            <div className="emoji-holder">
+              <Picker
+                onEmojiClick={(obj, data)=>{
+                  this.message.current.value = this.message.current.value + data.emoji;
+                }}
+                disableAutoFocus={true}
+                skinTone={SKIN_TONE_MEDIUM_DARK}
+                groupNames={{ smileys_people: 'PEOPLE' }}
+                pickerStyle={{'boxShadow': 'none'}}
+                native
+              />
+            </div>
             }
           </div>
           <div className='message-input'>
