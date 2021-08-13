@@ -2,15 +2,17 @@
 
 .image{
     float: left;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
     margin-left: 20px;
-    margin-top: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .headings{
     margin-left: 20px;
     color: #e2e2e3;
+    position: fixed;
 }
 .header{
     width: 100%;
@@ -25,7 +27,8 @@
     left:0 ;
 }
 .entire-area{
-    height: 600px;
+    height: auto;
+    background-color: black;
 }
 
 .chats{
@@ -33,7 +36,7 @@
  height: 100%;
  padding: 15px;
 }
-
+ 
 .contact{
  width: 95%;
  height: 80px;
@@ -43,6 +46,11 @@
  display: flex;
  align-items: center;
  cursor: pointer;
+ transition: box-shadow .3s;
+
+}
+.contact:hover{
+    box-shadow: 0 0 15px #e4e0e6c0 ; 
 }
 
 .profile-img{
@@ -51,12 +59,38 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 .profile-nm{
-    padding-left: 10px;
+    width:80%;
+    height:100%;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ 
 }
-
+h2{
+    color:#ffff;
+    font :20px sans-serif;
+    float:left;
+}
+p{
+    color: #ffffffB3;
+    font :10px sans-serif;
+}
+.time-text{
+    color:#ffff;
+    font:12.8px sans-serif;
+}
+.time{
+    width:10%;
+    height:100%;
+    padding-top: 20px;
+}
+.loading{
+    color:e;
+}
 .screen-pop-up{
     z-index: 1;
     position: absolute;

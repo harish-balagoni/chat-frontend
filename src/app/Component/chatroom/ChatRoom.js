@@ -31,6 +31,7 @@ class ChatRoom extends Component {
       let messages = this.state.messages;
       messages.push(data);
       console.log('msg came successfully', data);
+      this.previousDate=null;
       this.setState({ messages: messages });
     });
     this.socket.on("typing-start", (data) => {
@@ -71,7 +72,19 @@ class ChatRoom extends Component {
     let hours =  date.getHours() >= 12 ? date.getHours()-12 : date.getHours(); 
     return hours + ":" + date.getMinutes() + ampm;
   }
+  previousDate=null;
+  getDateByTimestamp=(timestamp)=>{
+    let date = new Date(timestamp * 1000);
+    if(!this.previousDate){
+      this.previousDate = date;
+      return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth(+1))+"/"+date.getFullYear()}</div>);
+    }
+    else{
+      if(this.previousDate.getDate() < date.getDate())
+       return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</div>);
+    }
 
+  }
   sendTypingStartStatus = () => {
     console.log('type start');
     this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.location.client2.username });
@@ -141,6 +154,7 @@ class ChatRoom extends Component {
           {messages && !!messages.length && messages.map((message, index) => {
             console.log('hello', message, this.props.location);
             return (<div className='message-field' key={index}>
+              {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
                   <span className='msg-right'>{message.message}</span>
@@ -159,10 +173,8 @@ class ChatRoom extends Component {
               </div>
               <div class="bounce1">
               </div>
-              <div class="bounce2">
-              </div>
-            </div>
-          }
+            
+          </div>}
         </div>
         <div className='footer'>
           <div className="emoji">
