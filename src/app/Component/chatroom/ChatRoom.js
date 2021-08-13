@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import './chatroom.css';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
+<<<<<<< Updated upstream
 import { connect } from 'react-redux';
 import emoji from './../../../assests/emoji.png';
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
-class ChatRoom extends Component {
+export default class ChatRoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,12 +23,11 @@ class ChatRoom extends Component {
       chatSettingDetails:false,
     }
     this.message = React.createRef();
-    console.log('[props', this.props.location);
   }
   socket = null;
   componentDidMount = () => {
     this.socket = getSocket();
-    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("joinRoom", { username: this.props.location.userDetails.username, client2: this.props.location.client2.username });
     this.socket.on("messages", (data) => {
       this.setState({ messages: data.messages });
       console.log('massages came successfully', data);
@@ -35,13 +40,13 @@ class ChatRoom extends Component {
       this.setState({ messages: messages });
     });
     this.socket.on("typing-start", (data) => {
-      if (this.props.user.username !== data.username) {
+      if (this.props.location.userDetails.username !== data.username) {
         this.setState({ isOponentTyping: data.typing });
       }
 
     });
     this.socket.on("typing-end", (data) => {
-      if (this.props.user.username !== data.username) {
+      if (this.props.location.userDetails.username !== data.username) {
         this.setState({ isOponentTyping: data.typing });
       }
     });
@@ -53,9 +58,8 @@ class ChatRoom extends Component {
       this.setState({ isEmojiActive: false});
     }
     if (this.message.current.value) {
-      console.log('chat started', this.props.user);
       this.socket.emit("chat", {
-        username: this.props.user.username,
+        username: this.props.location.userDetails.username,
         client2: this.props.location.client2.username,
         message: this.message.current.value
       });
@@ -87,12 +91,12 @@ class ChatRoom extends Component {
   }
   sendTypingStartStatus = () => {
     console.log('type start');
-    this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("typing-start", { username: this.props.location.userDetails.username, client2: this.props.location.client2.username });
   }
 
   sendTypingEndStatus = () => {
     console.log('type end');
-    this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("typing-end", { username: this.props.location.userDetails.username, client2: this.props.location.client2.username });
   }
 
   handleEmoji = () => {
@@ -128,12 +132,12 @@ class ChatRoom extends Component {
                       <span><button className="chat-room-settings-details-cancel" onClick={()=>{this.chatCancel()}}>X</button></span>
                   </div>
                   <div className="chat-room-settings-details-body">
-                      <span><img className="chat-room-settings-profile-image" src={this.props.user.profile} /></span>
-                      <span className="chat-room-settings-profile-text"><h5>{this.props.user.username}</h5></span>
+                      <span><img className="chat-room-settings-profile-image" src={this.props.location.userDetails.profile} /></span>
+                      <span className="chat-room-settings-profile-text"><h5>{this.props.location.userDetails.username}</h5></span>
                   </div>
                   <div className="chat-room-settings-details-footer">
-                    <span className="chat-room-settings-profile-text"><h5>Email : </h5>{this.props.user.email}</span>
-                    <span className="chat-room-settings-profile-text"><h5>Phone : </h5>{this.props.user.mobile}</span>
+                    <span className="chat-room-settings-profile-text"><h5>Email : </h5>{this.props.location.userDetails.email}</span>
+                    <span className="chat-room-settings-profile-text"><h5>Phone : </h5>{this.props.location.userDetails.mobile}</span>
                   </div>
               </div>
             :
@@ -154,8 +158,12 @@ class ChatRoom extends Component {
           {messages && !!messages.length && messages.map((message, index) => {
             console.log('hello', message, this.props.location);
             return (<div className='message-field' key={index}>
+<<<<<<< Updated upstream
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
+=======
+              {message.username === this.props.location.userDetails.username ?
+>>>>>>> Stashed changes
                 (<div className="msg-field-container">
                   <span className='msg-right'>{message.message}</span>
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
@@ -206,13 +214,3 @@ class ChatRoom extends Component {
     )
   }
 }
-
-const mapStateToProps = (state) => (
-  console.log('map state to props', state),
-  {
-    user: state.user,
-    socket: state.socket
-  }
-);
-
-export default connect(mapStateToProps, null)(ChatRoom);
