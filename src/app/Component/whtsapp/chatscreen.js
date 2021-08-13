@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './chatscreen.css';
 import { socketConnect } from '../../../service/socket';
+import axios from 'axios';
 
 export default class ChatScreen extends Component {
 
@@ -12,6 +13,7 @@ export default class ChatScreen extends Component {
             user: this.props.location.state && this.props.location.state.user,
             menu: false,
             settingDetails: false,
+            isEmpty: false
         }
         console.log(this.props);
     }
@@ -24,19 +26,34 @@ export default class ChatScreen extends Component {
     }
 
     getContacts = () => {
-        fetch("https://ptchatindia.herokuapp.com/contacts").then(res => res.json()).then(res => {
+        axios.request({
+            method: 'POST',
+            url: `https://ptchatindia.herokuapp.com/conversations`,
+            headers: {
+                'authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJoYXJpc2giLCJlbWFpbCI6ImhhcmlzaC5iYWxhZ29uaUB4Y3ViZWxhYnMuY29tIiwicHJvZmlsZSI6Imh0dHBzOi8vaW1hZ2VzLnVuc3BsYXNoLmNvbS9waG90by0xNTAzMDIzMzQ1MzEwLWJkN2MxZGU2MWM3ZD9peGlkPU1ud3hNakEzZkRCOE1IeHpaV0Z5WTJoOE1ueDhhSFZ0WVc1OFpXNThNSHg4TUh4OCZpeGxpYj1yYi0xLjIuMSZ3PTEwMDAmcT04MCIsIm1vYmlsZSI6IjcwMzIwNTQwMDMiLCJwYXNzd29yZCI6ImxvZ2luQDEyMyIsImlhdCI6MTYyODgzODcxMSwiZXhwIjoxNjI4ODQ5NTExfQ.lhkHtDUFF_2P9R3fqGfF6krqjzszC7N5uyPmgWSaZw8'
+            },
+            data: {
+                username: 'harish'
+            },
+
+        }).then(res => {
             console.log("response", res);
-            let details = [];
-            res.map((user, index) => {
-                if (user.username === this.state.user) {
-                    this.setState({ user: user });
-                }
-                else {
-                    details.push(user);
-                    this.socket.emit("joinRoom", { username: this.state.user, client2: user.username });
-                }
-            });
-            this.setState({ Data: details, isLoading: false });
+            if (res.status === 200) {
+                let details = [];
+                res.data.data.map((user, index) => {
+                    if (user.username === this.state.user) {
+                        this.setState({ user: user });
+                    }
+                    else {
+                        details.push(user);
+                        this.socket.emit("joinRoom", { username: this.state.user, client2: user.username });
+                    }
+                });
+                this.setState({ Data: details, isLoading: false });
+            }
+            if (res.data.data && !res.data.data.length) {
+                this.setState({ isEmpty: true })
+            }
         })
     }
 
@@ -66,7 +83,7 @@ export default class ChatScreen extends Component {
         if (isLoading) {
             return (
                 <div>
-                    Loding...
+                    Loading...
                 </div>
             )
         }
@@ -75,6 +92,7 @@ export default class ChatScreen extends Component {
 
                 <div className="header">
                     <div className="headings"><h1>Chats</h1></div>
+
                     <div>
                         {this.state.menu ?
                             this.state.settingDetails ?
@@ -102,6 +120,9 @@ export default class ChatScreen extends Component {
                             </div>
                         }
                     </div>
+                </div>
+                <div>
+                    {this.state.isEmpty && <h2>No Conversations</h2>}
                 </div>
                 <div style={{ backgroundColor: this.state.color }}>
                     <div className='chats'>
