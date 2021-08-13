@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './chatscreen.css';
 import { socketConnect } from '../../../service/socket';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-export default class ChatScreen extends Component {
+class ChatScreen extends Component {
 
     constructor(props) {
         super(props)
@@ -30,8 +31,8 @@ export default class ChatScreen extends Component {
         axios({ 
             method: 'post',
             url: 'https://ptchatindia.herokuapp.com/conversations',
-            data: {
-               username: 'harish'
+            headers: {
+             authorization:this.props.user.token
             }
             }).then(res=>{
             console.log("response",res);
@@ -141,3 +142,7 @@ export default class ChatScreen extends Component {
         )
     }
 }
+const mapStatetoprops=(state)=>({
+    user:state
+})
+export default connect(mapStatetoprops,null)(ChatScreen)

@@ -1,24 +1,29 @@
 import { FETCH_USER } from "../actions/actions";
 import { USER_LOGIN } from "../actions/actions";
-import {SUBMIT_REGISTER} from "../actions/actions";
+import { SUBMIT_REGISTER } from "../actions/actions";
 
 const initialState = {
- username: '',
- email: '',
- mobile: '',
- profile: '',
- token: ''
+    username: '',
+    email: '',
+    mobile: '',
+    profile: '',
+    token: ''
 }
 
-const userReducer = (state=initialState,action) =>{
-    switch (action.type){
-        case 'persist/REHYDRATE':{
+const userReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'persist/REHYDRATE': {
             console.log(action, 'persist action');
-            return action.payload.user;
+            if (action.payload && action.payload.user) {
+                return action.payload?.user;
+            }
+            else {
+                return initialState;
+            }
         }
         case FETCH_USER:
             console.log("fetch user");
-            
+
             return action.user;
         case USER_LOGIN:
             console.log(" user login");
@@ -26,9 +31,9 @@ const userReducer = (state=initialState,action) =>{
         case SUBMIT_REGISTER:
             console.log("user register");
             return action.details;
-        default : return state
+        default: return state
     }
-    
+
 }
 
 export default userReducer;
