@@ -246,8 +246,3 @@
   40% {transform: translateY(-10px);}
   
   }
-
-  .scroll{
-      overflow-y: auto;
-      margin-right: -12px;
-  }

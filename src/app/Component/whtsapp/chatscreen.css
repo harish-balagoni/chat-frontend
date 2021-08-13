@@ -187,3 +187,41 @@
     color: hsla(0,0%,100%,.8);
     margin-left: -258px;
 }
+
+.chats-button{
+    border-radius: 50%;
+    cursor: pointer;
+    background: #3a3f51;
+}
+
+.chats-position{
+    position: absolute;
+    border: 3px solid #f89c9c;
+    border-radius: 50%;
+    right: 5%;
+    bottom: 10%;
+}
+
+.chats-icon{
+    width: 50px;
+    height: 50px;
+}
+
+.img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.contacts-position{
+    background-color: #44464d;
+    position: absolute;
+    right: 5%;
+    bottom: 10%;
+}
+
+.contacts-body-position{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}

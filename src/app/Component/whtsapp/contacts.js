@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import "./chatscreen.css";
 import axios from "axios";
 import { connect } from "react-redux";
-import ChatRoom from "../chatroom/ChatRoom";
-import { socketConnect } from "../../../service/socket";
-class ChatScreen extends Component {
+
+class Contacts extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,78 +12,68 @@ class ChatScreen extends Component {
       user: this.props.location.state && this.props.location.state.user,
       menu: false,
       settingDetails: false,
-      isEmpty: false,
+      conversationButton: false,
     };
     console.log(this.props);
   }
   componentDidMount() {
-    socketConnect((socket) => {
-      this.socket = socket;
-      this.getContacts();
-    });
+    console.log(this.state.Data);
+    this.getContacts();
   }
   getContacts = () => {
     //https://ptchatindia.herokuapp.com/contacts
-    console.log("data", this.props.user.user.token);
     axios
       .request({
         method: "POST",
-        url: `https://ptchatindia.herokuapp.com/conversations`,
+        url: `https://ptchatindia.herokuapp.com/contacts`,
         headers: {
           authorization: this.props.user.user.token,
         },
-        data: {
-          username: this.props.user.user.username,
-        },
       })
       .then((res) => {
-        console.log("response", res.data);
-        if (res.status === 200) {
-          if (res.data.data && res.data.data.length) {
-            let index = null,
-              details = [];
-            res.data.data.map((user, index) => {
-              if (user.username === this.props.user.user.username) {
-                this.setState({ user: user });
-                index = index;
-              } else {
-                details.push(user);
-              }
-            });
-            this.setState({ Data: details, isLoading: false });
+        console.log("response", res);
+        let index = null,
+          details = [];
+        res.data.map((user, index) => {
+          if (user.username === this.state.user) {
+            this.setState({ user: user });
+            index = index;
+          } else {
+            details.push(user);
           }
-          else{
-              this.setState({isEmpty:true,isLoading: false});
-          }
-        }
+        });
+        this.setState({ Data: details, isLoading: false });
       });
   };
   open = (user) => {
     this.props.history.push({
       pathname: "/ChatRoom",
-      userDetails: this.props.user.user.username,
+      userDetails: this.state.user,
       client2: user,
     });
   };
+
   settings = () => {
     this.setState({ menu: true });
   };
+
   settingDetails = () => {
     this.setState({ settingDetails: true });
   };
+
   cancel = () => {
     this.setState({ menu: false, settingDetails: false });
   };
-  selectContact=()=>{
-      this.props.history.push({
-          pathname : "/contacts"
-      })
-  }
+
+  selectContact = () => {
+    this.setState({ conversationButton: true });
+  };
+
   render() {
     const { isLoading, Data } = this.state;
     console.log(Data);
     if (isLoading) {
-      return <div>Loading...</div>;
+      return <div>Loding...</div>;
     }
     return (
       <div className="entire-area">
@@ -92,7 +81,6 @@ class ChatScreen extends Component {
           <div className="headings">
             <h1>Chats</h1>
           </div>
-
           <div>
             {this.state.menu ? (
               this.state.settingDetails ? (
@@ -114,21 +102,21 @@ class ChatScreen extends Component {
                     <span>
                       <img
                         className="settings-profile-image"
-                        src={this.props.user.user.profile}
+                        src={this.state.user.profile}
                       />
                     </span>
                     <span className="settings-profile-text">
-                      <h5>{this.props.user.user.username}</h5>
+                      <h5>{this.state.user.username}</h5>
                     </span>
                   </div>
                   <div className="settings-details-footer">
                     <span className="settings-profile-text">
                       <h5>Email : </h5>
-                      {this.props.user.user.email}
+                      {this.state.user.email}
                     </span>
                     <span className="settings-profile-text">
                       <h5>Phone : </h5>
-                      {this.props.user.user.mobile}
+                      {this.state.user.mobile}
                     </span>
                   </div>
                 </div>
@@ -165,57 +153,27 @@ class ChatScreen extends Component {
               </div>
             )}
           </div>
-        </div>
-        <div style={{ backgroundColor: this.state.color }}>
-          <div className="chats">
-            {this.state.isEmpty && <div>No conversations found</div>}
-            {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
+          <div className="contacts-body-position">
+            {this.state.Data.map((user, index) => {
               return (
-                <div key={index} className="contact">
-                  <div className="profile-img">
-                    <img src={user.profile} className="image"></img>
-                  </div>
-                  <div className="text profile-nm">
-                    <h2
+                <div key={index} className="contacts-list">
+                  <span className="profile-image">
+                    <img src={user.profile} className="img"></img>
+                  </span>
+                  <span className="contacts-list-text">
+                    <h4
                       onClick={() => {
                         this.open(user);
                       }}
                     >
                       {user.username}
-                    </h2>
-                  </div>
+                    </h4>
+                  </span>
                 </div>
               );
             })}
           </div>
         </div>
-        <div className="contacts-footer">
-                        {this.state.conversationButton?
-                            <div className="contacts-position">
-                                <div className="contacts-header-position">
-                                    Select Contact
-                                </div>
-                                <div className="contacts-body-position">
-                                    {this.state.Data.map((user,index) => {
-                                        return(
-                                            <div key={index} className='contacts-list'>
-                                                <span className='profile-image'>
-                                                    <img src={user.profile} className="img"></img>
-                                                </span>
-                                                <span className="contacts-list-text">
-                                                    <h4 onClick={()=>{this.open(user)}}>{user.username}</h4>
-                                                </span>
-                                            </div>
-                                        )})
-                                    }
-                                </div>
-                            </div>
-                        :
-                        <div className="chats-position">
-                            <button className="chats-button" onClick={()=>{this.selectContact()}}><img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" /></button>
-                        </div>   
-                        }
-                    </div>
       </div>
     );
   }
@@ -228,4 +186,4 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps, null)(ChatScreen);
+export default connect(mapStateToProps, null)(Contacts);

@@ -45,9 +45,6 @@ export default class ChatRoom extends Component {
   }
 
   send = () => {
-    if(this.state.isEmojiActive){
-      this.handleEmoji();
-    }
     if (this.message.current.value) {
       this.socket.emit("chat", {
         username: this.props.location.userDetails.username,
@@ -64,15 +61,12 @@ export default class ChatRoom extends Component {
   getTimeByTimestamp = (timestamp) => {
     let date = new Date(timestamp * 1000);
     let ampm = date.getHours() >= 12 ? 'pm' : 'am';
-    // let hours = date.getHours()-12;
-    return date.getHours() + ":" + date.getMinutes() + ampm;
+    let hours =  date.getHours() >= 12 ? date.getHours()-12 : date.getHours(); 
+    return hours + ":" + date.getMinutes() + ampm;
   }
 
   sendTypingStartStatus = () => {
     console.log('type start');
-    if(this.state.isEmojiActive){
-      this.handleEmoji();
-    }
     this.socket.emit("typing-start", { username: this.props.location.userDetails.username, client2: this.props.location.client2.username });
   }
 
@@ -137,33 +131,31 @@ export default class ChatRoom extends Component {
           </div>
         </div>
         <div className='msg-container'>
-          <div className='scroll'>
-            {messages && !!messages.length && messages.map((message, index) => {
-              console.log('hello', message, this.props.location);
-              return (<div className='message-field' key={index}>
-                {message.username === this.props.location.userDetails.username ?
-                  (<div className="msg-field-container">
-                    <span className='msg-right'>{message.message}</span>
-                    <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
-                  </div>) :
-                  (<div className="msg-field-container aln-left">
-                    <span className='msg-left'>{message.message}</span>
-                    <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
-                  </div>)
-                }
-              </div>)
-            })}
-            {this.state.isOponentTyping &&
-              <div class="loader">
-                <div class="bounce">
-                </div>
-                <div class="bounce1">
-                </div>
-                <div class="bounce2">
-                </div>
+          {messages && !!messages.length && messages.map((message, index) => {
+            console.log('hello', message, this.props.location);
+            return (<div className='message-field' key={index}>
+              {message.username === this.props.location.userDetails.username ?
+                (<div className="msg-field-container">
+                  <span className='msg-right'>{message.message}</span>
+                  <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
+                </div>) :
+                (<div className="msg-field-container aln-left">
+                  <span className='msg-left'>{message.message}</span>
+                  <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
+                </div>)
+              }
+            </div>)
+          })}
+          {this.state.isOponentTyping &&
+            <div class="loader">
+              <div class="bounce">
               </div>
-            }
-          </div>
+              <div class="bounce1">
+              </div>
+              <div class="bounce2">
+              </div>
+            </div>
+          }
         </div>
         <div className='footer'>
           <div className="emoji">

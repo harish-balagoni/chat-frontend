@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './RegisterUser.css';
-
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -23,7 +22,6 @@ class Registration extends Component {
 
     }
 
-   
 
     submit=()=> {
         //if (this.validationForm("all")) {
@@ -34,7 +32,7 @@ class Registration extends Component {
            "email":this.state.email,
            "mobile":this.state.mobile,
            "password":this.state.password})
-           .then(res =>{ console.log(res.status)
+           .then(res =>{ console.log(res.data)
             let details={
                 Username: this.state.username,
                 Email: this.state.email,
@@ -42,7 +40,10 @@ class Registration extends Component {
                 Password: this.state.password
             }
            if(res.status===200){
-            this.props.submitRegister(details);
+            this.props.submitRegister(res.data.data);
+            this.props.history.push({
+                pathname: '/chats'
+            })
            }
         }).catch(error=>console.log(error));
        // }
