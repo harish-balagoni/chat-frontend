@@ -23,34 +23,66 @@ html, body{
 .container{
   width: 100%;
   height: 80%;
-background-color: #383a3f;
-display: flex;
+  background-color: #383a3f;
+  display: flex;
 }
+
+.app{
+  height: 100%;
+}
+
+.app__body{
+  height: 100%;
+}
+
 .footer{
-  width: 100%;
+  width: 90%;
   height: 10%;
   bottom: 0;
   display: flex;
-  padding-top: 10px;
+  background: #373a3f;
+  margin-left: 5%;
+  border: 1px solid #504e4e;
+  border-width: 1px 0px 0px 0px;
+  border-radius: 0px 0px 10px 10px;
 }
 .message-input{
   height: 100%;
-  width: 80%;
-
+  display: flex;
+  width: 70%;
+  align-items: center;
+  justify-content: center;
 }
+.emoji{
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emoji-holder{
+  position: absolute;
+    height: 320px;
+    width: 280px;
+    left: 5%;
+    bottom: 13%;
+}
+
 .submit-button{
   height: 100%;
   width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .input{
   height: 35px;
-    width: 100%;
-    border-radius: .75rem!important;
-    font-size: 18px;
-    background: none;
-    margin-left: 20px;
-    padding: 7px 5px;
-    border-width: 0px 0px 1px 0px;
+  width: 100%;
+  border-radius: .75rem!important;
+  font-size: 18px;
+  background: none;
+  border-width: 1px 1px 1px 1px;
 }
 input:focus{
   border: 0px;
@@ -60,7 +92,6 @@ input:focus{
     background-color: #408bff;
     color: white;
     height: 37px;
-    margin-left: 50px;
     height: 45px;
     font-size: 15px;
     width: 100px;
@@ -91,13 +122,15 @@ input:focus{
 }
 
 .msg-container{
-  width: 100%;
+  width: 90%;
   height: 80%;
   background-color: #383a3f;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
+  margin-left: 5%;
+  border-radius: 3% 3% 0% 0%;
 }
 
 .message-field{
