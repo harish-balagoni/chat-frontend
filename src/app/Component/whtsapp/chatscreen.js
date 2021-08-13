@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './chatscreen.css';
 import { socketConnect } from '../../../service/socket';
+import axios from 'axios';
 
 export default class ChatScreen extends Component {
 
@@ -25,7 +26,14 @@ export default class ChatScreen extends Component {
         });
     }
     getContacts=()=>{
-        fetch("https://ptchatindia.herokuapp.com/contacts").then(res => res.json()).then(res=>{
+        // axios.get("https://ptchatindia.herokuapp.com/conversations",{"username":"harish"})
+        axios({ 
+            method: 'post',
+            url: 'https://ptchatindia.herokuapp.com/conversations',
+            data: {
+               username: 'harish'
+            }
+            }).then(res=>{
             console.log("response",res);
             let idx=null,details=[];
             res.map((user,index)=>{
