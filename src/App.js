@@ -1,5 +1,4 @@
 import './App.css';
-
 import Routing from './app/Component/routing';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
