@@ -102,21 +102,21 @@ class Contacts extends Component {
                     <span>
                       <img
                         className="settings-profile-image"
-                        src={this.state.user.profile}
+                        src={this.props.user.user.profile}
                       />
                     </span>
                     <span className="settings-profile-text">
-                      <h5>{this.state.user.username}</h5>
+                      <h5>{this.props.user.user.username}</h5>
                     </span>
                   </div>
                   <div className="settings-details-footer">
                     <span className="settings-profile-text">
                       <h5>Email : </h5>
-                      {this.state.user.email}
+                      {this.props.user.user.email}
                     </span>
                     <span className="settings-profile-text">
                       <h5>Phone : </h5>
-                      {this.state.user.mobile}
+                      {this.props.user.user.mobile}
                     </span>
                   </div>
                 </div>
@@ -153,7 +153,7 @@ class Contacts extends Component {
               </div>
             )}
           </div>
-          <div className="contacts-body-position">
+          {/* <div className="contacts-body-position">
             {this.state.Data.map((user, index) => {
               return (
                 <div key={index} className="contacts-list">
@@ -169,6 +169,30 @@ class Contacts extends Component {
                       {user.username}
                     </h4>
                   </span>
+                </div>
+              );
+            })}
+          </div> */}
+
+        </div>
+        <div style={{ backgroundColor: this.state.color }}>
+          <div className="chats">
+            {this.state.isEmpty && <div>No conversations found</div>}
+            {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
+              return (
+                <div key={index} className="contact">
+                  <div className="profile-img">
+                    <img src={user.profile} className="image"></img>
+                  </div>
+                  <div className="text profile-nm">
+                    <h2
+                      onClick={() => {
+                        this.open(user);
+                      }}
+                    >
+                      {user.username}
+                    </h2>
+                  </div>
                 </div>
               );
             })}
