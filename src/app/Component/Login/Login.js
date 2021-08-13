@@ -15,7 +15,7 @@ class Login extends Component {
             failedLogin:false
         }
         this.username = React.createRef();
-        this.password = React.createRef();      
+        this.password = React.createRef();
     }
 
     errors = {}

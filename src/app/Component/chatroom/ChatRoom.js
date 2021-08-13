@@ -3,7 +3,6 @@ import io from "socket.io-client";
 import './chatroom.css';
 //import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
-import { NodeBuilderFlags } from 'typescript';
 
 export default class ChatRoom extends Component {
   constructor(props) {
@@ -28,7 +27,6 @@ export default class ChatRoom extends Component {
       let messages = this.state.messages;
       messages.push(data);
       console.log('msg came successfully', data);
-      this.previousDate=null;
       this.setState({ messages: messages });
     });
     this.socket.on("typing-start", (data) => {
@@ -68,20 +66,7 @@ export default class ChatRoom extends Component {
     // let hours = date.getHours()-12;
     return date.getHours() + ":" + date.getMinutes() + ampm;
   }
-  previousDate=null;
-  getDateByTimestamp=(timestamp)=>{
-    let date = new Date(timestamp * 1000);
-    if(!this.previousDate){
-      this.previousDate = date;
-      return (<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</div>);
-    }
-    else{
-      if(this.previousDate.getDate() < date.getDate()){
-        return (<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</div>);
-      }
-    }
-  }
-   
+
   sendTypingStartStatus = () => {
     console.log('type start');
     if(this.state.isEmojiActive){
@@ -130,9 +115,7 @@ export default class ChatRoom extends Component {
           <div className='scroll'>
             {messages && !!messages.length && messages.map((message, index) => {
               console.log('hello', message, this.props.location);
-            
               return (<div className='message-field' key={index}>
-                {this.getDateByTimestamp(message.timestamp)}
                 {message.username === this.props.location.userDetails.username ?
                   (<div className="msg-field-container">
                     <span className='msg-right'>{message.message}</span>

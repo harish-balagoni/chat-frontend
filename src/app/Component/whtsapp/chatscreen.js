@@ -16,6 +16,7 @@ class ChatScreen extends Component {
             user: this.props.location.state && this.props.location.state.user,
             menu: false,
             settingDetails: false,
+            isEmpty: false
         }
         console.log(this.props);
     }
@@ -26,37 +27,36 @@ class ChatScreen extends Component {
             this.getContacts();
         });
     }
-    getContacts=()=>{
-        // axios.get("https://ptchatindia.herokuapp.com/conversations",{"username":"harish"})
-        axios({ 
-            method: 'post',
-            url: 'https://ptchatindia.herokuapp.com/conversations',
+
+    getContacts = () => {
+        axios.request({
+            method: 'POST',
+            url: `https://ptchatindia.herokuapp.com/conversations`,
             headers: {
-             authorization:this.props.user.token
+                'authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJoYXJpc2giLCJlbWFpbCI6ImhhcmlzaC5iYWxhZ29uaUB4Y3ViZWxhYnMuY29tIiwicHJvZmlsZSI6Imh0dHBzOi8vaW1hZ2VzLnVuc3BsYXNoLmNvbS9waG90by0xNTAzMDIzMzQ1MzEwLWJkN2MxZGU2MWM3ZD9peGlkPU1ud3hNakEzZkRCOE1IeHpaV0Z5WTJoOE1ueDhhSFZ0WVc1OFpXNThNSHg4TUh4OCZpeGxpYj1yYi0xLjIuMSZ3PTEwMDAmcT04MCIsIm1vYmlsZSI6IjcwMzIwNTQwMDMiLCJwYXNzd29yZCI6ImxvZ2luQDEyMyIsImlhdCI6MTYyODgzODcxMSwiZXhwIjoxNjI4ODQ5NTExfQ.lhkHtDUFF_2P9R3fqGfF6krqjzszC7N5uyPmgWSaZw8'
             },
-            data:{
-                user:this.props.user.username
+            data: {
+                username: 'harish'
+            },
+
+        }).then(res => {
+            console.log("response", res);
+            if (res.status === 200) {
+                let details = [];
+                res.data.data.map((user, index) => {
+                    if (user.username === this.state.user) {
+                        this.setState({ user: user });
+                    }
+                    else {
+                        details.push(user);
+                        this.socket.emit("joinRoom", { username: this.state.user, client2: user.username });
+                    }
+                });
+                this.setState({ Data: details, isLoading: false });
             }
-            }).then(res=>{
-            console.log("response",res);
-            if(res.status === 200){
-                if(res.data.data && res.data.data.length){
-            let idx=null,details=[];
-            res.map((user,index)=>{
-                console.log(this.state.profileUser);
-                if(user.username === this.state.profileUser){
-                    this.setState({user:user});
-                    idx=index;
-                    
-                }
-                else {
-                    details.push(user);
-                    this.socket.emit("joinRoom", { username: this.state.user, client2: user.username });
-                }
-            });
-            this.setState({ Data: details, isLoading: false });
-        }
-        }
+            if (res.data.data && !res.data.data.length) {
+                this.setState({ isEmpty: true })
+            }
         })
     }
 
@@ -95,6 +95,7 @@ class ChatScreen extends Component {
 
                 <div className="header">
                     <div className="headings"><h1>Chats</h1></div>
+
                     <div>
                         {this.state.menu ?
                             this.state.settingDetails ?
@@ -141,6 +142,11 @@ class ChatScreen extends Component {
                         <div className="time"><small class="time-text">12.06pm</small>
                         </div> 
                     
+                <div>
+                    {this.state.isEmpty && <h2>No Conversations</h2>}
+                </div>
+                <div style={{ backgroundColor: this.state.color }}>
+                    <div className='chats'>
 
                     </div>)})}
                 </div>
@@ -152,4 +158,4 @@ class ChatScreen extends Component {
 const mapStatetoprops=(state)=>({
     user:state
 })
-export default connect(mapStatetoprops,null)(ChatScreen)
+export default connect(mapStatetoprops,null)(ChatScreen);
