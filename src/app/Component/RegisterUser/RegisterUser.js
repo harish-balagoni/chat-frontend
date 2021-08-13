@@ -43,6 +43,9 @@ class Registration extends Component {
             }
            if(res.status===200){
             this.props.submitRegister(details);
+            this.props.history.push({
+                pathname: '/chats'
+            })
            }
         }).catch(error=>console.log(error));
        // }
