@@ -4,6 +4,7 @@ import ChatRoom from "./chatroom/ChatRoom";
 import Register from "./RegisterUser/RegisterUser";
 import Login from './Login/Login';
 import Contacts from "./whtsapp/contacts";
+import { connect } from "react-redux";
 import {
     BrowserRouter,
     Switch,
@@ -11,42 +12,38 @@ import {
 
 } from "react-router-dom";
 
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import getStore from './../reducers/index';
-
-let { store, persistor } = getStore();
-
 function PageNotFound() {
     return (
         <div className="pageNotFound">Page Not Found</div>
     )
 }
-export default class Routing extends React.Component {
+class Routing extends React.Component {
     render() {
-        console.log(store, 'store');
+        if (!this.props.user && !window.location.href.includes('register') && !window.location.href.includes('login')) {
+            console.log(this.props.user, this.props.history, 'in routing');
+            window.location.href = 'ocalhost:3000/login';
+        }
         return (
-            <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                <BrowserRouter>
-                    <div className='dark'>
-                        <Switch>
-                            <Route path='/' exact component={Login}></Route>
-                            <Route path='/ChatRoom' exact component={ChatRoom} />
-                            <Route path='/chats' exact component={ChatScreen}></Route>
-                            <Route path='/contacts' exact component={Contacts}></Route>
-                            <Route path='/register' exact component={Register}></Route>
-                            <Route path='/login' exact component={Login} />
-                            <Route path='*' exact component={PageNotFound}></Route>
-                        </Switch>
-                    </div>
-                </BrowserRouter>
-                </PersistGate>
-            </Provider>
-
+            <BrowserRouter>
+                <div className='dark'>
+                    <Switch>
+                        <Route path='/' exact component={Login}></Route>
+                        <Route path='/ChatRoom' exact component={ChatRoom} />
+                        <Route path='/chats' exact component={ChatScreen}></Route>
+                        <Route path='/contacts' exact component={Contacts}></Route>
+                        <Route path='/register' exact component={Register}></Route>
+                        <Route path='/login' exact component={Login} />
+                        <Route path='*' exact component={PageNotFound}></Route>
+                    </Switch>
+                </div>
+            </BrowserRouter>
         );
 
     }
 }
 
+const mapStateToProps = (state) => ({
+    user: state.user
+});
 
+export default connect(null, mapStateToProps)(Routing)
