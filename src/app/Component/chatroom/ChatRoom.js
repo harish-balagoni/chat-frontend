@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import io from "socket.io-client";
 import './chatroom.css';
 //import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
@@ -11,7 +10,9 @@ export default class ChatRoom extends Component {
       message: '',
       messages: [],
       isOponentTyping: false,
-      isEmojiActive: false
+      isEmojiActive: false,
+      chatMenu:false,
+      chatSettingDetails:false,
     }
     this.message = React.createRef();
   }
@@ -63,8 +64,8 @@ export default class ChatRoom extends Component {
   getTimeByTimestamp = (timestamp) => {
     let date = new Date(timestamp * 1000);
     let ampm = date.getHours() >= 12 ? 'pm' : 'am';
-    // let hours = date.getHours()-12;
-    return date.getHours() + ":" + date.getMinutes() + ampm;
+    let hours =  date.getHours() >= 12 ? date.getHours()-12 : date.getHours(); 
+    return hours + ":" + date.getMinutes() + ampm;
   }
 
   sendTypingStartStatus = () => {
@@ -84,29 +85,53 @@ export default class ChatRoom extends Component {
     this.setState({ isEmojiActive: !this.state.isEmojiActive });
   }
 
+  
+  chatSettings=()=>{
+    this.setState({chatMenu:true})
+  }
+
+  chatSettingDetails=()=>{
+    this.setState({chatSettingDetails:true})
+  }
+  
+  chatCancel=()=>{
+    this.setState({chatMenu:false,chatSettingDetails:false})
+  }
+
   render() {
     const { messages, isEmojiActive } = this.state;
     return (
       <div className='chat-room' >
         <div className='header'>
+          <span><img className='chat-room-profile-image' src={this.props.location.client2.profile} alt="this is suma " /></span>
+          <span className='chat-room-name'><h2>{this.props.location.client2.username}</h2></span>
           <div>
-            <img className='profile-image' src={this.props.location.client2.profile} alt="this is suma " />
-          </div>
-          <div>
-            <div className='name'>
-              <h2>{this.props.location.client2.username}</h2>
-            </div>
-          </div>
-          <div>
-            {this.state.menu ?
-              <div className="pop-up">
-                <div style={{ padding: 10, paddingRight: 40, cursor: 'pointer' }} > <img src="https://cdn3.vectorstock.com/i/1000x1000/08/37/profile-icon-male-user-person-avatar-symbol-vector-20910837.jpg" style={{ width: 20, height: 20 }} /> Profile</div>
-                <div style={{ padding: 10, paddingRight: 30, cursor: 'pointer' }} ><img src="https://static.vecteezy.com/system/resources/thumbnails/001/500/478/small/theme-icon-free-vector.jpg" style={{ width: 20, height: 20 }} />Themes</div>
-                <div style={{ padding: 10, paddingRight: 50, cursor: 'pointer' }} ><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbGk-AsWSk4bsvhARgxG4RxWrx41LLfscW1g&usqp=CAU" style={{ width: 20, height: 20 }} /> Help</div>
+            {this.state.chatMenu?
+              this.state.chatSettingDetails?
+              <div className="chat-room-pop-up-profile">
+                  <div className="chat-room-settings-details-header">
+                      <h1 style={{color:'white'}}>About</h1>
+                      <span><button className="chat-room-settings-details-cancel" onClick={()=>{this.chatCancel()}}>X</button></span>
+                  </div>
+                  <div className="chat-room-settings-details-body">
+                      <span><img className="chat-room-settings-profile-image" src={this.props.location.userDetails.profile} /></span>
+                      <span className="chat-room-settings-profile-text"><h5>{this.props.location.userDetails.username}</h5></span>
+                  </div>
+                  <div className="chat-room-settings-details-footer">
+                    <span className="chat-room-settings-profile-text"><h5>Email : </h5>{this.props.location.userDetails.email}</span>
+                    <span className="chat-room-settings-profile-text"><h5>Phone : </h5>{this.props.location.userDetails.mobile}</span>
+                  </div>
               </div>
-              :
-              <div style={{ borderRadius: 50 }} >
-                <button className="menu" onClick={() => { this.settings() }}><h2>⋮</h2></button>
+            :
+              <div className="pop-up">
+                <div className="pop-up-heading pop-head" onClick={()=>{this.chatSettingDetails()}}>Profile</div>
+                <div className="pop-up-delete-user pop-delete">delete user</div>
+                <div className="pop-up-archieve pop-archieve">Add to archieve</div>
+                <div className="pop-up-block pop-block"> block</div>
+              </div>
+            :
+              <div>
+                <button className="menu" onClick={()=>{this.chatSettings()}}>...</button>
               </div>
             }
           </div>

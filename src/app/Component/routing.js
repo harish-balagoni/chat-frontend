@@ -2,7 +2,12 @@ import React from "react";
 import ChatScreen from "./whtsapp/chatscreen";
 import ChatRoom from "./chatroom/ChatRoom";
 import Register from "./RegisterUser/RegisterUser";
+<<<<<<< HEAD
 import Login from "./Login/Login";
+=======
+import Login from './Login/Login';
+import Contacts from "./whtsapp/contacts";
+>>>>>>> master
 import {
     BrowserRouter,
     Switch,
@@ -33,6 +38,10 @@ export default class Routing extends React.Component {
                             <Route path='/' exact component={Login}></Route>
                             <Route path='/ChatRoom' exact component={ChatRoom} />
                             <Route path='/chats' exact component={ChatScreen}></Route>
+<<<<<<< HEAD
+=======
+                            <Route path='/contacts' exact component={Contacts}></Route>
+>>>>>>> master
                             <Route path='/register' exact component={Register}></Route>
                             <Route path='/login' exact component={Login} />
                             <Route path='*' exact component={PageNotFound}></Route>

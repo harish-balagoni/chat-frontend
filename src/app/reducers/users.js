@@ -14,10 +14,10 @@ const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'persist/REHYDRATE': {
             console.log(action, 'persist action');
-            if (action.payload && action.payload.user) {
-                return action.payload?.user;
+            if(action.payload && action.payload.user){
+                return action.payload.user;
             }
-            else {
+            else{
                 return initialState;
             }
         }
