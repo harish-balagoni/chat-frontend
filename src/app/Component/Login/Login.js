@@ -47,7 +47,7 @@ class Login extends Component {
        "password":this.state.password}).then(res=>{
            console.log(res.data);
         if(res.status===200){
-            this.props.userLogin(res.data);
+            this.props.userLogin(res.data.data);
             this.props.history.push({
                 pathname:'/chats'
             })

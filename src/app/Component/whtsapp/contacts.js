@@ -14,7 +14,7 @@ class Contacts extends Component {
       settingDetails: false,
       conversationButton: false,
     };
-    console.log(this.props);
+    console.log(this.props, 'in contacts');
   }
   componentDidMount() {
     console.log(this.state.Data);
@@ -27,7 +27,7 @@ class Contacts extends Component {
         method: "POST",
         url: `https://ptchatindia.herokuapp.com/contacts`,
         headers: {
-          authorization: this.props.user.user.token,
+          authorization: this.props.user.token,
         },
       })
       .then((res) => {
@@ -48,8 +48,7 @@ class Contacts extends Component {
   open = (user) => {
     this.props.history.push({
       pathname: "/ChatRoom",
-      userDetails: this.state.user,
-      client2: user,
+      client2: user
     });
   };
 
@@ -79,7 +78,7 @@ class Contacts extends Component {
       <div className="entire-area">
         <div className="header">
           <div className="headings">
-            <h1>Chats</h1>
+            <h1>Contacts</h1>
           </div>
           <div>
             {this.state.menu ? (
@@ -156,19 +155,19 @@ class Contacts extends Component {
           {/* <div className="contacts-body-position">
             {this.state.Data.map((user, index) => {
               return (
-                <div key={index} className="contacts-list">
-                  <span className="profile-image">
-                    <img src={user.profile} className="img"></img>
-                  </span>
-                  <span className="contacts-list-text">
-                    <h4
+                <div key={index} className="contact">
+                  <div className="profile-img">
+                    <img src={user.profile} className="image"></img>
+                  </div>
+                  <div className="text profile-nm">
+                    <h2
                       onClick={() => {
                         this.open(user);
                       }}
                     >
                       {user.username}
-                    </h4>
-                  </span>
+                    </h2>
+                  </div>
                 </div>
               );
             })}
@@ -206,7 +205,7 @@ class Contacts extends Component {
 const mapStateToProps = (state) => (
   console.log("state home page from redux in mapstatetoprops", state),
   {
-    user: state,
+    user: state.user,
   }
 );
 
