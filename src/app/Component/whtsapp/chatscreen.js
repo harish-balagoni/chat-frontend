@@ -33,9 +33,14 @@ class ChatScreen extends Component {
             url: 'https://ptchatindia.herokuapp.com/conversations',
             headers: {
              authorization:this.props.user.token
+            },
+            data:{
+                user:this.props.user.username
             }
             }).then(res=>{
             console.log("response",res);
+            if(res.status === 200){
+                if(res.data.data && res.data.data.length){
             let idx=null,details=[];
             res.map((user,index)=>{
                 console.log(this.state.profileUser);
@@ -50,6 +55,8 @@ class ChatScreen extends Component {
                 }
             });
             this.setState({ Data: details, isLoading: false });
+        }
+        }
         })
     }
 
