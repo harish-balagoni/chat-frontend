@@ -18,4 +18,9 @@ export const userLogin = (data) =>({
 export const submitRegister = (details) =>({
     type: SUBMIT_REGISTER,
     details
-})
+});
+
+export const createSocket = (data) => ({
+    type: 'CREATE_SOCKET',
+    payload: data
+});

@@ -1,16 +1,22 @@
 import './App.css';
 
-//import Whatsapp from './app/whatsapp';
-//import Createaccount from './app/Component/registration';
 import Routing from './app/Component/routing';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import getStore from './app/reducers/index';
+
+let { store, persistor } = getStore();
+
 function App() {
   return (
     <div className="app">
       <div className="app__body">
-      <Routing/>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Routing />
+          </PersistGate>
+        </Provider>
       </div>
-      {/* <Whatsapp /> */}
-      {/* <Createaccount/> */}
     </div>
   );
 }
