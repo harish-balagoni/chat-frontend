@@ -14,6 +14,12 @@ import {
 
 } from "react-router-dom";
 
+  import { createStore } from 'redux';
+  import { Provider } from 'react-redux';
+  import reducers from '../reducers/combineReducers';
+
+ const store = createStore(reducers)
+
 function PageNotFound() {
     return (
         <div className="pageNotFound">Page Not Found</div>
@@ -22,7 +28,8 @@ function PageNotFound() {
 export default class Routing extends React.Component {
     render() {
         return (
-            <BrowserRouter>
+            <Provider store={store}>
+                 <BrowserRouter>
             <div className='dark'>
                 <Switch>
                     <Route path='/' exact component={Createaccount }></Route>
@@ -37,6 +44,8 @@ export default class Routing extends React.Component {
                 </Switch>
                 </div>
             </BrowserRouter>
+            </Provider>
+           
         );
 
     }
