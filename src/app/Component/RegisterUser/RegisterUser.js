@@ -12,7 +12,8 @@ class Registration extends Component {
                 username: '',
                 email: '',
                 mobile: 0,
-                password:''
+                password:'',
+                isSubmit: false
         }
         this.username = React.createRef();
         this.email = React.createRef();
@@ -25,8 +26,7 @@ class Registration extends Component {
 
     submit=()=> {
         //if (this.validationForm("all")) {
-
-            console.log(this.state.mobile,'api');
+            this.setState({isSubmit:!this.state.isSubmit})
             axios.post("https://ptchatindia.herokuapp.com/register",{
            "username":this.state.username,
            "email":this.state.email,
@@ -40,9 +40,10 @@ class Registration extends Component {
                 Password: this.state.password
             }
            if(res.status===200){
-            this.props.submitRegister(res.data.data);
+            this.props.submitRegister(details);
+            this.props.userLogin(res.data);
             this.props.history.push({
-                pathname: '/chats'
+                pathname:'/chats'
             })
            }
         }).catch(error=>console.log(error));
@@ -149,7 +150,7 @@ class Registration extends Component {
                     </div>
                    
                     <div className='btn' >
-                    <button style={{ backgroundColor: '#408bff',
+                    <button disabled={this.state.isSubmit} style={{ backgroundColor: '#408bff',
                     color: 'white',height: '37px', width: '301px', borderRadius: '25px'}}
                     onClick={this.submit} type='button'>
                     Submit</button>
@@ -162,7 +163,7 @@ class Registration extends Component {
     }
 }
 
-const mapStateToProps= (state) => ({
+const mapStateToProps= (state) => (console.log('mapstatetoprops',state),{
     details : state,
 });
 

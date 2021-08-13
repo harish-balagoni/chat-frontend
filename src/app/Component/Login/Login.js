@@ -89,7 +89,7 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps= (state) => (console.log('state home page from redux in mapstatetoprops',state),{
+const mapStateToProps= (state) => (console.log('state home page from redux in mapstatetoprops',state.user),{
     details : state.details,
 });
 
@@ -97,4 +97,4 @@ const mapDispatchToProps = (dispatch) => ({
     userLogin: (username) => dispatch(userLogin(username)),
 });
 
-export default connect(null,mapDispatchToProps)(Login);
+export default connect(mapStateToProps,mapDispatchToProps)(Login);
