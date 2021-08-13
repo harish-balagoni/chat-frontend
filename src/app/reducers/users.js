@@ -14,7 +14,12 @@ const userReducer = (state=initialState,action) =>{
     switch (action.type){
         case 'persist/REHYDRATE':{
             console.log(action, 'persist action');
-            return action.payload.user;
+            if(action.payload && action.payload.user){
+                return action.payload.user;
+            }
+            else{
+                return initialState;
+            }
         }
         case FETCH_USER:
             console.log("fetch user");
