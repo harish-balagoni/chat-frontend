@@ -74,3 +74,28 @@
     cursor: pointer;
 }
 
+.header-profile-main{
+    width: 200px;
+    height: 300px;
+    position: absolute;
+    top:10%;
+    right: 10%;
+    background: #50535a;
+    box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+    border-radius: 10px;
+}
+
+.header-profile-image{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.header-profile-item{
+    width: 90%;
+    height: 25%;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+}

@@ -3,14 +3,25 @@ import './Header.css';
 import { connect } from 'react-redux';
 import menu from '../../../assests/three-dots-vertical.svg';
 import Options from './Options';
+import Profile from './Profile';
 
 class Header extends Component {
     constructor(props){
         super(props);
         this.state={
-            isShowOptions : false
+            isShowOptions : false,
+            isShowProfile : false
         }
     }
+
+    showProfile=()=>{
+        this.setState({isShowProfile:true,isShowOptions:false});
+    }
+
+    showOptions=()=>{
+        this.setState({isShowOptions:true,isShowProfile:false})
+    }
+
     render() {
         return (
             <div className="common-header">
@@ -19,9 +30,10 @@ class Header extends Component {
                 </div>
                 <div className="header-name">{this.props.title}</div>
                 <div className="header-menu">
-                    <img src={menu} style={{cursor:'pointer'}} alt="menu" onClick={()=>{this.setState({isShowOptions:!this.state.isShowOptions})}} />
+                    <img src={menu} style={{cursor:'pointer'}} alt="menu" onClick={()=>{this.showOptions()}} />
                 </div>
-                {this.state.isShowOptions && <Options />}
+                {this.state.isShowOptions && <Options showProfile={this.showProfile} />}
+                {this.state.isShowProfile && <Profile />}
             </div>
         )
     }
