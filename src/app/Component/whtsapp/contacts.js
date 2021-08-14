@@ -36,7 +36,7 @@ class Contacts extends Component {
         let index = null,
           details = [];
         res.data.map((user, index) => {
-          if (user.username === this.state.user) {
+          if (user.username === this.props.user.username) {
             this.setState({ user: user });
             index = index;
           } else {
