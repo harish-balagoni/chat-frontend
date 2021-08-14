@@ -44,8 +44,8 @@ class Login extends Component {
         if (this.checkValid('all')) {
             axios.post("https://ptchatindia.herokuapp.com/login",
                 {
-                    "username": this.state.username,
-                    "password": this.state.password
+                    "username": this.username.current.value,
+                    "password": this.password.current.value
                 }).then(res => {
                     console.log(res.data);
                     if (res.status === 200) {
