@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Login.css';
@@ -75,7 +75,7 @@ class Login extends Component {
                     <div className='login-input'>
                         <label>Password</label>
                         <input type='password' name='username' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
-                        <div className='error-msg'>{this.errors.username}</div>
+                        <div className='error-msg'>{this.errors.password}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div className='login-submit'>

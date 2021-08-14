@@ -2,51 +2,45 @@ import React, { Component } from 'react';
 import './RegisterUser.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import {submitRegister} from '../../actions/actions';
+import { submitRegister } from '../../actions/actions';
 
 class Registration extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                username: '',
-                email: '',
-                mobile: 0,
-                password:''
+            username: '',
+            email: '',
+            mobile: 0,
+            password: ''
         }
         this.username = React.createRef();
         this.email = React.createRef();
         this.password = React.createRef();
         this.mobile = React.createRef();
         this.confirmpassword = React.createRef();
-
     }
 
 
-    submit=()=> {
-        //if (this.validationForm("all")) {
-
-            console.log(this.state.mobile,'api');
-            axios.post("https://ptchatindia.herokuapp.com/register",{
-           "username":this.state.username,
-           "email":this.state.email,
-           "mobile":this.state.mobile,
-           "password":this.state.password})
-           .then(res =>{ console.log(res.data)
-            let details={
-                Username: this.state.username,
-                Email: this.state.email,
-                mobile: this.state.mobile,
-                Password: this.state.password
-            }
-           if(res.status===200){
-            this.props.submitRegister(res.data.data);
-            this.props.history.push({
-                pathname: '/chats'
-            })
-           }
-        }).catch(error=>console.log(error));
-       // }
+    submit = () => {
+        if (this.validationForm("all")) {
+            let details = {
+                username: this.username.current.value,
+                email: this.email.current.value,
+                mobile: this.mobile.current.value,
+                password: this.password.current.value
+            };
+            axios.post("https://ptchatindia.herokuapp.com/register", details)
+                .then(res => {
+                    if (res.status === 200) {
+                        this.props.submitRegister(res.data.data);
+                        this.props.history.push({
+                            pathname: '/chats'
+                        })
+                    }
+                }).catch(error => console.log(error));
+        }
     }
 
     errors = {};
@@ -83,9 +77,9 @@ class Registration extends Component {
                 this.errors.cpassword = 'Password field and confirm passoword should match';
             }
 
-            if(this.password.current.value === this.confirmpassword.current.value){
+            if (this.password.current.value === this.confirmpassword.current.value) {
                 delete this.errors.cpassword;
-            }else{
+            } else {
                 this.errors.cpassword = 'Password field and confirm passoword should match';
             }
         }
@@ -97,77 +91,106 @@ class Registration extends Component {
                 delete this.errors.mobile;
             }
         }
-        
-        if(Object.keys(this.errors).length){
-            console.log(this.mobile.current.value);
-            this.setState({
-                username: this.username.current.value,
-                email: this.email.current.value,
-                mobile: this.mobile.current.value,
-                password: this.password.current.value
-            })
-        }
+
+        this.setState({});
         return Object.keys(this.errors).length === 0;
     }
 
     render() {
         return (
-            <div className='container'>
-                <div className='container__body'>
-                    <div className='content_container'>
-                        <div className='form_conatiner'>
-                         <div><h3 style={{color:'FFFFFFBF'}}>Create User</h3></div>
-                                
-                    <div className='form-group'>
-                        <input className='form-control' type='username' ref={this.username}
-                            onBlur={this.validationForm.bind(this, 'username')} placeholder="Enter Name" />
+            <div className='login-container'>
+                <div className='login-box'>
+                    <div className='login-header'>Register</div>
+                    <div className='login-input'>
+                        <label>Username</label>
+                        <input type='text' name='username' ref={this.username} onBlur={this.checkValid} placeholder='Enter Userame...' />
+                        <div className='error-msg'>{this.errors.username}</div>
                     </div>
-                    <div><p>{this.errors.username}</p></div>
-                    <div className='form-group'>
-                        <input className='form-control' type='email' ref={this.email} onBlur={this.validationForm.bind(this, 'email')} placeholder="Email" ></input>
+                    <div className='login-input'>
+                        <label>Email</label>
+                        <input type='text' name='username' ref={this.email} onBlur={this.checkValid} placeholder='Enter Email...' />
+                        <div className='error-msg'>{this.errors.username}</div>
                     </div>
-                    <div style={{ color: '#FFFFFFBF' }}>
-                        {this.errors.email}
+                    <div className='login-input'>
+                        <label>Mobile</label>
+                        <input type='text' name='username' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' />
+                        <div className='error-msg'>{this.errors.mobile}</div>
                     </div>
-                    <div className='form-group'>
-                        <input className='form-control' type='number' placeholder="Enter Mobile Number" ref={this.mobile} onBlur={this.validationForm.bind(this, 'number')} ></input>
+                    <div className='login-input'>
+                        <label>Password</label>
+                        <input type='password' name='username' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <div className='error-msg'>{this.errors.password}</div>
                     </div>
-                    <div style={{ color: '#FFFFFFBF' }}>
-                        {this.errors.mobile}
+                    <div className='login-input'>
+                        <label>Confirm Password</label>
+                        <input type='password' name='username' ref={this.confirmpassword} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <div className='error-msg'>{this.errors.cpassword}</div>
                     </div>
-                    <div className='form-group'>
-                            <input className='form-control' type='password' placeholder="Enter Password" ref={this.password} onBlur={this.validationForm.bind(this, 'password')} ></input>
+                    {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
+                    <div className='login-submit'>
+                        <button className='login-button' onClick={this.submit}>Submit</button>
                     </div>
-                    <div style={{ color: '#FFFFFFBF'}}>
-                        {this.errors.password}
-                    </div>
-                    <div className='form-group'>
-                            <input className='form-control' type='password' name='cpassword' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
-                    </div>
-                    <div style={{ color: '#FFFFFFBF' }}>
-                        {this.errors.cpassword}
-                    </div>
-                   
-                    <div className='btn' >
-                    <button style={{ backgroundColor: '#408bff',
-                    color: 'white',height: '37px', width: '301px', borderRadius: '25px'}}
-                    onClick={this.submit} type='button'>
-                    Submit</button>
-                    </div>
-                        </div>
+                    <div className='register'>
+                        <Link style={{ color: '#ffffff' }} to='/login'>Login</Link>
                     </div>
                 </div>
             </div>
+            // <div className='container'>
+            //     <div className='container__body'>
+            //         <div className='content_container'>
+            //             <div className='form_conatiner'>
+            //              <div><h3 style={{color:'FFFFFFBF'}}>Create User</h3></div>
+
+            //         <div className='form-group'>
+            //             <input className='form-control' type='username' ref={this.username}
+            //                 onBlur={this.validationForm.bind(this, 'username')} placeholder="Enter Name" />
+            //         </div>
+            //         <div><p>{this.errors.username}</p></div>
+            //         <div className='form-group'>
+            //             <input className='form-control' type='email' ref={this.email} onBlur={this.validationForm.bind(this, 'email')} placeholder="Email" ></input>
+            //         </div>
+            //         <div style={{ color: '#FFFFFFBF' }}>
+            //             {this.errors.email}
+            //         </div>
+            //         <div className='form-group'>
+            //             <input className='form-control' type='number' placeholder="Enter Mobile Number" ref={this.mobile} onBlur={this.validationForm.bind(this, 'number')} ></input>
+            //         </div>
+            //         <div style={{ color: '#FFFFFFBF' }}>
+            //             {this.errors.mobile}
+            //         </div>
+            //         <div className='form-group'>
+            //                 <input className='form-control' type='password' placeholder="Enter Password" ref={this.password} onBlur={this.validationForm.bind(this, 'password')} ></input>
+            //         </div>
+            //         <div style={{ color: '#FFFFFFBF'}}>
+            //             {this.errors.password}
+            //         </div>
+            //         <div className='form-group'>
+            //                 <input className='form-control' type='password' name='cpassword' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
+            //         </div>
+            //         <div style={{ color: '#FFFFFFBF' }}>
+            //             {this.errors.cpassword}
+            //         </div>
+
+            //         <div className='btn' >
+            //         <button style={{ backgroundColor: '#408bff',
+            //         color: 'white',height: '37px', width: '301px', borderRadius: '25px'}}
+            //         onClick={this.submit} type='button'>
+            //         Submit</button>
+            //         </div>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
         );
     }
 }
 
-const mapStateToProps= (state) => ({
-    details : state,
+const mapStateToProps = (state) => ({
+    details: state,
 });
 
-const mapDispatchToProps =( dispatch) => ({
-    submitRegister: (details) => dispatch(submitRegister(details)), 
+const mapDispatchToProps = (dispatch) => ({
+    submitRegister: (details) => dispatch(submitRegister(details)),
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(Registration);
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);
