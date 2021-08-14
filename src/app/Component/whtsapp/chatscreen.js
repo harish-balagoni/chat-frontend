@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./chatscreen.css";
+import Header from "../Common/Header";
 import axios from "axios";
 import { connect } from "react-redux";
 import { createSocket } from "../../actions/actions";
@@ -93,85 +94,8 @@ class ChatScreen extends Component {
         }
         return (
             <div className="entire-area">
-                <div className="header">
-                    <div className="headings">
-                        <h1>Chats</h1>
-                    </div>
-
-                    <div>
-                        {this.state.menu ? (
-                            this.state.settingDetails ? (
-                                <div className="screen-pop-up-profile">
-                                    <div className="settings-details-header">
-                                        <h1 style={{ color: "white" }}>About</h1>
-                                        <span>
-                                            <button
-                                                className="settings-details-cancel"
-                                                onClick={() => {
-                                                    this.cancel();
-                                                }}
-                                            >
-                                                X
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <div className="settings-details-body">
-                                        <span>
-                                            <img
-                                                className="settings-profile-image"
-                                                src={this.props.user.user.profile}
-                                            />
-                                        </span>
-                                        <span className="settings-profile-text">
-                                            <h5>{this.props.user.user.username}</h5>
-                                        </span>
-                                    </div>
-                                    <div className="settings-details-footer">
-                                        <span className="settings-profile-text">
-                                            <h5>Email : </h5>
-                                            {this.props.user.user.email}
-                                        </span>
-                                        <span className="settings-profile-text">
-                                            <h5>Phone : </h5>
-                                            {this.props.user.user.mobile}
-                                        </span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="screen-pop-up">
-                                    <div
-                                        className="screen-pop-up-heading srn-head"
-                                        onClick={() => {
-                                            this.settingDetails();
-                                        }}
-                                    >
-                                        {" "}
-                                        Profile
-                                    </div>
-                                    <div className="screen-pop-up-delete-user srn-delete">
-                                        delete user
-                                    </div>
-                                    <div className="screen-pop-up-archieve srn-archieve">
-                                        Add to archieve
-                                    </div>
-                                    <div className="screen-pop-up-block srn-block"> block</div>
-                                </div>
-                            )
-                        ) : (
-                            <div>
-                                <button
-                                    className="screen-menu"
-                                    onClick={() => {
-                                        this.settings();
-                                    }}
-                                >
-                                    ...
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div style={{ backgroundColor: this.state.color }}>
+                <Header title="Conversations"/>
+                <div>
                     <div className="chats">
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
@@ -195,32 +119,9 @@ class ChatScreen extends Component {
                     </div>
                 </div>
                 <div className="contacts-footer">
-                    {this.state.conversationButton ?
-                        <div className="contacts-position">
-                            <div className="contacts-header-position">
-                                Select Contact
-                            </div>
-                            <div className="contacts-body-position">
-                                {this.state.Data.map((user, index) => {
-                                    return (
-                                        <div key={index} className='contacts-list'>
-                                            <span className='profile-image'>
-                                                <img src={user.profile} className="img"></img>
-                                            </span>
-                                            <span className="contacts-list-text">
-                                                <h4 onClick={() => { this.open(user) }}>{user.username}</h4>
-                                            </span>
-                                        </div>
-                                    )
-                                })
-                                }
-                            </div>
-                        </div>
-                        :
-                        <div className="chats-position">
-                            <button className="chats-button" onClick={() => { this.selectContact() }}><img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" /></button>
-                        </div>
-                    }
+                    <div className="chats-position">
+                        <button className="chats-button" onClick={() => { this.selectContact() }}><img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" /></button>
+                    </div>
                 </div>
             </div>
         );

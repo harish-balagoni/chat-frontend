@@ -9,16 +9,6 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
-.headings{
-    margin-left: 20px;
-    color: #e2e2e3;
-    position: fixed;
-}
-.header{
-    width: 100%;
-    height: 15%;
-    display: flex;
-}
 
 .whatsapp-screen{
     height: 600px;
@@ -27,13 +17,13 @@
     left:0 ;
 }
 .entire-area{
-    height: auto;
+    height: 100%;
 }
 
 .chats{
- width: 100%;
- height: 100%;
- padding: 15px;
+    width: 90%;
+    height: 100%;
+    margin-left: 5%;
 }
  
 .contact{
@@ -104,85 +94,6 @@ p{
 .loading{
     color:e;
 }
-.screen-pop-up{
-    z-index: 1;
-    position: absolute;
-    padding: 15px 0;
-    background-color: #42444a;
-    color: white;
-    border-radius: 15px;
-    top: 30px;
-    right: 15px;
-}
-
-.screen-pop-up-profile{
-    z-index: 1;
-    position: absolute;
-    padding: 15px 0;
-    background-color: #44464d;
-    color: white;
-    border-radius: 15px;
-    top: 30px;
-    right: 15px;
-    width: 25%;
-    height: 80%;
-}
-
-.screen-pop-up-heading{
-    padding:10px;
-    padding-right:40px;
-    cursor:pointer;
-}
-
-.srn-head:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-pop-up-delete-user{
-    padding:10px;
-    padding-right:30px;
-    cursor:pointer;
-}
-
-.srn-delete:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-pop-up-archieve{
-    padding:10px;
-    padding-right:30px;
-    cursor:pointer;
-}
-
-.srn-archieve:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-pop-up-block{
-    color: #f33333;
-    padding:10px;
-    padding-right:50px;
-    cursor:pointer;
-}
-
-.srn-block:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-menu{
-    color: white;
-    margin-left: 1146px;
-    cursor: pointer;
-    background: #3a3f51;
-    height: 40px;
-    width: 40px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 20px;
-    margin-top: 27px;
-    padding-bottom: 10px;
-}
 
 .settings-details-header{
     display: flex;
@@ -247,6 +158,10 @@ p{
     border-radius: 50%;
     right: 5%;
     bottom: 5%;
+}
+
+.chats-position:hover{
+    box-shadow: 0 0 15px #e4e0e6c0 ; 
 }
 
 textarea {
