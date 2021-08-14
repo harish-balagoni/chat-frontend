@@ -195,10 +195,10 @@ class ChatRoom extends Component {
             }
           </div>
           <div className='message-input'>
-            <input className='input' type='text' ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
+            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
           <div className='submit-button'>
-            <button className='send' onClick={() => { this.send() }}>send</button>
+            <button className='send' onClick={() => { this.send() }}>Send</button>
           </div>
         </div>
 

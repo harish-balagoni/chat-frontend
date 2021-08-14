@@ -59,6 +59,7 @@ html, body{
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .emoji-holder{
@@ -89,13 +90,14 @@ input:focus{
   outline: none;
 }
 .send{
-    background-color: #408bff;
+    background-color: #202124;
     color: white;
-    height: 37px;
     height: 45px;
     font-size: 15px;
     width: 100px;
     border-radius: 25px;
+    cursor: pointer;
+    border-width: 0;
 }
 
 .profile-image {
@@ -183,3 +185,15 @@ input:focus{
 .text{
   color: #e2e2e3;
 }
+
+[placeholder]::-webkit-input-placeholder { color: #d7d7d7; padding-left: 5px; padding-top: 5px; }
+[placeholder]:hover::-webkit-input-placeholder { color: rgba(255,255,255,.4); padding-left: 5px; padding-top: 5px; }
+[placeholder]:focus::-webkit-input-placeholder { color: transparent; padding-left: 5px; padding-top: 5px;}
+
+[placeholder]::-moz-placeholder { color: #d7d7d7; padding-left: 5px; padding-top: 5px;}
+[placeholder]:hover::-moz-placeholder { color: rgba(255,255,255,.4); padding-left: 5px; padding-top: 5px;}
+[placeholder]:focus::-moz-placeholder { color: transparent; padding-left: 5px; padding-top: 5px;}
+
+[placeholder]:-ms-input-placeholder { color: #d7d7d7; padding-left: 5px; padding-top: 5px;}
+[placeholder]:hover:-ms-input-placeholder { color: rgba(255,255,255,.4); padding-left: 5px; padding-top: 5px;}
+[placeholder]:focus:-ms-input-placeholder { color: transparent; padding-left: 5px; padding-top: 5px;}

@@ -42,13 +42,9 @@ class ChatScreen extends Component {
                 console.log("response", res.data);
                 if (res.status === 200) {
                     if (res.data.data && res.data.data.length) {
-                        let index = null,
-                            details = [];
-                        res.data.data.map((user, index) => {
-                            if (user.username === this.props.user.username) {
-                                this.setState({ user: user });
-                                index = index;
-                            } else {
+                        let details = [];
+                        res.data.data.map((user) => {
+                            if (user.username !== this.props.user.username) {
                                 details.push(user);
                             }
                         });
@@ -63,7 +59,7 @@ class ChatScreen extends Component {
     open = (user) => {
         this.props.history.push({
             pathname: "/ChatRoom",
-            userDetails: this.props.user.user.username,
+            userDetails: this.props.user.username,
             client2: user,
         });
     };
@@ -81,6 +77,14 @@ class ChatScreen extends Component {
             pathname: "/contacts"
         })
     }
+
+    getTimeByTimestamp = (timestamp) => {
+        let date = new Date(timestamp * 1000);
+        let ampm = date.getHours() >= 12 ? 'pm' : 'am';
+        let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
+        return hours + ":" + date.getMinutes() + ampm;
+    }
+
     render() {
         const { isLoading, Data } = this.state;
         console.log(Data);
@@ -172,19 +176,19 @@ class ChatScreen extends Component {
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
-                                <div key={index} className="contact">
+                                <div key={index} className="contact" onClick={() => {
+                                    this.open(user.client);
+                                }}>
                                     <div className="profile-img">
-                                        <img src={user.profile} className="image"></img>
+                                        <img src={user.client.profile} className="image"></img>
                                     </div>
                                     <div className="text profile-nm">
-                                        <h2
-                                            onClick={() => {
-                                                this.open(user);
-                                            }}
-                                        >
-                                            {user.username}
-                                        </h2>
+                                        <div className="profile-name">
+                                            {user.client.username}
+                                        </div>
+                                        <p>{user.latest.message}</p>
                                     </div>
+                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}</div>
                                 </div>
                             );
                         })}
