@@ -4,6 +4,7 @@ import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
 import emoji from './../../../assests/emoji.png';
+import Header from '../Common/Header';
 
 class ChatRoom extends Component {
   constructor(props) {
@@ -116,40 +117,7 @@ class ChatRoom extends Component {
     const { messages, isEmojiActive } = this.state;
     return (
       <div className='chat-room' >
-        <div className='header'>
-          <span><img className='chat-room-profile-image' src={this.props.location.client2.profile} alt="this is suma " /></span>
-          <span className='chat-room-name'><h2>{this.props.location.client2.username}</h2></span>
-          <div>
-            {this.state.chatMenu?
-              this.state.chatSettingDetails?
-              <div className="chat-room-pop-up-profile">
-                  <div className="chat-room-settings-details-header">
-                      <h1 style={{color:'white'}}>About</h1>
-                      <span><button className="chat-room-settings-details-cancel" onClick={()=>{this.chatCancel()}}>X</button></span>
-                  </div>
-                  <div className="chat-room-settings-details-body">
-                      <span><img className="chat-room-settings-profile-image" src={this.props.user.profile} /></span>
-                      <span className="chat-room-settings-profile-text"><h5>{this.props.user.username}</h5></span>
-                  </div>
-                  <div className="chat-room-settings-details-footer">
-                    <span className="chat-room-settings-profile-text"><h5>Email : </h5>{this.props.user.email}</span>
-                    <span className="chat-room-settings-profile-text"><h5>Phone : </h5>{this.props.user.mobile}</span>
-                  </div>
-              </div>
-            :
-              <div className="pop-up">
-                <div className="pop-up-heading pop-head" onClick={()=>{this.chatSettingDetails()}}>Profile</div>
-                <div className="pop-up-delete-user pop-delete">delete user</div>
-                <div className="pop-up-archieve pop-archieve">Add to archieve</div>
-                <div className="pop-up-block pop-block"> block</div>
-              </div>
-            :
-              <div>
-                <button className="menu" onClick={()=>{this.chatSettings()}}>...</button>
-              </div>
-            }
-          </div>
-        </div>
+        <Header title={this.props.location.client2.username}/>
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
             console.log('hello', message, this.props.location);

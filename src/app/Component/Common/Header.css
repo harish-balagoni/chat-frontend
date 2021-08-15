@@ -1,0 +1,101 @@
+.common-header{
+    width:90%;
+    margin-left: 5%;
+    height:15%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.header-profile{
+    width: 10%;
+    height: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-name{
+    width:80%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 26px;
+    color: #e2e2e3;
+}
+
+.header-menu{
+    width: 10%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-image{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+
+.options{
+    height: 200px;
+    width: 180px;
+    position: absolute;
+    right: 10%;
+    top: 10%;
+    background: #50535a;
+    box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+    border-radius: 10px;
+}
+
+.option-item{
+    width: 90%;
+    height: 33.3%;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    border: 1px solid white;
+    border-width: 0px 0px 1px 0px;
+    cursor: pointer;
+}
+
+.option-item-logout{
+    width: 90%;
+    height: 33.3%;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.header-profile-main{
+    width: 200px;
+    height: 300px;
+    position: absolute;
+    top:10%;
+    right: 10%;
+    background: #50535a;
+    box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+    border-radius: 10px;
+}
+
+.header-profile-image{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.header-profile-item{
+    width: 90%;
+    height: 25%;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+}
