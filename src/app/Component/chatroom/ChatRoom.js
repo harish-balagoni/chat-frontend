@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import './chatroom.css';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
-<<<<<<< Updated upstream
 import { connect } from 'react-redux';
 import emoji from './../../../assests/emoji.png';
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+import Header from '../Common/Header';
 
-export default class ChatRoom extends Component {
+import {logOut} from '../../actions/actions';
+
+class ChatRoom extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -116,54 +113,24 @@ export default class ChatRoom extends Component {
     this.setState({chatMenu:false,chatSettingDetails:false})
   }
 
+  logOut=()=>{
+    this.props.logOut();
+    this.props.history.push({
+      pathname:'/login'
+  })
+  }
+
   render() {
     const { messages, isEmojiActive } = this.state;
     return (
       <div className='chat-room' >
-        <div className='header'>
-          <span><img className='chat-room-profile-image' src={this.props.location.client2.profile} alt="this is suma " /></span>
-          <span className='chat-room-name'><h2>{this.props.location.client2.username}</h2></span>
-          <div>
-            {this.state.chatMenu?
-              this.state.chatSettingDetails?
-              <div className="chat-room-pop-up-profile">
-                  <div className="chat-room-settings-details-header">
-                      <h1 style={{color:'white'}}>About</h1>
-                      <span><button className="chat-room-settings-details-cancel" onClick={()=>{this.chatCancel()}}>X</button></span>
-                  </div>
-                  <div className="chat-room-settings-details-body">
-                      <span><img className="chat-room-settings-profile-image" src={this.props.location.userDetails.profile} /></span>
-                      <span className="chat-room-settings-profile-text"><h5>{this.props.location.userDetails.username}</h5></span>
-                  </div>
-                  <div className="chat-room-settings-details-footer">
-                    <span className="chat-room-settings-profile-text"><h5>Email : </h5>{this.props.location.userDetails.email}</span>
-                    <span className="chat-room-settings-profile-text"><h5>Phone : </h5>{this.props.location.userDetails.mobile}</span>
-                  </div>
-              </div>
-            :
-              <div className="pop-up">
-                <div className="pop-up-heading pop-head" onClick={()=>{this.chatSettingDetails()}}>Profile</div>
-                <div className="pop-up-delete-user pop-delete">delete user</div>
-                <div className="pop-up-archieve pop-archieve">Add to archieve</div>
-                <div className="pop-up-block pop-block"> block</div>
-              </div>
-            :
-              <div>
-                <button className="menu" onClick={()=>{this.chatSettings()}}>...</button>
-              </div>
-            }
-          </div>
-        </div>
+        <Header title={this.props.location.client2.username}/>
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
             console.log('hello', message, this.props.location);
             return (<div className='message-field' key={index}>
-<<<<<<< Updated upstream
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
-=======
-              {message.username === this.props.location.userDetails.username ?
->>>>>>> Stashed changes
                 (<div className="msg-field-container">
                   <span className='msg-right'>{message.message}</span>
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
@@ -203,10 +170,10 @@ export default class ChatRoom extends Component {
             }
           </div>
           <div className='message-input'>
-            <input className='input' type='text' ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
+            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
           <div className='submit-button'>
-            <button className='send' onClick={() => { this.send() }}>send</button>
+            <button className='send' onClick={() => { this.send() }}>Send</button>
           </div>
         </div>
 
@@ -214,3 +181,9 @@ export default class ChatRoom extends Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) =>({
+  logOut: ()=> dispatch(logOut()),
+})
+
+export default connect(null,mapDispatchToProps)(ChatRoom);

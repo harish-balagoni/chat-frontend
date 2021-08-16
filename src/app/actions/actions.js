@@ -1,6 +1,7 @@
 export const FETCH_USER = "FETCH_USER"
 export const USER_LOGIN = "USER_LOGIN"
 export const SUBMIT_REGISTER = "SUBMIT_REGISTER"
+export const LOG_OUT = "LOG_OUT"
 
 export const fetchUser = (user) => {
     console.log("actions")
@@ -23,4 +24,8 @@ export const submitRegister = (details) =>({
 export const createSocket = (data) => ({
     type: 'CREATE_SOCKET',
     payload: data
+});
+
+export const logOut = () => ({
+    type: 'LOG_OUT'
 });

@@ -1,9 +1,9 @@
 import React from "react";
-import ChatScreen from "./whtsapp/chatscreen";
+import ChatScreen from "./ChatScreen/chatscreen";
 import ChatRoom from "./chatroom/ChatRoom";
 import Register from "./RegisterUser/RegisterUser";
 import Login from './Login/Login';
-import Contacts from "./whtsapp/contacts";
+import Contacts from "./ChatScreen/contacts";
 import { connect } from "react-redux";
 import {
     BrowserRouter,

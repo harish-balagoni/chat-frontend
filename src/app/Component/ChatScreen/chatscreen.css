@@ -9,16 +9,6 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
-.headings{
-    margin-left: 20px;
-    color: #e2e2e3;
-    position: fixed;
-}
-.header{
-    width: 100%;
-    height: 15%;
-    display: flex;
-}
 
 .whatsapp-screen{
     height: 600px;
@@ -27,14 +17,13 @@
     left:0 ;
 }
 .entire-area{
-    height: auto;
-    background-color: black;
+    height: 100%;
 }
 
 .chats{
- width: 100%;
- height: 100%;
- padding: 15px;
+    width: 90%;
+    height: 100%;
+    margin-left: 5%;
 }
  
 .contact{
@@ -62,12 +51,26 @@
     
 }
 
+.profile-name{
+    font-size: 20px;
+}
+.profile-time{
+    display: flex;
+    width: 20%;
+    height: 100%;
+    font-size: 12px;
+    justify-content: center;
+    color: #b0b0b3;
+    padding-top: 40px;
+}
+
 .profile-nm{
-    width:80%;
+    width:70%;
     height:100%;
  display: flex;
  flex-direction: column;
  justify-content: center;
+ padding-left: 20px;
  
 }
 h2{
@@ -90,85 +93,6 @@ p{
 }
 .loading{
     color:e;
-}
-.screen-pop-up{
-    z-index: 1;
-    position: absolute;
-    padding: 15px 0;
-    background-color: #42444a;
-    color: white;
-    border-radius: 15px;
-    top: 30px;
-    right: 15px;
-}
-
-.screen-pop-up-profile{
-    z-index: 1;
-    position: absolute;
-    padding: 15px 0;
-    background-color: #44464d;
-    color: white;
-    border-radius: 15px;
-    top: 30px;
-    right: 15px;
-    width: 25%;
-    height: 80%;
-}
-
-.screen-pop-up-heading{
-    padding:10px;
-    padding-right:40px;
-    cursor:pointer;
-}
-
-.srn-head:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-pop-up-delete-user{
-    padding:10px;
-    padding-right:30px;
-    cursor:pointer;
-}
-
-.srn-delete:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-pop-up-archieve{
-    padding:10px;
-    padding-right:30px;
-    cursor:pointer;
-}
-
-.srn-archieve:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-pop-up-block{
-    color: #f33333;
-    padding:10px;
-    padding-right:50px;
-    cursor:pointer;
-}
-
-.srn-block:hover{
-    background-color: #603e42 !important;
-}
-
-.screen-menu{
-    color: white;
-    margin-left: 1146px;
-    cursor: pointer;
-    background: #3a3f51;
-    height: 40px;
-    width: 40px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 20px;
-    margin-top: 27px;
-    padding-bottom: 10px;
 }
 
 .settings-details-header{
@@ -230,11 +154,39 @@ p{
 
 .chats-position{
     position: absolute;
-    border: 3px solid #f89c9c;
+    border: 3px solid #e2e2e3;
     border-radius: 50%;
     right: 5%;
-    bottom: 10%;
+    bottom: 5%;
 }
+
+.chats-position:hover{
+    box-shadow: 0 0 15px #e4e0e6c0 ; 
+}
+
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    border: 0;
+    outline: 0;
+    color: #fff;
+  }
+
+  textarea {
+    overflow: auto;
+    vertical-align: top;
+    resize: none;
+  }
+
+  textarea {
+    display: block;
+    width: 100%;
+    height: 70%;
+    border: 1px solid rgba(0,0,0,.5);
+    background: rgba(0,0,0,.25);
+    border-radius: 10px;
+  }
 
 .chats-icon{
     width: 50px;
