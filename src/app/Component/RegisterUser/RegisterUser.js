@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import './RegisterUser.css';
 import axios from 'axios';
@@ -79,6 +80,7 @@ class Registration extends Component {
 
             if (this.password.current.value === this.confirmpassword.current.value) {
                 delete this.errors.cpassword;
+                
             } else {
                 this.errors.cpassword = 'Password field and confirm passoword should match';
             }
