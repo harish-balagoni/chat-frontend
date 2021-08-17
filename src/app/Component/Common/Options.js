@@ -12,10 +12,12 @@ class Options extends Component {
     }
     render() {
         return (
-            <div className="options">
+            <div className='overlay'onClick={this.props.onClose}>
+            <div className="options" >
                 <div className="option-item" onClick={this.props.showProfile}>Profile</div>
                 <div className="option-item">Add to archieve</div>
                 <div className="option-item-logout" onClick={this.logOut}>Logout</div>
+            </div>
             </div>
         )
     }

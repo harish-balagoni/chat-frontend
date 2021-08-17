@@ -1,3 +1,10 @@
+.overlay{
+    height:100%;
+    width: 100%;
+    z-index: 9;
+    background: transparent;
+    position: absolute;
+}
 .common-header{
     width:90%;
     margin-left: 5%;
@@ -63,7 +70,14 @@
     border-width: 0px 0px 1px 0px;
     cursor: pointer;
 }
-
+.close:hover {
+    color: cyan;
+    cursor: pointer;
+  }
+.pop-up-visible{
+    height: auto;
+    background-color: cyan;
+}
 .option-item-logout{
     width: 90%;
     height: 33.3%;

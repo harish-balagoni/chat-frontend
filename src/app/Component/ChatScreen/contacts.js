@@ -73,7 +73,7 @@ class Contacts extends Component {
     const { isLoading, Data } = this.state;
     console.log(Data);
     if (isLoading) {
-      return <div>Loding...</div>;
+      return <div>Loading...</div>;
     }
     return (
       <div className="entire-area">

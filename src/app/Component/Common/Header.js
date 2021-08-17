@@ -6,22 +6,25 @@ import Options from './Options';
 import Profile from './Profile';
 
 class Header extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            isShowOptions : false,
-            isShowProfile : false
+        this.state = {
+            isShowOptions: false,
+            isShowProfile: false   
         }
     }
 
-    showProfile=()=>{
-        this.setState({isShowProfile:true,isShowOptions:false});
+    showProfile = () => {
+        this.setState({ isShowProfile: true, isShowOptions: false });
     }
 
-    showOptions=()=>{
-        this.setState({isShowOptions:true,isShowProfile:false})
+    showOptions = () => {
+        this.setState({
+            isShowOptions: true,
+            isShowProfile: false
+        })
     }
-
+ 
     render() {
         return (
             <div className="common-header">
@@ -29,10 +32,11 @@ class Header extends Component {
                     <img className="header-image" src={this.props.user.profile} alt="profile" />
                 </div>
                 <div className="header-name">{this.props.title}</div>
-                <div className="header-menu">
-                    <img src={menu} style={{cursor:'pointer'}} alt="menu" onClick={()=>{this.showOptions()}} />
+                <div className="header-menu"  >
+                    <img src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
                 </div>
-                {this.state.isShowOptions && <Options showProfile={this.showProfile} />}
+                { this.state.isShowOptions && <Options showProfile={this.showProfile} 
+                 onClose={()=>{this.setState({isShowOptions: false})}}/>}
                 {this.state.isShowProfile && <Profile />}
             </div>
         )
