@@ -6,20 +6,20 @@ import Options from './Options';
 import Profile from './Profile';
 
 class Header extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            isShowOptions : false,
-            isShowProfile : false
+        this.state = {
+            isShowOptions: false,
+            isShowProfile: false
         }
     }
 
-    showProfile=()=>{
-        this.setState({isShowProfile:true,isShowOptions:false});
+    showProfile = () => {
+        this.setState({ isShowProfile: true, isShowOptions: false });
     }
 
-    showOptions=()=>{
-        this.setState({isShowOptions:true,isShowProfile:false})
+    showOptions = () => {
+        this.setState({ isShowOptions: true, isShowProfile: false })
     }
 
     render() {
@@ -30,9 +30,10 @@ class Header extends Component {
                 </div>
                 <div className="header-name">{this.props.title}</div>
                 <div className="header-menu">
-                    <img src={menu} style={{cursor:'pointer'}} alt="menu" onClick={()=>{this.showOptions()}} />
+                    <img src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
                 </div>
-                {this.state.isShowOptions && <Options showProfile={this.showProfile} />}
+                {this.state.isShowOptions && <Options showProfile={this.showProfile}
+                    onClose={() => { this.setState({ isShowOptions: false }) }} />}
                 {this.state.isShowProfile && <Profile />}
             </div>
         )
