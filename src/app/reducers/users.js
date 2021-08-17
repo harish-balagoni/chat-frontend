@@ -1,6 +1,8 @@
 import { FETCH_USER } from "../actions/actions";
 import { USER_LOGIN } from "../actions/actions";
 import { SUBMIT_REGISTER } from "../actions/actions";
+import { LOG_OUT } from "../actions/actions";
+
 
 const initialState = {
     username: '',
@@ -31,6 +33,9 @@ const userReducer = (state = initialState, action) => {
         case SUBMIT_REGISTER:
             console.log("user register");
             return action.details;
+        case LOG_OUT:
+            console.log('log out');
+            return initialState;
         default: return state
     }
 
