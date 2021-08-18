@@ -167,7 +167,7 @@ input:focus{
     line-height: 1.5;
     color: hsla(0,0%,100%,.75);
     max-width: 40%;
-    text-align: right;
+    text-align: left;
 }
 
 .chat-typing{
