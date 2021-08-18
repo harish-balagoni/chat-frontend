@@ -16,6 +16,7 @@ function App() {
           </PersistGate>
         </Provider>
       </div>
+      
     </div>
   );
 }
