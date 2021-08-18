@@ -1,4 +1,10 @@
-.common-header{
+.overlay{
+    height:100%;
+    width: 100%;
+    z-index: 9;
+    background: transparent;
+    position: absolute;
+}.common-header{
     width:90%;
     margin-left: 5%;
     height:15%;
