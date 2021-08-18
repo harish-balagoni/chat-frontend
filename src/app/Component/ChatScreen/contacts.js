@@ -4,6 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import Header from "../Common/Header";
 import {loaderService} from '../../../service/loaderService';
+import { createClient } from '../../actions/actions';
 
 class Contacts extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class Contacts extends Component {
       });
   };
   open = (user) => {
+
     this.props.history.push({
       pathname: "/ChatRoom",
       client2: user
@@ -109,7 +111,12 @@ const mapStateToProps = (state) => (
   console.log("state home page from redux in mapstatetoprops", state),
   {
     user: state.user.userDetails,
+    client: state.user.client
   }
 );
 
-export default connect(mapStateToProps, null)(Contacts);
+const mapDispatchToProps = (dispatch) => ({
+  createClient: (data) => dispatch(createClient(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
