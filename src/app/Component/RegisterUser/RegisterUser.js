@@ -3,6 +3,7 @@ import './RegisterUser.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { loaderService } from '../../../service/loaderService';
 
 import { submitRegister } from '../../actions/actions';
 
@@ -22,9 +23,13 @@ class Registration extends Component {
         this.confirmpassword = React.createRef();
     }
 
+    componentDidMount() {
+        loaderService.hide();
+    }
 
     submit = () => {
         if (this.validationForm("all")) {
+            loaderService.show();
             let details = {
                 username: this.username.current.value,
                 email: this.email.current.value,
@@ -79,6 +84,7 @@ class Registration extends Component {
 
             if (this.password.current.value === this.confirmpassword.current.value) {
                 delete this.errors.cpassword;
+
             } else {
                 this.errors.cpassword = 'Password field and confirm passoword should match';
             }
@@ -128,7 +134,7 @@ class Registration extends Component {
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div className='login-submit'>
-                        <button className='login-button' onClick={this.submit}>Submit</button>
+                        <button className='login-button' onClick={this.submit} >Submit</button>
                     </div>
                     <div className='register'>
                         <Link style={{ color: '#ffffff' }} to='/login'>Login</Link>

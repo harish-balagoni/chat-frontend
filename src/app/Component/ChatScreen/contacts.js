@@ -3,19 +3,20 @@ import "./chatscreen.css";
 import axios from "axios";
 import { connect } from "react-redux";
 import Header from "../Common/Header";
+import {loaderService} from '../../../service/loaderService';
 
 class Contacts extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Data: null,
-      isLoading: true,
       user: this.props.location.state && this.props.location.state.user,
       menu: false,
       settingDetails: false,
       conversationButton: false,
     };
     console.log(this.props, 'in contacts');
+    loaderService.show();
   }
   componentDidMount() {
     console.log(this.state.Data);
@@ -43,7 +44,8 @@ class Contacts extends Component {
             details.push(user);
           }
         });
-        this.setState({ Data: details, isLoading: false });
+        this.setState({ Data: details});
+        loaderService.hide();
       });
   };
   open = (user) => {
@@ -72,9 +74,6 @@ class Contacts extends Component {
   render() {
     const { isLoading, Data } = this.state;
     console.log(Data);
-    if (isLoading) {
-      return <div>Loding...</div>;
-    }
     return (
       <div className="entire-area">
         <Header title="Contacts"/>

@@ -25,7 +25,7 @@ const userReducer = (state = initialState, action) => {
         }
         case FETCH_USER:
             console.log("fetch user");
-
+            
             return action.user;
         case USER_LOGIN:
             console.log(" user login");
