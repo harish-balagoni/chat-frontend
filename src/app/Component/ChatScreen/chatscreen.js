@@ -132,7 +132,7 @@ class ChatScreen extends Component {
 const mapStateToProps = (state) => (
     console.log("state home page from redux in mapstatetoprops", state),
     {
-        user: state.user,
+        user: state.user.userDetails,
     }
 );
 
