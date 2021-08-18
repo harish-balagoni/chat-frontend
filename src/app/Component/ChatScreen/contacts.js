@@ -50,7 +50,7 @@ class Contacts extends Component {
       });
   };
   open = (user) => {
-
+    this.props.createClient(user);
     this.props.history.push({
       pathname: "/ChatRoom",
       client2: user

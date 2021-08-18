@@ -124,6 +124,8 @@ input:focus{
 }
 
 .msg-container{
+  scroll-behavior: smooth;
+
   width: 90%;
   height: 80%;
   background-color: #383a3f;

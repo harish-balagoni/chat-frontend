@@ -111,6 +111,19 @@ class ChatRoom extends Component {
     this.setState({chatMenu:false,chatSettingDetails:false})
   }
 
+  imagePicker=(e)=>{
+    console.log(e.target.files[0],'image event');
+      if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
+      {
+        alert('worng format of file');
+      }else{
+        if(e.target.files[0].size/1024<1024){
+          console.log('file is below 2mb and image format is also acceptable');
+        }
+      }
+    
+  }
+
   render() {
     const { messages, isEmojiActive } = this.state;
     return (
@@ -159,6 +172,10 @@ class ChatRoom extends Component {
             </div>
             }
           </div>
+            {/* {<img alt='imageUplode'  src={emoji} onClick={()=>{this.imagePicker()}} />} */}
+            <div src={emoji}  className="emoji">
+            <input type="file" onChange={this.imagePicker} ></input></div>
+          
           <div className='message-input'>
             <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
