@@ -41,7 +41,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    user: state.user.userDetails
 });
 
 export default connect(mapStateToProps, null)(Header)
