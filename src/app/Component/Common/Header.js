@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import menu from '../../../assests/three-dots-vertical.svg';
 import Options from './Options';
 import Profile from './Profile';
+import { socketConnect } from '../../../service/socket';
 
 class Header extends Component {
     constructor(props) {
@@ -12,6 +13,10 @@ class Header extends Component {
             isShowOptions: false,
             isShowProfile: false
         }
+    }
+
+    componentDidMount(){
+        socketConnect(()=>{});
     }
 
     showProfile = () => {

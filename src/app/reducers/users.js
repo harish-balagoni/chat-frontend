@@ -1,4 +1,4 @@
-import { FETCH_USER } from "../actions/actions";
+import { CREATE_CLIENT, FETCH_USER } from "../actions/actions";
 import { USER_LOGIN } from "../actions/actions";
 import { SUBMIT_REGISTER } from "../actions/actions";
 import { LOG_OUT } from "../actions/actions";
@@ -37,6 +37,8 @@ const userReducer = (state = initialState, action) => {
         case LOG_OUT:
             console.log('log out');
             return initialState;
+        case CREATE_CLIENT:
+            return Object.assign({}, state, { client: action.payload });
         default: return state
     }
 

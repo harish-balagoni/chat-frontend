@@ -18,12 +18,11 @@ class ChatRoom extends Component {
       chatSettingDetails:false,
     }
     this.message = React.createRef();
-    console.log('[props', this.props.location);
   }
   socket = null;
   componentDidMount = () => {
     this.socket = getSocket();
-    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
     this.socket.on("messages", (data) => {
       this.setState({ messages: data.messages });
       console.log('massages came successfully', data);
@@ -46,7 +45,6 @@ class ChatRoom extends Component {
         this.setState({ isOponentTyping: data.typing });
       }
     });
-    console.log(this.props.location);
   }
 
   send = () => {
@@ -57,7 +55,7 @@ class ChatRoom extends Component {
       console.log('chat started', this.props.user);
       this.socket.emit("chat", {
         username: this.props.user.username,
-        client2: this.props.location.client2.username,
+        client2: this.props.client.username,
         message: this.message.current.value
       });
       this.message.current.value = '';
@@ -88,12 +86,12 @@ class ChatRoom extends Component {
   }
   sendTypingStartStatus = () => {
     console.log('type start');
-    this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   sendTypingEndStatus = () => {
     console.log('type end');
-    this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   handleEmoji = () => {
@@ -117,10 +115,9 @@ class ChatRoom extends Component {
     const { messages, isEmojiActive } = this.state;
     return (
       <div className='chat-room' >
-        <Header title={this.props.location.client2.username}/>
+        <Header title={this.props.clientusername}/>
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
-            console.log('hello', message, this.props.location);
             return (<div className='message-field' key={index}>
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
@@ -178,7 +175,8 @@ class ChatRoom extends Component {
 const mapStateToProps = (state) => (
   console.log('map state to props', state),
   {
-    user: state.user,
+    user: state.user.userDetails,
+    client: state.user.client,
     socket: state.socket
   }
 );
