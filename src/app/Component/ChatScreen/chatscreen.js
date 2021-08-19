@@ -26,7 +26,6 @@ class ChatScreen extends Component {
         this.getContacts();
     }
     getContacts = () => {
-        //https://ptchatindia.herokuapp.com/contacts
         console.log("data", this.props.user);
         axios
             .request({
@@ -46,7 +45,12 @@ class ChatScreen extends Component {
                         let details = [];
                         res.data.data.map((user) => {
                             if (user.username !== this.props.user.username) {
-                                details.push(user);
+                                {
+                                    user.messages.map((item, index) => {
+                                        console.log(item.message !== null)
+                                        details.push(user);
+                                    })
+                                }
                             }
                         });
                         this.setState({ Data: details });
@@ -91,8 +95,6 @@ class ChatScreen extends Component {
 
     render() {
         const { isLoading, Data } = this.state;
-        console.log(Data);
-
         return (
             <div className="entire-area">
                 <Header title="Conversations" />
