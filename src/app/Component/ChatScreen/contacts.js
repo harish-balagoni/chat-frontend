@@ -3,19 +3,21 @@ import "./chatscreen.css";
 import axios from "axios";
 import { connect } from "react-redux";
 import Header from "../Common/Header";
+import { loaderService } from '../../../service/loaderService';
+import { createClient } from '../../actions/actions';
 
 class Contacts extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Data: null,
-      isLoading: true,
       user: this.props.location.state && this.props.location.state.user,
       menu: false,
       settingDetails: false,
       conversationButton: false,
     };
     console.log(this.props, 'in contacts');
+    loaderService.show();
   }
   componentDidMount() {
     console.log(this.state.Data);
@@ -43,10 +45,12 @@ class Contacts extends Component {
             details.push(user);
           }
         });
-        this.setState({ Data: details, isLoading: false });
+        this.setState({ Data: details });
+        loaderService.hide();
       });
   };
   open = (user) => {
+    this.props.createClient(user);
     this.props.history.push({
       pathname: "/ChatRoom",
       client2: user
@@ -72,12 +76,9 @@ class Contacts extends Component {
   render() {
     const { isLoading, Data } = this.state;
     console.log(Data);
-    if (isLoading) {
-      return <div>Loding...</div>;
-    }
     return (
       <div className="entire-area">
-        <Header title="Contacts"/>
+        <Header title="Contacts" />
         <div>
           <div className="chats">
             {this.state.isEmpty && <div>No conversations found</div>}
@@ -109,8 +110,13 @@ class Contacts extends Component {
 const mapStateToProps = (state) => (
   console.log("state home page from redux in mapstatetoprops", state),
   {
-    user: state.user,
+    user: state.user.userDetails,
+    client: state.user.client
   }
 );
 
-export default connect(mapStateToProps, null)(Contacts);
+const mapDispatchToProps = (dispatch) => ({
+  createClient: (data) => dispatch(createClient(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

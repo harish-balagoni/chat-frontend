@@ -1,41 +1,44 @@
-import { FETCH_USER } from "../actions/actions";
+import { CREATE_CLIENT, FETCH_USER } from "../actions/actions";
 import { USER_LOGIN } from "../actions/actions";
 import { SUBMIT_REGISTER } from "../actions/actions";
 import { LOG_OUT } from "../actions/actions";
 
 
 const initialState = {
-    username: '',
-    email: '',
-    mobile: '',
-    profile: '',
-    token: ''
+    userDetails: {
+        username: '',
+        email: '',
+        mobile: '',
+        profile: '',
+        token: ''
+    },
+    client: null
 }
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'persist/REHYDRATE': {
             console.log(action, 'persist action');
-            if(action.payload && action.payload.user){
+            if (action.payload && action.payload.user) {
                 return action.payload.user;
-            }
-            else{
+            } else {
                 return initialState;
             }
         }
         case FETCH_USER:
             console.log("fetch user");
-
-            return action.user;
+            return Object.assign({}, state, { userDetails: action.user });
         case USER_LOGIN:
             console.log(" user login");
-            return action.data;
+            return Object.assign({}, state, { userDetails: action.data });
         case SUBMIT_REGISTER:
             console.log("user register");
-            return action.details;
+            return Object.assign({}, state, { userDetails: action.details });
         case LOG_OUT:
             console.log('log out');
             return initialState;
+        case CREATE_CLIENT:
+            return Object.assign({}, state, { client: action.payload });
         default: return state
     }
 

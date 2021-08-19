@@ -25,14 +25,10 @@
     font-size: 12px;
 }
 
-.loader{
-    height: 44px;
-    width: 60px;
-    background: #8a8787;
-    position: relative;
-    border-radius: 1rem;
-  }
+.typing{
   
+}
+
   .bounce {
   position: absolute;
   bottom: 15px;

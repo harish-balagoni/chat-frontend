@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Login.css';
-
 import { userLogin } from '../../actions/actions';
+import { loaderService } from '../../../service/loaderService';
 
 class Login extends Component {
     constructor(props) {
@@ -12,12 +12,15 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            failedLogin: false
+            failedLogin: false,
+            isLoading: false
         }
         this.username = React.createRef();
         this.password = React.createRef();
     }
-
+    componentDidMount() {
+        loaderService.hide();
+    }
     errors = {}
     checkValid = (type) => {
         if (type === 'username' || type === 'all') {
@@ -42,6 +45,7 @@ class Login extends Component {
     }
     checkLogin = () => {
         if (this.checkValid('all')) {
+            loaderService.show();
             axios.post("https://ptchatindia.herokuapp.com/login",
                 {
                     "username": this.username.current.value,
@@ -99,3 +103,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(Login);
+

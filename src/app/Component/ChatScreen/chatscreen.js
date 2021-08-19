@@ -3,27 +3,27 @@ import "./chatscreen.css";
 import Header from "../Common/Header";
 import axios from "axios";
 import { connect } from "react-redux";
-import { createSocket } from "../../actions/actions";
-import { socketConnect } from "../../../service/socket";
+import { createClient } from "../../actions/actions";
+import { loaderService } from "../../../service/loaderService";
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             Data: null,
-            isLoading: true,
             user: this.props.location.state && this.props.location.state.user,
             menu: false,
             settingDetails: false,
             isEmpty: false,
         };
         console.log(this.props);
+        loaderService.show();
     }
     componentDidMount() {
-        socketConnect((socket) => {
-            // this.props.createSocket(socket);
-            this.socket = socket;
-            this.getContacts();
-        });
+        // socketConnect((socket) => {
+        //     // this.props.createSocket(socket);
+        //     this.socket = socket;
+        // });
+        this.getContacts();
     }
     getContacts = () => {
         //https://ptchatindia.herokuapp.com/contacts
@@ -49,15 +49,18 @@ class ChatScreen extends Component {
                                 details.push(user);
                             }
                         });
-                        this.setState({ Data: details, isLoading: false });
+                        this.setState({ Data: details });
+                        loaderService.hide();
                     }
                     else {
-                        this.setState({ isEmpty: true, isLoading: false });
+                        this.setState({ isEmpty: true });
+                        loaderService.hide();
                     }
                 }
             });
     };
     open = (user) => {
+        this.props.createClient(user);
         this.props.history.push({
             pathname: "/ChatRoom",
             userDetails: this.props.user.username,
@@ -89,12 +92,10 @@ class ChatScreen extends Component {
     render() {
         const { isLoading, Data } = this.state;
         console.log(Data);
-        if (isLoading) {
-            return <div>Loading...</div>;
-        }
+
         return (
             <div className="entire-area">
-                <Header title="Conversations"/>
+                <Header title="Conversations" />
                 <div>
                     <div className="chats">
                         {this.state.isEmpty && <div>No conversations found</div>}
@@ -131,12 +132,13 @@ class ChatScreen extends Component {
 const mapStateToProps = (state) => (
     console.log("state home page from redux in mapstatetoprops", state),
     {
-        user: state.user,
+        user: state.user.userDetails,
+        client: state.user.client
     }
 );
 
 const mapDispatchToProps = (dispatch) => ({
-    createSocket: (socket) => dispatch(createSocket(socket))
+    createClient: (data) => dispatch(createClient(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);
