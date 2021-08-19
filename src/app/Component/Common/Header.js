@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import menu from '../../../assests/three-dots-vertical.svg';
 import Options from './Options';
 import Profile from './Profile';
+import { socketConnect } from '../../../service/socket';
+import ReactNotifications, { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 class Header extends Component {
     constructor(props) {
@@ -12,6 +15,36 @@ class Header extends Component {
             isShowOptions: false,
             isShowProfile: false
         }
+    }
+
+    componentDidMount() {
+
+        console.log("componentdidmount eader rendered", Math.random());
+        socketConnect((socket) => {
+            this.socket= socket;
+            this.socket.emit("notifications", { username: this.props.user.username });
+            this.socket.on( "notification",this.onNotification );
+        });
+    }
+
+componentWillUnmount=()=>{
+    this.socket.off( "notification",this.onNotification );
+}
+
+    onNotification=(data)=>{
+        console.log(data, "got notifications");
+        store.addNotification({
+            title: data.username,
+            message: data.message,
+            type: 'default',
+            container: 'top-right',
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+                duration: 2000,
+                onScreen: true
+            }
+        });
     }
 
     showProfile = () => {
@@ -35,6 +68,7 @@ class Header extends Component {
                 {this.state.isShowOptions && <Options showProfile={this.showProfile}
                     onClose={() => { this.setState({ isShowOptions: false }) }} />}
                 {this.state.isShowProfile && <Profile />}
+                <ReactNotifications />
             </div>
         )
     }

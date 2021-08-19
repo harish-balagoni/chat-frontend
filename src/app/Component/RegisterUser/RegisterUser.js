@@ -124,7 +124,7 @@ class Registration extends Component {
                     </div>
                     <div className='login-input'>
                         <label>Mobile</label>
-                        <input type='text' name='username' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' />
+                        <input type='text' name='username' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' maxLength="10"/>
                         <div className='error-msg'>{this.errors.mobile}</div>
                     </div>
                     <div className='login-input'>

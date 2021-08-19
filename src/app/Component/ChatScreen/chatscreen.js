@@ -3,8 +3,7 @@ import "./chatscreen.css";
 import Header from "../Common/Header";
 import axios from "axios";
 import { connect } from "react-redux";
-import { createSocket } from "../../actions/actions";
-import { socketConnect } from "../../../service/socket";
+import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
 class ChatScreen extends Component {
     constructor(props) {
@@ -20,11 +19,11 @@ class ChatScreen extends Component {
         loaderService.show();
     }
     componentDidMount() {
-        socketConnect((socket) => {
-            // this.props.createSocket(socket);
-            this.socket = socket;
-            this.getContacts();
-        });
+        // socketConnect((socket) => {
+        //     // this.props.createSocket(socket);
+        //     this.socket = socket;
+        // });
+        this.getContacts();
     }
     getContacts = () => {
         console.log("data", this.props.user);
@@ -60,6 +59,7 @@ class ChatScreen extends Component {
             });
     };
     open = (user) => {
+        this.props.createClient(user);
         this.props.history.push({
             pathname: "/ChatRoom",
             userDetails: this.props.user.username,
@@ -132,11 +132,12 @@ const mapStateToProps = (state) => (
     console.log("state home page from redux in mapstatetoprops", state),
     {
         user: state.user.userDetails,
+        client: state.user.client
     }
 );
 
 const mapDispatchToProps = (dispatch) => ({
-    createSocket: (socket) => dispatch(createSocket(socket))
+    createClient: (data) => dispatch(createClient(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);

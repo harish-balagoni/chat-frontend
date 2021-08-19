@@ -18,35 +18,40 @@ class ChatRoom extends Component {
       chatSettingDetails:false,
     }
     this.message = React.createRef();
-    console.log('[props', this.props.location);
   }
   socket = null;
   componentDidMount = () => {
     this.socket = getSocket();
-    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.location.client2.username });
-    this.socket.on("messages", (data) => {
-      this.setState({ messages: data.messages });
-      console.log('massages came successfully', data);
-    });
-    this.socket.on("message", (data) => {
-      let messages = this.state.messages;
+    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
+    this.socket.once("messages", this.onMessages);
+    this.socket.on("message", this.onMessage);
+    this.socket.on("typing-start",this.onTyping);
+    this.socket.on("typing-end", this.onTyping);
+  }
+
+  componentWillUnmount(){
+    this.socket.off('message', this.onMessage);
+    this.socket.off('messages', this.onMessages);
+    this.socket.off("typing-start",this.onTyping);
+    this.socket.off("typing-end", this.onTyping);
+  }
+
+  onTyping = (data) =>{
+    if (this.props.user.username !== data.username) {
+      this.setState({ isOponentTyping: data.typing });
+    }
+  }
+
+  onMessage = (data) => {
+    let messages = this.state.messages;
       messages.push(data);
-      console.log('msg came successfully', data);
       this.previousDate=null;
       this.setState({ messages: messages });
-    });
-    this.socket.on("typing-start", (data) => {
-      if (this.props.user.username !== data.username) {
-        this.setState({ isOponentTyping: data.typing });
-      }
+  }
 
-    });
-    this.socket.on("typing-end", (data) => {
-      if (this.props.user.username !== data.username) {
-        this.setState({ isOponentTyping: data.typing });
-      }
-    });
-    console.log(this.props.location);
+  onMessages = (data) =>{
+    this.setState({ messages: data.messages });
+      this.socket.off("messages",true);
   }
 
   send = () => {
@@ -57,7 +62,7 @@ class ChatRoom extends Component {
       console.log('chat started', this.props.user);
       this.socket.emit("chat", {
         username: this.props.user.username,
-        client2: this.props.location.client2.username,
+        client2: this.props.client.username,
         message: this.message.current.value
       });
       this.message.current.value = '';
@@ -88,12 +93,12 @@ class ChatRoom extends Component {
   }
   sendTypingStartStatus = () => {
     console.log('type start');
-    this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   sendTypingEndStatus = () => {
     console.log('type end');
-    this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.location.client2.username });
+    this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   handleEmoji = () => {
@@ -117,10 +122,9 @@ class ChatRoom extends Component {
     const { messages, isEmojiActive } = this.state;
     return (
       <div className='chat-room' >
-        <Header title={this.props.location.client2.username}/>
+        <Header title={this.props.client.username}/>
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
-            console.log('hello', message, this.props.location);
             return (<div className='message-field' key={index}>
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
@@ -136,12 +140,13 @@ class ChatRoom extends Component {
             </div>)
           })}
           {this.state.isOponentTyping &&
-            <div class="loader">
-              <div class="bounce">
+            <div className="typing">
+              <div className="bounce">
               </div>
-              <div class="bounce1">
+              <div className="bounce1">
               </div>
-            
+              <div className="bounce2">
+              </div>
           </div>}
         </div>
         <div className='footer'>
@@ -178,7 +183,8 @@ class ChatRoom extends Component {
 const mapStateToProps = (state) => (
   console.log('map state to props', state),
   {
-    user: state.user,
+    user: state.user.userDetails,
+    client: state.user.client,
     socket: state.socket
   }
 );
