@@ -3,6 +3,7 @@ import './RegisterUser.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ProfileUploader from '../ProfileUploader';
 
 import { submitRegister } from '../../actions/actions';
 
@@ -127,6 +128,10 @@ class Registration extends Component {
                         <div className='error-msg'>{this.errors.cpassword}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
+                    <div>
+                       <ProfileUploader />
+                    </div>
+
                     <div className='login-submit'>
                         <button className='login-button' onClick={this.submit}>Submit</button>
                     </div>
