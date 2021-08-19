@@ -27,7 +27,6 @@ class ChatScreen extends Component {
         });
     }
     getContacts = () => {
-        //https://ptchatindia.herokuapp.com/contacts
         console.log("data", this.props.user);
         axios
             .request({

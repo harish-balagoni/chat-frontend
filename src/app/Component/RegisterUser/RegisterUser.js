@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './RegisterUser.css';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loaderService } from '../../../service/loaderService';
-
-import { submitRegister } from '../../actions/actions';
+import {loaderService} from '../../../service/loaderService';
+import {axiosInstance} from '../../../axios/axiosInstance';
+import {submitRegister} from '../../actions/actions';
 
 class Registration extends Component {
     constructor(props) {
@@ -29,15 +28,20 @@ class Registration extends Component {
 
     submit = () => {
         if (this.validationForm("all")) {
+            console.log("inside validation");
             loaderService.show();
+            console.log("inside loader");
             let details = {
+
                 username: this.username.current.value,
                 email: this.email.current.value,
                 mobile: this.mobile.current.value,
                 password: this.password.current.value
             };
-            axios.post("https://ptchatindia.herokuapp.com/register", details)
-                .then(res => {
+            // https://ptchatindia.herokuapp.com/register
+            // axios.post("/register", details)
+            axiosInstance.post(details,'/register').then(res => {
+                console.log("registration",res);
                     if (res.status === 200) {
                         this.props.submitRegister(res.data.data);
                         this.props.history.push({
@@ -50,6 +54,7 @@ class Registration extends Component {
 
     errors = {};
     validationForm(type) {
+       // console.log(axiosInstance);
         if (type === "all" || type === "username") {
             if (!this.username.current.value) {
                 console.log('username not valid');
@@ -141,53 +146,8 @@ class Registration extends Component {
                     </div>
                 </div>
             </div>
-            // <div className='container'>
-            //     <div className='container__body'>
-            //         <div className='content_container'>
-            //             <div className='form_conatiner'>
-            //              <div><h3 style={{color:'FFFFFFBF'}}>Create User</h3></div>
-
-            //         <div className='form-group'>
-            //             <input className='form-control' type='username' ref={this.username}
-            //                 onBlur={this.validationForm.bind(this, 'username')} placeholder="Enter Name" />
-            //         </div>
-            //         <div><p>{this.errors.username}</p></div>
-            //         <div className='form-group'>
-            //             <input className='form-control' type='email' ref={this.email} onBlur={this.validationForm.bind(this, 'email')} placeholder="Email" ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF' }}>
-            //             {this.errors.email}
-            //         </div>
-            //         <div className='form-group'>
-            //             <input className='form-control' type='number' placeholder="Enter Mobile Number" ref={this.mobile} onBlur={this.validationForm.bind(this, 'number')} ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF' }}>
-            //             {this.errors.mobile}
-            //         </div>
-            //         <div className='form-group'>
-            //                 <input className='form-control' type='password' placeholder="Enter Password" ref={this.password} onBlur={this.validationForm.bind(this, 'password')} ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF'}}>
-            //             {this.errors.password}
-            //         </div>
-            //         <div className='form-group'>
-            //                 <input className='form-control' type='password' name='cpassword' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF' }}>
-            //             {this.errors.cpassword}
-            //         </div>
-
-            //         <div className='btn' >
-            //         <button style={{ backgroundColor: '#408bff',
-            //         color: 'white',height: '37px', width: '301px', borderRadius: '25px'}}
-            //         onClick={this.submit} type='button'>
-            //         Submit</button>
-            //         </div>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </div>
-        );
+            
+            );
     }
 }
 
