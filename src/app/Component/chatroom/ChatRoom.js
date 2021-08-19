@@ -23,28 +23,35 @@ class ChatRoom extends Component {
   componentDidMount = () => {
     this.socket = getSocket();
     this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
-    this.socket.on("messages", (data) => {
-      this.setState({ messages: data.messages });
-      console.log('massages came successfully', data);
-    });
-    this.socket.on("message", (data) => {
-      let messages = this.state.messages;
+    this.socket.once("messages", this.onMessages);
+    this.socket.on("message", this.onMessage);
+    this.socket.on("typing-start",this.onTyping);
+    this.socket.on("typing-end", this.onTyping);
+  }
+
+  componentWillUnmount(){
+    this.socket.off('message', this.onMessage);
+    this.socket.off('messages', this.onMessages);
+    this.socket.off("typing-start",this.onTyping);
+    this.socket.off("typing-end", this.onTyping);
+  }
+
+  onTyping = (data) =>{
+    if (this.props.user.username !== data.username) {
+      this.setState({ isOponentTyping: data.typing });
+    }
+  }
+
+  onMessage = (data) => {
+    let messages = this.state.messages;
       messages.push(data);
-      console.log('msg came successfully', data);
       this.previousDate=null;
       this.setState({ messages: messages });
-    });
-    this.socket.on("typing-start", (data) => {
-      if (this.props.user.username !== data.username) {
-        this.setState({ isOponentTyping: data.typing });
-      }
+  }
 
-    });
-    this.socket.on("typing-end", (data) => {
-      if (this.props.user.username !== data.username) {
-        this.setState({ isOponentTyping: data.typing });
-      }
-    });
+  onMessages = (data) =>{
+    this.setState({ messages: data.messages });
+      this.socket.off("messages",true);
   }
 
   send = () => {
@@ -76,7 +83,7 @@ class ChatRoom extends Component {
     let date = new Date(timestamp * 1000);
     if(!this.previousDate){
       this.previousDate = date;
-      return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth(+1))+"/"+date.getFullYear()}</div>);
+      return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</div>);
     }
     else{
       if(this.previousDate.getDate() < date.getDate())
@@ -128,7 +135,7 @@ class ChatRoom extends Component {
     const { messages, isEmojiActive } = this.state;
     return (
       <div className='chat-room' >
-        <Header title={this.props.clientusername}/>
+        <Header title={this.props.client.username}/>
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
             return (<div className='message-field' key={index}>
@@ -146,12 +153,13 @@ class ChatRoom extends Component {
             </div>)
           })}
           {this.state.isOponentTyping &&
-            <div class="loader">
-              <div class="bounce">
+            <div className="typing">
+              <div className="bounce">
               </div>
-              <div class="bounce1">
+              <div className="bounce1">
               </div>
-            
+              <div className="bounce2">
+              </div>
           </div>}
         </div>
         <div className='footer'>

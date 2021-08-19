@@ -3,7 +3,7 @@ import "./chatscreen.css";
 import axios from "axios";
 import { connect } from "react-redux";
 import Header from "../Common/Header";
-import {loaderService} from '../../../service/loaderService';
+import { loaderService } from '../../../service/loaderService';
 import { createClient } from '../../actions/actions';
 
 class Contacts extends Component {
@@ -45,7 +45,7 @@ class Contacts extends Component {
             details.push(user);
           }
         });
-        this.setState({ Data: details});
+        this.setState({ Data: details });
         loaderService.hide();
       });
   };
@@ -78,7 +78,7 @@ class Contacts extends Component {
     console.log(Data);
     return (
       <div className="entire-area">
-        <Header title="Contacts"/>
+        <Header title="Contacts" />
         <div>
           <div className="chats">
             {this.state.isEmpty && <div>No conversations found</div>}
