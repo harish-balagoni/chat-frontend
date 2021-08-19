@@ -83,7 +83,7 @@ class ChatRoom extends Component {
     let date = new Date(timestamp * 1000);
     if(!this.previousDate){
       this.previousDate = date;
-      return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth(+1))+"/"+date.getFullYear()}</div>);
+      return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</div>);
     }
     else{
       if(this.previousDate.getDate() < date.getDate())
@@ -122,7 +122,7 @@ class ChatRoom extends Component {
     const { messages, isEmojiActive } = this.state;
     return (
       <div className='chat-room' >
-        <Header title={this.props.clientusername}/>
+        <Header title={this.props.client.username}/>
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
             return (<div className='message-field' key={index}>
