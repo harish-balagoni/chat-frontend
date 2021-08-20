@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import { userLogin } from '../../actions/actions';
 import { loaderService } from '../../../service/loaderService';
-import { axiosInstance } from '../../../axios/axiosInstance';
 
 class Login extends Component {
     constructor(props) {
@@ -46,21 +45,19 @@ class Login extends Component {
     }
     checkLogin = () => {
         if (this.checkValid('all')) {
-            // loaderService.show();
+            loaderService.show();
             let details = {
                 username: this.username.current.value,
                 password: this.password.current.value
             };
-           
-            // axios.post("https://ptchatindia.herokuapp.com/login",
-            //     {
-            //         "username": this.username.current.value,
-            //         "password": this.password.current.value
-            //     })
-            axiosInstance.post(details,'/login').then(res => {
+
+            axios.post("https://ptchatindia.herokuapp.com/login",
+                {
+                    "username": this.username.current.value,
+                    "password": this.password.current.value
+                }).then(res => {
                     console.log(res.data);
                     if (res.status === 200) {
-                        loaderService.show();
                         this.props.userLogin(res.data.data);
                         this.props.history.push({
                             pathname: '/chats'

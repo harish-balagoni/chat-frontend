@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
-import { axiosInstance } from "../../../axios/axiosInstance";
+
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +24,6 @@ class ChatScreen extends Component {
     }
     getContacts = () => {
         console.log("data", this.props.user);
-        // axiosInstance.getHeaders('/conversations',this.props.user.token)
         axios
             .request({
                 method: "POST",
@@ -34,7 +33,7 @@ class ChatScreen extends Component {
                 },
                 data: {
                     username: this.props.user.username,
-                    is_archive:0
+                    is_archive: 0
                 },
             }).then((res) => {
                 console.log("response", res.data);
@@ -115,7 +114,7 @@ class ChatScreen extends Component {
     }
 
     render() {
-        const {Data } = this.state;
+        const { Data } = this.state;
         console.log(Data);
 
         return (

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './RegisterUser.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {loaderService} from '../../../service/loaderService';
-import {axiosInstance} from '../../../axios/axiosInstance';
-import {submitRegister} from '../../actions/actions';
+import axios from 'axios';
+import { loaderService } from '../../../service/loaderService';
+import { submitRegister } from '../../actions/actions';
 import ProfileUploader from '../ProfileUploader';
 
 class Registration extends Component {
@@ -39,23 +39,21 @@ class Registration extends Component {
                 mobile: this.mobile.current.value,
                 password: this.password.current.value
             };
-            // https://ptchatindia.herokuapp.com/register
-            // axios.post("/register", details)
-            axiosInstance.post(details).then(res => {
-                console.log("registration",res);
-                    if (res.status === 200) {
-                        this.props.submitRegister(res.data.data);
-                        this.props.history.push({
-                            pathname: '/chats'
-                        })
-                    }
-                }).catch(error => console.log(error));
+
+            axios.post("https://ptchatindia.herokuapp.com/register", details).then(res => {
+                console.log("registration", res);
+                if (res.status === 200) {
+                    this.props.submitRegister(res.data.data);
+                    this.props.history.push({
+                        pathname: '/chats'
+                    })
+                }
+            }).catch(error => console.log(error));
         }
     }
 
     errors = {};
     validationForm(type) {
-       // console.log(axiosInstance);
         if (type === "all" || type === "username") {
             if (!this.username.current.value) {
                 console.log('username not valid');
@@ -125,7 +123,7 @@ class Registration extends Component {
                     </div>
                     <div className='login-input'>
                         <label>Mobile</label>
-                        <input type='text' name='username' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' maxLength="10"/>
+                        <input type='text' name='username' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' maxLength="10" />
                         <div className='error-msg'>{this.errors.mobile}</div>
                     </div>
                     <div className='login-input'>
@@ -140,7 +138,7 @@ class Registration extends Component {
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div>
-                       <ProfileUploader />
+                        <ProfileUploader />
                     </div>
 
                     <div className='login-submit'>
@@ -151,8 +149,8 @@ class Registration extends Component {
                     </div>
                 </div>
             </div>
-            
-            );
+
+        );
     }
 }
 
