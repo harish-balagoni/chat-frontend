@@ -5,6 +5,9 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
+import { socketConnect } from '../../../service/socket';
+import 'react-notifications-component/dist/theme.css';
+
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
@@ -15,16 +18,27 @@ class ChatScreen extends Component {
             settingDetails: false,
             isEmpty: false,
         };
+        this.Count = 0;
         console.log(this.props);
         loaderService.show();
     }
     componentDidMount() {
-        // socketConnect((socket) => {
-        //     // this.props.createSocket(socket);
-        //     this.socket = socket;
-        // });
+        this.getContacts();
+        socketConnect((socket) => {
+            this.socket = socket;
+            this.socket.emit("notifications", { username: this.props.user.username });
+            this.socket.on("notification", this.onNotification);
+        });
+    }
+
+    componentWillUnmount = () => {
+        this.socket.off("notification", this.onNotification);
+    }
+
+    onNotification = () => {
         this.getContacts();
     }
+
     getContacts = () => {
         //https://ptchatindia.herokuapp.com/contacts
         console.log("data", this.props.user);
@@ -37,7 +51,7 @@ class ChatScreen extends Component {
                 },
                 data: {
                     username: this.props.user.username,
-                    is_archive: 0,
+                    is_archive: 0
                 },
             })
             .then((res) => {
@@ -46,6 +60,15 @@ class ChatScreen extends Component {
                     if (res.data.data && res.data.data.length) {
                         let details = [];
                         res.data.data.map((user) => {
+                            let count = 0;
+                            user.messages.map((msg) => {
+                                if (this.props.user.username != msg.username) {
+                                    if (msg.readStatus === 0) {
+                                        count++;
+                                    }
+                                    user['count'] = count;
+                                }
+                            })
                             if (user.username !== this.props.user.username) {
                                 details.push(user);
                             }
@@ -84,44 +107,15 @@ class ChatScreen extends Component {
     }
 
     getTimeByTimestamp = (timestamp) => {
-        console.log("Timestamp", timestamp);
         let date = new Date(timestamp * 1000);
         let ampm = date.getHours() >= 12 ? 'pm' : 'am';
         let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
         return hours + ":" + date.getMinutes() + ampm;
     }
 
-    getDurationByTimestamp = (timestamp) => {
-        /*
-        random time stamps
-        1629012012 --- 15/08/2021 4 days ago
-        1628302023 --- 7/8/21 1 week
-        1618471212 --- 15/04/21 4 months
-        1587262023 --- 19/04/20  1 year
-         */
-
-        let date = new Date(timestamp * 1000);
-        let days = (new Date() - new Date(date.getFullYear(), date.getMonth(), date.getDate())) / (1000 * 60 * 60 * 24);
-        days = Math.floor(days);
-        let weeks = Math.floor(days / 7);
-        let months = Math.floor(days / 30);
-        let years = Math.floor(days / 365);
-        console.log(days);
-        if (days === 0) return 'Today';
-        else if (days === 1) return 'Yesterday';
-        else if (days < 8) return (days + ' days' + ' ago');
-        else if (weeks === 1) return (weeks + ' week' + ' ago');
-        else if (weeks < 6) return (weeks + ' weeks' + ' ago');
-        else if (months === 1) return (months + ' month' + ' ago');
-        else if (months < 13) return (months + ' months' + ' ago');
-        else if (years === 1) return (years + ' year' + ' ago')
-        else return (years + ' years' + ' ago');
-    }
-
     render() {
         const { isLoading, Data } = this.state;
         console.log(Data);
-
         return (
             <div className="entire-area">
                 <Header title="Conversations" />
@@ -133,6 +127,7 @@ class ChatScreen extends Component {
                                 <div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
+
                                     <div className="profile-img">
                                         <img src={user.client.profile} className="image"></img>
                                     </div>
@@ -142,7 +137,13 @@ class ChatScreen extends Component {
                                         </div>
                                         <p>{user.latest.message}</p>
                                     </div>
-                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
+                                    <div className="profile-right">
+                                        <div className="profile-time">
+                                            {this.getTimeByTimestamp(user.latest.timestamp)}</div>
+                                        {user['count'] > 0 && <div className='unread-msg'>
+                                            {user['count']}
+                                        </div>}
+                                    </div>
                                 </div>
                             );
                         })}
