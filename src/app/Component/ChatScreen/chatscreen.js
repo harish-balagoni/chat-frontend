@@ -26,7 +26,6 @@ class ChatScreen extends Component {
         this.getContacts();
     }
     getContacts = () => {
-        //https://ptchatindia.herokuapp.com/contacts
         console.log("data", this.props.user);
         axios
             .request({
@@ -37,7 +36,7 @@ class ChatScreen extends Component {
                 },
                 data: {
                     username: this.props.user.username,
-                    is_archive: 0,
+                    is_archive: 0
                 },
             })
             .then((res) => {
@@ -62,6 +61,8 @@ class ChatScreen extends Component {
     };
     open = (user) => {
         this.props.createClient(user);
+
+        console.log(user)
         this.props.history.push({
             pathname: "/ChatRoom",
             userDetails: this.props.user.username,
@@ -120,8 +121,6 @@ class ChatScreen extends Component {
 
     render() {
         const { isLoading, Data } = this.state;
-        console.log(Data);
-
         return (
             <div className="entire-area">
                 <Header title="Conversations" />
@@ -130,6 +129,7 @@ class ChatScreen extends Component {
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
+                                user.messages && !!user.messages.length &&
                                 <div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
