@@ -120,6 +120,7 @@ class ChatRoom extends Component {
 
   render() {
     const { messages, isEmojiActive } = this.state;
+
     return (
       <div className='chat-room' >
         <Header title={this.props.client.username} />

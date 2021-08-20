@@ -37,6 +37,7 @@ class ChatScreen extends Component {
                 },
                 data: {
                     username: this.props.user.username,
+                    is_archive: 0,
                 },
             })
             .then((res) => {

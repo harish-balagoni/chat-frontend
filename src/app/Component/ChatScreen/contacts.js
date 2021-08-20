@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component} from "react";
 import "./chatscreen.css";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -24,7 +24,6 @@ class Contacts extends Component {
     this.getContacts();
   }
   getContacts = () => {
-    //https://ptchatindia.herokuapp.com/contacts
     axios
       .request({
         method: "POST",
@@ -55,6 +54,7 @@ class Contacts extends Component {
       pathname: "/ChatRoom",
       client2: user
     });
+      
   };
 
   settings = () => {
@@ -111,12 +111,10 @@ const mapStateToProps = (state) => (
   console.log("state home page from redux in mapstatetoprops", state),
   {
     user: state.user.userDetails,
-    client: state.user.client
+    client:state.user.client
   }
 );
-
 const mapDispatchToProps = (dispatch) => ({
   createClient: (data) => dispatch(createClient(data))
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+export default connect(mapStateToProps,mapDispatchToProps)(Contacts);
