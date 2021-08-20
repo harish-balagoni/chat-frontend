@@ -14,8 +14,8 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
-      chatMenu:false,
-      chatSettingDetails:false,
+      chatMenu: false,
+      chatSettingDetails: false,
     }
     this.message = React.createRef();
   }
@@ -31,7 +31,7 @@ class ChatRoom extends Component {
       let messages = this.state.messages;
       messages.push(data);
       console.log('msg came successfully', data);
-      this.previousDate=null;
+      this.previousDate = null;
       this.setState({ messages: messages });
     });
     this.socket.on("typing-start", (data) => {
@@ -48,8 +48,8 @@ class ChatRoom extends Component {
   }
 
   send = () => {
-    if(this.state.isEmojiActive){
-      this.setState({ isEmojiActive: false});
+    if (this.state.isEmojiActive) {
+      this.setState({ isEmojiActive: false });
     }
     if (this.message.current.value) {
       console.log('chat started', this.props.user);
@@ -68,19 +68,19 @@ class ChatRoom extends Component {
   getTimeByTimestamp = (timestamp) => {
     let date = new Date(timestamp * 1000);
     let ampm = date.getHours() >= 12 ? 'pm' : 'am';
-    let hours =  date.getHours() >= 12 ? date.getHours()-12 : date.getHours(); 
+    let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
     return hours + ":" + date.getMinutes() + ampm;
   }
-  previousDate=null;
-  getDateByTimestamp=(timestamp)=>{
+  previousDate = null;
+  getDateByTimestamp = (timestamp) => {
     let date = new Date(timestamp * 1000);
-    if(!this.previousDate){
+    if (!this.previousDate) {
       this.previousDate = date;
-      return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</div>);
+      return (<div className="chatroom-date">{date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()}</div>);
     }
-    else{
-      if(this.previousDate.getDate() < date.getDate())
-       return(<div className="chatroom-date">{date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()}</div>);
+    else {
+      if (this.previousDate.getDate() < date.getDate())
+        return (<div className="chatroom-date">{date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()}</div>);
     }
 
   }
@@ -98,24 +98,25 @@ class ChatRoom extends Component {
     this.setState({ isEmojiActive: !this.state.isEmojiActive });
   }
 
-  
-  chatSettings=()=>{
-    this.setState({chatMenu:true})
+
+  chatSettings = () => {
+    this.setState({ chatMenu: true })
   }
 
-  chatSettingDetails=()=>{
-    this.setState({chatSettingDetails:true})
+  chatSettingDetails = () => {
+    this.setState({ chatSettingDetails: true })
   }
-  
-  chatCancel=()=>{
-    this.setState({chatMenu:false,chatSettingDetails:false})
+
+  chatCancel = () => {
+    this.setState({ chatMenu: false, chatSettingDetails: false })
   }
 
   render() {
     const { messages, isEmojiActive } = this.state;
+
     return (
       <div className='chat-room' >
-        <Header title={this.props.client.username}/>
+        <Header title={this.props.client.username} />
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
             return (<div className='message-field' key={index}>
@@ -138,25 +139,25 @@ class ChatRoom extends Component {
               </div>
               <div class="bounce1">
               </div>
-            
-          </div>}
+
+            </div>}
         </div>
         <div className='footer'>
           <div className="emoji">
             {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
             {isEmojiActive &&
-            <div className="emoji-holder">
-              <Picker
-                onEmojiClick={(obj, data)=>{
-                  this.message.current.value = this.message.current.value + data.emoji;
-                }}
-                disableAutoFocus={true}
-                skinTone={SKIN_TONE_MEDIUM_DARK}
-                groupNames={{ smileys_people: 'PEOPLE' }}
-                pickerStyle={{'boxShadow': 'none'}}
-                native
-              />
-            </div>
+              <div className="emoji-holder">
+                <Picker
+                  onEmojiClick={(obj, data) => {
+                    this.message.current.value = this.message.current.value + data.emoji;
+                  }}
+                  disableAutoFocus={true}
+                  skinTone={SKIN_TONE_MEDIUM_DARK}
+                  groupNames={{ smileys_people: 'PEOPLE' }}
+                  pickerStyle={{ 'boxShadow': 'none' }}
+                  native
+                />
+              </div>
             }
           </div>
           <div className='message-input'>
