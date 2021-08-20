@@ -25,7 +25,7 @@ class ChatRoom extends Component {
   componentDidMount = () => {
     this.socket = getSocket();
     this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
-    this.socket.once("messages", this.onMessages);
+    this.socket.on("messages", this.onMessages);
     this.socket.on("message", this.onMessage);
     this.socket.on("typing-start", this.onTyping);
     this.socket.on("typing-end", this.onTyping);
@@ -57,11 +57,10 @@ class ChatRoom extends Component {
       if (msg.readStatus === 0 && this.props.user.username !== msg.username)
         return msg.id;
     });
-    console.log(msgIds)
-    console.log(data)
-    this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
+    if(msgIds && msgIds.length){
+      this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
+    }
     this.setState({ messages: data.messages });
-    this.socket.off("messages", true);
   }
 
   send = () => {
