@@ -46,7 +46,7 @@ class Login extends Component {
     }
     checkLogin = () => {
         if (this.checkValid('all')) {
-            loaderService.show();
+            // loaderService.show();
             let details = {
                 username: this.username.current.value,
                 password: this.password.current.value
@@ -60,16 +60,19 @@ class Login extends Component {
             axiosInstance.post(details,'/login').then(res => {
                     console.log(res.data);
                     if (res.status === 200) {
+                        loaderService.show();
                         this.props.userLogin(res.data.data);
                         this.props.history.push({
                             pathname: '/chats'
                         });
                     } else {
                         this.setState({ failedLogin: !this.failedLogin });
+                        loaderService.hide();
                     }
                 }).catch((err) => {
                     console.log('errors', err.message);
                     this.setState({ failedLogin: !this.failedLogin });
+                    loaderService.hide();
                 });
         }
     }

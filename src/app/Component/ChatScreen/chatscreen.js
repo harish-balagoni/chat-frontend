@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import "./chatscreen.css";
 import Header from "../Common/Header";
-import axios from "axios";
 import { connect } from "react-redux";
+import axios from 'axios';
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
+import { axiosInstance } from "../../../axios/axiosInstance";
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
@@ -19,14 +20,11 @@ class ChatScreen extends Component {
         loaderService.show();
     }
     componentDidMount() {
-        // socketConnect((socket) => {
-        //     // this.props.createSocket(socket);
-        //     this.socket = socket;
-        // });
         this.getContacts();
     }
     getContacts = () => {
         console.log("data", this.props.user);
+        // axiosInstance.getHeaders('/conversations',this.props.user.token)
         axios
             .request({
                 method: "POST",
@@ -36,9 +34,9 @@ class ChatScreen extends Component {
                 },
                 data: {
                     username: this.props.user.username,
+                    is_archive:0
                 },
-            })
-            .then((res) => {
+            }).then((res) => {
                 console.log("response", res.data);
                 if (res.status === 200) {
                     if (res.data.data && res.data.data.length) {
@@ -117,7 +115,7 @@ class ChatScreen extends Component {
     }
 
     render() {
-        const { isLoading, Data } = this.state;
+        const {Data } = this.state;
         console.log(Data);
 
         return (

@@ -1,25 +1,34 @@
 import axios from "axios";
-
-class AxiosInstance {
-    constructor() {
-
-    }
+import { connect } from 'react-redux';
+//https://ptchatindia.herokuapp.com
+class Axiosinstance {
+    
+    
+        BaseDomain = {
+            BASE_URL: process.env.React_App_Base_URL 
+        }
+      //  headers=this.props.user.token
+    
     get() {
     }
-    put() {
-
-    }
-    post(details, api) {
-        return axios.post("https://ptchatindia.herokuapp.com" + api, details)
+    put()
+    {}
+    post=(details)=>{
+        
+        this.url= this.BaseDomain.BASE_URL 
+        return axios.post(this.url,details);
     }
     delete() {
 
     }
-    getHeaders(token, api) {
-        return (
-            axios.get("https://ptchatindia.herokuapp.com" + api,token))
-            // axios.defaults.headers.post['authorization'] = token
+    getHeaders() {
+        
     }
-
 }
-export const axiosInstance = new AxiosInstance();
+const mapStateToProps = (state) => (
+    console.log("state home page from redux in mapstatetoprops", state),
+    {
+        user: state.user.userDetails,
+    }
+);
+export const axiosInstance = (new Axiosinstance());

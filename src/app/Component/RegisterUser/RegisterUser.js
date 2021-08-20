@@ -7,9 +7,6 @@ import {axiosInstance} from '../../../axios/axiosInstance';
 import {submitRegister} from '../../actions/actions';
 import ProfileUploader from '../ProfileUploader';
 
-
-import { submitRegister } from '../../actions/actions';
-
 class Registration extends Component {
     constructor(props) {
         super(props);
@@ -44,7 +41,7 @@ class Registration extends Component {
             };
             // https://ptchatindia.herokuapp.com/register
             // axios.post("/register", details)
-            axiosInstance.post(details,'/register').then(res => {
+            axiosInstance.post(details).then(res => {
                 console.log("registration",res);
                     if (res.status === 200) {
                         this.props.submitRegister(res.data.data);
