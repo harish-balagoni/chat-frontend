@@ -111,7 +111,10 @@ const mapStateToProps = (state) => (
   console.log("state home page from redux in mapstatetoprops", state),
   {
     user: state.user.userDetails,
+    client:state.user.client
   }
 );
-
-export default connect(mapStateToProps, null)(Contacts);
+const mapDispatchToProps = (dispatch) => ({
+  createClient: (data) => dispatch(createClient(data))
+});
+export default connect(mapStateToProps,mapDispatchToProps)(Contacts);
