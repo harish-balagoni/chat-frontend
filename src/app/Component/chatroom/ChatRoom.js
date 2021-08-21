@@ -7,6 +7,7 @@ import emoji from './../../../assests/emoji.png';
 import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 import Header from '../Common/Header';
+import { setStarMessages, delStarMessages } from '../../actions/actions';
 
 class ChatRoom extends Component {
   constructor(props) {
@@ -48,6 +49,11 @@ class ChatRoom extends Component {
     this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: [data.id] })
     let messages = this.state.messages;
     messages.push(data);
+    // messages = messages.map((message) => ({
+    //   ...message,
+    //   showMsgOptions: false,
+    //   isStar: false
+    // }))
     this.previousDate = null;
     this.setState({ messages: messages });
   }
@@ -57,7 +63,7 @@ class ChatRoom extends Component {
       if (msg.readStatus === 0 && this.props.user.username !== msg.username)
         return msg.id;
     });
-    if(msgIds && msgIds.length){
+    if (msgIds && msgIds.length) {
       this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
     }
     this.setState({ messages: data.messages });
@@ -72,7 +78,9 @@ class ChatRoom extends Component {
       this.socket.emit("chat", {
         username: this.props.user.username,
         client2: this.props.client.username,
-        message: this.message.current.value
+        message: this.message.current.value,
+        showMsgOptions: false,
+        isStar: false
       });
       this.message.current.value = '';
     }
@@ -127,9 +135,24 @@ class ChatRoom extends Component {
     this.setState({ chatMenu: false, chatSettingDetails: false })
   }
 
+  showMsgOptions = (index) => {
+    let messages = this.state.messages;
+    messages[index].showMsgOptions = messages[index].showMsgOptions ? false : true;
+    this.setState({ messages: messages });
+  }
+
+  showStar = (index) => {
+    let messages = this.state.messages;
+    messages[index].isStar = messages[index].isStar ? false : true;
+    messages[index].showMsgOptions = false;
+    if (messages[index].isStar)
+      this.props.setStarMessages(messages[index]);
+    else this.props.delStarMessages(messages[index]);
+    this.setState({ messages: messages });
+  }
+
   render() {
     const { messages, isEmojiActive } = this.state;
-
     return (
       <div className='chat-room' >
         <Header title={this.props.client.username} />
@@ -139,12 +162,18 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  <span className='msg-right'>{message.message}</span>
+                  <span className='msg-right'>{message.message}{message.isStar ? ' ⭐' : ''}
+                    <button className='msg-btn' onClick={() => this.showMsgOptions(index)}>V</button></span>
+
+                  {message.showMsgOptions && <button className='star-btn' onClick={() => this.showStar(index)}>{message.isStar ? 'Unstar' : 'Star'}</button>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                 (<div className="msg-field-container aln-left">
-                  <span className='msg-left'>{message.message}</span>
+                  <span className='msg-left'>{message.message}{message.isStar ? ' ⭐' : ''}
+                    <button className='msg-btn' onClick={() => this.showMsgOptions(index)}>V</button></span>
+
+                  {message.showMsgOptions && <button className='star-btn' onClick={() => this.showStar(index)}>{message.isStar ? 'Unstar' : 'Star'}</button>}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
               }
@@ -200,4 +229,9 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps, null)(ChatRoom);
+const mapDispatchToProps = (dispatch) => ({
+  setStarMessages: (data) => dispatch(setStarMessages(data)),
+  delStarMessages: (data) => dispatch(delStarMessages(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatRoom);

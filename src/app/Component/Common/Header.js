@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import menu from '../../../assests/three-dots-vertical.svg';
 import Options from './Options';
 import Profile from './Profile';
+import StarMessages from './StarMessages';
 import { socketConnect } from '../../../service/socket';
 import ReactNotifications, { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
@@ -13,7 +14,8 @@ class Header extends Component {
         super(props);
         this.state = {
             isShowOptions: false,
-            isShowProfile: false
+            isShowProfile: false,
+            isShowStarredMessages: false
         }
     }
 
@@ -21,17 +23,17 @@ class Header extends Component {
 
         console.log("componentdidmount eader rendered", Math.random());
         socketConnect((socket) => {
-            this.socket= socket;
+            this.socket = socket;
             this.socket.emit("notifications", { username: this.props.user.username });
-            this.socket.on( "notification",this.onNotification );
+            this.socket.on("notification", this.onNotification);
         });
     }
 
-componentWillUnmount=()=>{
-    this.socket.off( "notification",this.onNotification );
-}
+    componentWillUnmount = () => {
+        this.socket.off("notification", this.onNotification);
+    }
 
-    onNotification=(data)=>{
+    onNotification = (data) => {
         console.log(data, "got notifications");
         store.addNotification({
             title: data.username,
@@ -51,8 +53,12 @@ componentWillUnmount=()=>{
         this.setState({ isShowProfile: true, isShowOptions: false });
     }
 
+    showStarredMessages = () => {
+        this.setState({ isShowStarredMessages: true, isShowOptions: false });
+    }
+
     showOptions = () => {
-        this.setState({ isShowOptions: true, isShowProfile: false })
+        this.setState({ isShowOptions: true, isShowProfile: false , isShowStarredMessages : false })
     }
 
     render() {
@@ -65,9 +71,10 @@ componentWillUnmount=()=>{
                 <div className="header-menu">
                     <img src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
                 </div>
-                {this.state.isShowOptions && <Options showProfile={this.showProfile}
+                {this.state.isShowOptions && <Options showProfile={this.showProfile} showStarredMessages={this.showStarredMessages}
                     onClose={() => { this.setState({ isShowOptions: false }) }} />}
                 {this.state.isShowProfile && <Profile />}
+                {this.state.isShowStarredMessages && <StarMessages />}
                 <ReactNotifications />
             </div>
         )

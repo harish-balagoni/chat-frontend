@@ -16,6 +16,7 @@ class Options extends Component {
                 <div className="options">
                     <div className="option-item" onClick={this.props.showProfile}>Profile</div>
                     <div className="option-item">Add to archieve</div>
+                    <div className="option-item" onClick={this.props.showStarredMessages}>Starred Messages</div>
                     <div className="option-item-logout" onClick={this.logOut}>Logout</div>
                 </div>
             </div>

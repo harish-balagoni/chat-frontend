@@ -48,7 +48,7 @@
 
 
 .options{
-    height: 200px;
+    height: 220px;
     width: 180px;
     position: absolute;
     right: 10%;
@@ -59,8 +59,8 @@
 }
 
 .option-item{
-    width: 90%;
-    height: 33.3%;
+    width: 89%;
+    height: 25%;
     justify-content: flex-start;
     display: flex;
     align-items: center;
@@ -71,8 +71,8 @@
 }
 
 .option-item-logout{
-    width: 90%;
-    height: 33.3%;
+    width: 89%;
+    height: 25%;
     justify-content: flex-start;
     display: flex;
     align-items: center;
@@ -104,4 +104,68 @@
     display: flex;
     align-items: center;
     padding-left: 25px;
+}
+
+.header-star-main{
+    width: 300px;
+    height: auto !important;
+    position: absolute;
+    top:10%;
+    right: 10%;
+    background: #50535a;
+    box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+    border-radius: 10px;
+}
+.header-star-img{
+    display: flex;
+}
+.header-star-user{
+    margin: 5px;
+}
+
+.header-star-menu{
+    border-bottom: 1px solid white;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.header-star-message{
+    margin-top: 5px ;
+    margin-bottom: 15px;
+    margin-left: 3px;
+    text-align: justify;
+}
+.header-star-cross{
+    float: right;
+    color: #50535a;
+    width: 18px;
+    height: 18px;
+    border-radius:50%;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.header-star-cross:hover{
+    color: white;
+    background-color: rgb(49, 47, 47);
+}
+
+.header-star-title{
+    text-align: center;
+    margin-top: 2px;
+    font-size: 20px;
+}
+.header-star-right{
+    float: right;
+    font-size: 12px;
+}
+
+.header-star-notfound{
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 14px;
+    font-weight:500;
 }
