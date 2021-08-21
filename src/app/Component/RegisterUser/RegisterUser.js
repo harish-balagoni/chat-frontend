@@ -26,6 +26,13 @@ class Registration extends Component {
 
     componentDidMount() {
         loaderService.hide();
+        let token = localStorage.getItem("token");
+        if(token){
+         this.props.history.push({
+             pathname: '/chats'
+         });
+         return 
+        }
     }
 
     submit = () => {
@@ -40,6 +47,7 @@ class Registration extends Component {
             axios.post("https://ptchatindia.herokuapp.com/register", details)
                 .then(res => {
                     if (res.status === 200) {
+                        localStorage.setItem("token", res.data.data.token);
                         this.props.submitRegister(res.data.data);
                         this.props.history.push({
                             pathname: '/chats'

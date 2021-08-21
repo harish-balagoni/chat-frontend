@@ -18,7 +18,6 @@ class ChatScreen extends Component {
             settingDetails: false,
             isEmpty: false,
         };
-        this.Count = 0;
         console.log(this.props);
         loaderService.show();
     }
@@ -141,8 +140,8 @@ class ChatScreen extends Component {
                                     <div className="profile-right">
                                         <div className="profile-time">
                                             {this.getTimeByTimestamp(user.latest.timestamp)}</div>
-                                        {user['count'] > 0 && <div className='unread-msg'>
-                                            {user['count']}
+                                        {user['count'] >0 && <div className='unread-msg'>
+                                            {(user['count'])}
                                         </div>}
                                     </div>
                                 </div>

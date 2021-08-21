@@ -13,13 +13,21 @@ class Login extends Component {
             username: '',
             password: '',
             failedLogin: false,
-            isLoading: false
+            isLoading: false,
         }
         this.username = React.createRef();
         this.password = React.createRef();
     }
+
     componentDidMount() {
         loaderService.hide();
+        let token = localStorage.getItem("token");
+        if(token){
+         this.props.history.push({
+             pathname: '/chats'
+         });
+         return 
+        }
     }
     errors = {}
     checkValid = (type) => {
@@ -51,8 +59,9 @@ class Login extends Component {
                     "username": this.username.current.value,
                     "password": this.password.current.value
                 }).then(res => {
-                    console.log(res.data);
+                    console.log("after login",res.data);
                     if (res.status === 200) {
+                        localStorage.setItem("token", res.data.data.token);
                         this.props.userLogin(res.data.data);
                         this.props.history.push({
                             pathname: '/chats'

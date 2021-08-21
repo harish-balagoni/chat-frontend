@@ -7,6 +7,7 @@ import { logOut } from '../../actions/actions';
 
 class Options extends Component {
     logOut = () => {
+        localStorage.removeItem("token");
         this.props.logOut();
         this.props.history.push('/');
     }

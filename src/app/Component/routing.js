@@ -29,7 +29,7 @@ class Routing extends React.Component {
                 <div className='dark'>
                     <Suspense fallback={<h1>Please Wait...</h1>}>
                         <Switch>
-                            <Route path='/' exact component={Login}></Route>
+                            <Route path='/' exact component={ Login }></Route>
                             <Route path='/ChatRoom' exact component={ChatRoom} />
                             <Route path='/chats' exact component={ChatScreen}></Route>
                             <Route path='/contacts' exact component={Contacts}></Route>
