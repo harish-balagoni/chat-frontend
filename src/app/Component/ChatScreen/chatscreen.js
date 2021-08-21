@@ -90,7 +90,7 @@ class ChatScreen extends Component {
         let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
         return hours + ":" + date.getMinutes() + ampm;
     }
-
+   
     getDurationByTimestamp = (timestamp) => {
         /*
         random time stamps
@@ -127,15 +127,17 @@ class ChatScreen extends Component {
                 <Header title="Conversations" />
                 <div>
                     <div className="chats">
+                   
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
-                                <div key={index} className="contact" onClick={() => {
+                                <div key={index} className="contact" >
+                                    <div className="profile-img" onClick={() => {
                                     this.open(user.client);
                                 }}>
-                                    <div className="profile-img">
-                                        <img src={user.client.profile} className="image"></img>
+                                        <img  src={user.client.profile} className="image"></img>
                                     </div>
+                                    
                                     <div className="text profile-nm">
                                         <div className="profile-name">
                                             {user.client.username}
@@ -146,6 +148,7 @@ class ChatScreen extends Component {
                                 </div>
                             );
                         })}
+                        
                     </div>
                 </div>
                 <div className="contacts-footer">

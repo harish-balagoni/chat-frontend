@@ -15,6 +15,8 @@ class Contacts extends Component {
       menu: false,
       settingDetails: false,
       conversationButton: false,
+      extendpic:false,
+            extendpicid:0
     };
     console.log(this.props, 'in contacts');
     loaderService.show();
@@ -73,6 +75,16 @@ class Contacts extends Component {
     this.setState({ conversationButton: true });
   };
 
+  showpic=(id)=>
+  {
+
+      console.log("id:",id);
+      console.log(this.state.Data[this.state.extendpicid]['profile']);
+      if(this.state.extendpic===false)
+      this.setState({extendpic:true,extendpicid:id});
+      else
+      this.setState({extendpic:false});
+  }
   render() {
     const { isLoading, Data } = this.state;
     console.log(Data);
@@ -81,12 +93,13 @@ class Contacts extends Component {
         <Header title="Contacts" />
         <div>
           <div className="chats">
+            {this.state.extendpic?<img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" />:""}
             {this.state.isEmpty && <div>No conversations found</div>}
             {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
               return (
                 <div key={index} className="contact">
                   <div className="profile-img">
-                    <img src={user.profile} className="image"></img>
+                    <img onClick={()=>this.showpic(index)} src={user.profile} className="image"></img>
                   </div>
                   <div className="text profile-nm">
                     <h2
