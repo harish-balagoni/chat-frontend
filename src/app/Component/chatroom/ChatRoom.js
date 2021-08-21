@@ -4,6 +4,8 @@ import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
 import emoji from './../../../assests/emoji.png';
+import readIcon from './../../../assests/seenTick.png';
+import deliveredIcon from './../../../assests/deliveredTick.png';
 import Header from '../Common/Header';
 
 class ChatRoom extends Component {
@@ -23,7 +25,7 @@ class ChatRoom extends Component {
   componentDidMount = () => {
     this.socket = getSocket();
     this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
-    this.socket.once("messages", this.onMessages);
+    this.socket.on("messages", this.onMessages);
     this.socket.on("message", this.onMessage);
     this.socket.on("typing-start", this.onTyping);
     this.socket.on("typing-end", this.onTyping);
@@ -43,6 +45,7 @@ class ChatRoom extends Component {
   }
 
   onMessage = (data) => {
+    this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: [data.id] })
     let messages = this.state.messages;
     messages.push(data);
     this.previousDate = null;
@@ -50,8 +53,14 @@ class ChatRoom extends Component {
   }
 
   onMessages = (data) => {
+    let msgIds = data.messages.filter((msg) => {
+      if (msg.readStatus === 0 && this.props.user.username !== msg.username)
+        return msg.id;
+    });
+    if(msgIds && msgIds.length){
+      this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
+    }
     this.setState({ messages: data.messages });
-    this.socket.off("messages", true);
   }
 
   send = () => {
@@ -132,6 +141,7 @@ class ChatRoom extends Component {
                 (<div className="msg-field-container">
                   <span className='msg-right'>{message.message}</span>
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
+                  < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                 (<div className="msg-field-container aln-left">
                   <span className='msg-left'>{message.message}</span>

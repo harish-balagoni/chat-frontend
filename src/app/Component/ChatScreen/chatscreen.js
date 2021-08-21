@@ -26,7 +26,6 @@ class ChatScreen extends Component {
         this.getContacts();
     }
     getContacts = () => {
-        //https://ptchatindia.herokuapp.com/contacts
         console.log("data", this.props.user);
         axios
             .request({
@@ -37,7 +36,7 @@ class ChatScreen extends Component {
                 },
                 data: {
                     username: this.props.user.username,
-                    is_archive: 0,
+                    is_archive: 0
                 },
             })
             .then((res) => {
@@ -62,6 +61,8 @@ class ChatScreen extends Component {
     };
     open = (user) => {
         this.props.createClient(user);
+
+        console.log(user)
         this.props.history.push({
             pathname: "/ChatRoom",
             userDetails: this.props.user.username,
@@ -120,8 +121,6 @@ class ChatScreen extends Component {
 
     render() {
         const { isLoading, Data } = this.state;
-        console.log(Data);
-
         return (
             <div className="entire-area">
                 <Header title="Conversations" />
@@ -131,8 +130,8 @@ class ChatScreen extends Component {
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
-                                <div key={index} className="contact" >
-                                    <div className="profile-img" onClick={() => {
+                                user.messages && !!user.messages.length &&
+                                <><div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
                                         <img  src={user.client.profile} className="image"></img>
@@ -143,9 +142,10 @@ class ChatScreen extends Component {
                                             {user.client.username}
                                         </div>
                                         <p>{user.latest.message}</p>
-                                    </div>
+                                    
                                     <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
                                 </div>
+                                </>
                             );
                         })}
                         
