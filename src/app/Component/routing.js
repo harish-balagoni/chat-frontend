@@ -41,7 +41,6 @@ class Routing extends React.Component {
                 </div>
             </BrowserRouter>
         );
-
     }
 }
 

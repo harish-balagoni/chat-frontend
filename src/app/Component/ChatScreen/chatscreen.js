@@ -115,7 +115,6 @@ class ChatScreen extends Component {
 
     render() {
         const { isLoading, Data } = this.state;
-        console.log(Data);
         return (
             <div className="entire-area">
                 <Header title="Conversations" />
