@@ -16,8 +16,7 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
-      chatMenu: false,
-      chatSettingDetails: false,
+
     }
     this.message = React.createRef();
   }
@@ -72,7 +71,8 @@ class ChatRoom extends Component {
       this.socket.emit("chat", {
         username: this.props.user.username,
         client2: this.props.client.username,
-        message: this.message.current.value
+        message: this.message.current.value,
+        messagePopUp: false
       });
       this.message.current.value = '';
     }
@@ -114,17 +114,10 @@ class ChatRoom extends Component {
     this.setState({ isEmojiActive: !this.state.isEmojiActive });
   }
 
-
-  chatSettings = () => {
-    this.setState({ chatMenu: true })
-  }
-
-  chatSettingDetails = () => {
-    this.setState({ chatSettingDetails: true })
-  }
-
-  chatCancel = () => {
-    this.setState({ chatMenu: false, chatSettingDetails: false })
+  showMessagePopUp = (index) => {
+    let messages=this.state.messages
+    messages[index]. messagePopUp=messages[index]. messagePopUp ? false : true;
+    this.setState({ messages:messages });
   }
 
   render() {
@@ -139,7 +132,16 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  <span className='msg-right'>{message.message}</span>
+                  <span className='msg-right'>{message.message} 
+                  <span className="PopUp" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>V</span>
+                  {message.messagePopUp ?
+                    <div className="messagePopUp">
+                      <div className="messagePopUp-items" >Forward Message</div>
+                      <div className="messagePopUp-items">Delete Message</div>
+                      <div className="messagePopUp-items" >Reply</div>
+                    </div>: 
+                   null }</span>
+
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
