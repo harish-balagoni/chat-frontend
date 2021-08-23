@@ -144,6 +144,17 @@ class ChatRoom extends Component {
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                 (<div className="msg-field-container aln-left">
+
+              {this.state.isOponentTyping &&
+            <div className="typing">
+              <div className="bounce">
+              </div>
+              <div className="bounce1">
+              </div>
+              <div className="bounce2">
+              </div>
+            </div>}
+
                   <span className='msg-left'>{message.message}</span>
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
