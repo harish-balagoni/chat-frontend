@@ -211,3 +211,34 @@ textarea {
     flex-direction: column;
     width: 300px;
 }
+
+.searchResult{
+    width: 300px;
+    height: 30px;
+    background-color: #3a3f51;
+    color:rgb(161, 159, 154);
+    border-radius: 10%;
+}
+
+.searchButton{
+    width: 25px;
+    height: 25px;
+    margin-top: 1rem;
+}
+.searchInput{
+    height: 25px;
+    margin-top: 1rem;
+    background-color: #44464d;
+    font-size: 18px;
+    margin-right: 1rem;
+    color: rgb(170, 167, 167);
+    font-weight: bold;
+}
+
+.search{
+    display: flex;
+    right: 150px;
+    position:absolute;
+    top: 3.5%;
+    float: right;
+}
