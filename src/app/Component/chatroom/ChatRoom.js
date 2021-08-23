@@ -56,7 +56,7 @@ class ChatRoom extends Component {
       if (msg.readStatus === 0 && this.props.user.username !== msg.username)
         return msg.id;
     });
-    if(msgIds && msgIds.length){
+    if (msgIds && msgIds.length) {
       this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
     }
     this.setState({ messages: data.messages });
@@ -115,9 +115,9 @@ class ChatRoom extends Component {
   }
 
   showMessagePopUp = (index) => {
-    let messages=this.state.messages
-    messages[index]. messagePopUp=messages[index]. messagePopUp ? false : true;
-    this.setState({ messages:messages });
+    let messages = this.state.messages
+    messages[index].messagePopUp = messages[index].messagePopUp ? false : true;
+    this.setState({ messages: messages });
   }
 
   render() {
@@ -132,21 +132,31 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  <span className='msg-right'>{message.message} 
-                  <span className="PopUp" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>V</span>
+                  <span className='msg-right'>{message.message}
+                    <span className="PopUp" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span></span>
                   {message.messagePopUp ?
-                    <div className="messagePopUp">
-                      <div className="messagePopUp-items" >Forward Message</div>
-                      <div className="messagePopUp-items">Delete Message</div>
+                    <div className="messagePopUp-right">
                       <div className="messagePopUp-items" >Reply</div>
-                    </div>: 
-                   null }</span>
+                      <div className="messagePopUp-items">Forward Message</div>
+                      <div className="messagePopUp-items" >Delete Message</div>
+                      <div className="messagePopUp-items" >Star Messages</div>
+                    </div> :
+                    null}
 
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                 (<div className="msg-field-container aln-left">
-                  <span className='msg-left'>{message.message}</span>
+                  <span className='msg-left'>{message.message}
+                    <span className="PopUp" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span></span>
+                  {message.messagePopUp ?
+                    <div className="messagePopUp-left">
+                      <div className="messagePopUp-items" >Reply</div>
+                      <div className="messagePopUp-items">Forward Message</div>
+                      <div className="messagePopUp-items" >Delete Message</div>
+                      <div className="messagePopUp-items" >Star Messages</div>
+                    </div> :
+                    null}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
               }

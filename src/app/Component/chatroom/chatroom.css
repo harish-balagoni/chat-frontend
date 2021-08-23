@@ -112,20 +112,31 @@
     align-items: center;
   }
 
-  .messagePopUp{
+  .messagePopUp-right{
     height: 200px;
     width: 180px;
     position: absolute;
-    right: 10%;
-    bottom: 10%;
+    margin-right: 7rem;
+    margin-top: 8px;
     background: #50535a;
     box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
     border-radius: 10px;
 }
 
+.messagePopUp-left{
+  height: 200px;
+  width: 180px;
+  position: absolute;
+  margin-left: 7rem;
+  margin-top: 8px;
+  background: #50535a;
+  box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+  border-radius: 10px;
+}
+
 .messagePopUp-items{
     width: 90%;
-    height: 33.3%;
+    height: 25%;
     justify-content: flex-start;
     display: flex;
     align-items: center;
