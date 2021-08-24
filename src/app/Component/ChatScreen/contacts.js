@@ -83,7 +83,7 @@ class Contacts extends Component {
           <div className="chats">
             {this.state.isEmpty && <div>No conversations found</div>}
 
-            {this.props.searchContactData.length === 0 ?
+            { this.props.searchContactData && this.props.searchContactData.length === 0 ?
 
               this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                 return (
@@ -104,9 +104,9 @@ class Contacts extends Component {
                 );
               }) :
               <div><h3>Search Results</h3>
-                {this.props.searchContactData[0] === "notFound" ? <h4>NotFound</h4> :
+                { this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h4>NotFound</h4> :
                   <div>
-                    {this.props.searchContactData.map((user, index) => {
+                    { this.props.searchContactData && this.props.searchContactData.map((user, index) => {
                       return (
                         <div key={index} className="contact">
                           <div className="profile-img">
