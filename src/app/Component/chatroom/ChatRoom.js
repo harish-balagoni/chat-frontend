@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import emoji from './../../../assests/emoji.png';
 import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
-import Header from '../Common/Header';
-
+// import Header from '../Common/Header';
+import ClientHeader from '../ClientDetails/ClientHeader';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -125,7 +125,7 @@ class ChatRoom extends Component {
 
     return (
       <div className='chat-room' >
-        <Header title={this.props.client.username} />
+        <ClientHeader title={this.props.client.username} />
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
             return (<div className='message-field' key={index}>
