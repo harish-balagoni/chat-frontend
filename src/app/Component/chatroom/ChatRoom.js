@@ -16,8 +16,6 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
-      chatMenu: false,
-      chatSettingDetails: false,
     }
     this.message = React.createRef();
   }
@@ -114,19 +112,6 @@ class ChatRoom extends Component {
     this.setState({ isEmojiActive: !this.state.isEmojiActive });
   }
 
-
-  chatSettings = () => {
-    this.setState({ chatMenu: true })
-  }
-
-  chatSettingDetails = () => {
-    this.setState({ chatSettingDetails: true })
-  }
-
-  chatCancel = () => {
-    this.setState({ chatMenu: false, chatSettingDetails: false })
-  }
-
   imagePicker=(e)=>{
     console.log(e.target.files[0],'image event');
       if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
@@ -139,6 +124,7 @@ class ChatRoom extends Component {
       }
     
   }
+
 
   render() {
     const { messages, isEmojiActive } = this.state;
@@ -191,10 +177,8 @@ class ChatRoom extends Component {
               </div>
             }
           </div>
-            {/* {<img alt='imageUplode'  src={emoji} onClick={()=>{this.imagePicker()}} />} */}
-            <div src={emoji}  className="emoji">
+          <div src={emoji}  className="emoji">
             <input type="file" onChange={this.imagePicker} ></input></div>
-          
           <div className='message-input'>
             <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>

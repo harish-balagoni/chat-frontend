@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./chatscreen.css";
+import "./../ChatScreen/chatscreen.css";
 import Header from "../Common/Header";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -30,17 +30,17 @@ class ChatScreen extends Component {
     getContacts = () => {
         console.log("data", this.props.user);
         axios
-            .request({
-                method: "POST",
-                url: `https://ptchatindia.herokuapp.com/conversations`,
-                headers: {
-                    authorization: this.props.user.token,
-                },
-                data: {
-                    username: this.props.user.username,
-                    is_archive: 0
-                },
-            })
+        .request({
+            method: "POST",
+            url: `https://ptchatindia.herokuapp.com/conversations`,
+            headers: {
+                authorization: this.props.user.token,
+            },
+            data: {
+                username: this.props.user.username,
+                is_archive: 1,
+            },
+        })
             .then((res) => {
                 console.log("response", res.data.data);
                 if (res.status === 200) {
@@ -61,30 +61,8 @@ class ChatScreen extends Component {
                 }
             });
     };
-
-    archiveMessage = (id) => {
-        console.log(this.props.user.username);
-        axios
-        .request({
-            method: "POST",
-            url: `https://ptchatindia.herokuapp.com/archive`,
-            headers: {
-                authorization: this.props.user.token,
-            },
-            data: {
-                username: this.props.user.username,
-                roomIds:[id],
-            },
-        }).then((res) => {
-                console.log("response", res.data);
-
-            })
-    };
-
     open = (user) => {
         this.props.createClient(user);
-
-        console.log(user)
         this.props.history.push({
             pathname: "/ChatRoom",
             userDetails: this.props.user.username,
@@ -107,82 +85,64 @@ class ChatScreen extends Component {
     }
 
     getTimeByTimestamp = (timestamp) => {
-        console.log("Timestamp", timestamp);
         let date = new Date(timestamp * 1000);
         let ampm = date.getHours() >= 12 ? 'pm' : 'am';
         let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
         return hours + ":" + date.getMinutes() + ampm;
     }
 
-    getDurationByTimestamp = (timestamp) => {
-        /*
-        random time stamps
-        1629012012 --- 15/08/2021 4 days ago
-        1628302023 --- 7/8/21 1 week
-        1618471212 --- 15/04/21 4 months
-        1587262023 --- 19/04/20  1 year
-         */
+    unArchiveMessage = (id) =>{
+        console.log([id],'token');
+        axios
+        .request({
+            method: "POST",
+            url: `https://ptchatindia.herokuapp.com/remove_archive`,
+            headers: {
+                authorization: this.props.user.token,
+            },
+            data: {
+                username: this.props.user.username,
+                roomIds:[id],
+            },
+        }).then((res) => {
+            console.log(res.status);
+                console.log("response", res.data);
 
-        let date = new Date(timestamp * 1000);
-        let days = (new Date() - new Date(date.getFullYear(), date.getMonth(), date.getDate())) / (1000 * 60 * 60 * 24);
-        days = Math.floor(days);
-        let weeks = Math.floor(days / 7);
-        let months = Math.floor(days / 30);
-        let years = Math.floor(days / 365);
-        console.log(days);
-        if (days === 0) return 'Today';
-        else if (days === 1) return 'Yesterday';
-        else if (days < 8) return (days + ' days' + ' ago');
-        else if (weeks === 1) return (weeks + ' week' + ' ago');
-        else if (weeks < 6) return (weeks + ' weeks' + ' ago');
-        else if (months === 1) return (months + ' month' + ' ago');
-        else if (months < 13) return (months + ' months' + ' ago');
-        else if (years === 1) return (years + ' year' + ' ago')
-        else return (years + ' years' + ' ago');
-    }
-    redirectingToArchived=()=>{
-        this.props.history.push({
-            pathname: "/Archived"
-        })
+            }).catch((error)=>console.log(error))
     }
 
     render() {
         const { isLoading, Data } = this.state;
+        console.log(Data);
+
         return (
             <div className="entire-area">
-                <Header title="Conversations" />
+                <Header title="Archived Messages" />
                 <div>
                     <div className="chats">
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
-                                user.messages && !!user.messages.length &&
                                 <div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
                                     <div className="profile-img">
                                         <img src={user.client.profile} className="image"></img>
                                     </div>
-                                    <div className="text profile-nm">                                        
+                                    <div className="text profile-nm">
                                         <div className="profile-name">
                                             {user.client.username}
                                         </div>
                                         <p>{user.latest.message}</p>
                                     </div>
-                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
-                                    <div className="archive-submit">
-                                    <button className="archive-button" onClick={()=>{this.archiveMessage(user.id)}} > Archive</button>
-                                    </div>
-                                   
+                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}</div>
+                                    <div className='archive-submit' onClick={()=>{
+                                        this.unArchiveMessage(user.id)}}>
+                                            <button className='archive-button' >Unarchive</button></div>
                                 </div>
+                                
                             );
                         })}
-                    </div>
-                </div>
-                <div className="contacts-footer">
-                    <div onClick={this.redirectingToArchived}><h4>Archived Messages</h4></div>
-                    <div className="chats-position">
-                        <button className="chats-button" onClick={() => { this.selectContact() }}><img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" /></button>
                     </div>
                 </div>
             </div>

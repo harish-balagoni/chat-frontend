@@ -1,4 +1,10 @@
 import React, { Suspense, lazy } from "react";
+import ChatScreen from "./ChatScreen/chatscreen";
+import ChatRoom from "./chatroom/ChatRoom";
+import Register from "./RegisterUser/RegisterUser";
+import Login from './Login/Login';
+import Contacts from "./ChatScreen/contacts";
+import ArchivedMessages from './../Component/ArchivedMessages/ArchivedMessages';
 import { connect } from "react-redux";
 import {
     BrowserRouter,
@@ -32,6 +38,7 @@ class Routing extends React.Component {
                         <Switch>
                             <Route path='/' exact component={Login}></Route>
                             <Route path='/ChatRoom' exact component={ChatRoom} />
+                            <Route path='/Archived' component={ArchivedMessages} />
                             <Route path='/chats' exact component={ChatScreen}></Route>
                             <Route path='/contacts' exact component={Contacts}></Route>
                             <Route path='/register' exact component={Register}></Route>
