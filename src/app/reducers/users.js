@@ -1,7 +1,7 @@
 import { CREATE_CLIENT, FETCH_USER } from "../actions/actions";
 import { USER_LOGIN } from "../actions/actions";
 import { SUBMIT_REGISTER } from "../actions/actions";
-import { LOG_OUT } from "../actions/actions";
+import { LOG_OUT,SEARCH_DATA } from "../actions/actions";
 
 
 const initialState = {
@@ -12,7 +12,8 @@ const initialState = {
         profile: '',
         token: ''
     },
-    client: null
+    client: null,
+    searchContactData:[]
 }
 
 const userReducer = (state = initialState, action) => {
@@ -39,6 +40,8 @@ const userReducer = (state = initialState, action) => {
             return initialState;
         case CREATE_CLIENT:
             return Object.assign({}, state, { client: action.payload });
+        case SEARCH_DATA :
+            return Object.assign({},state,{searchContactData:action.data});
         default: return state
     }
 
