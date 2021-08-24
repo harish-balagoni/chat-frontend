@@ -6,6 +6,7 @@ import {
     Route
 
 } from "react-router-dom";
+import ClientProfile from "./ClientDetails/ClientProfile";
 const ChatScreen = lazy(() => import("./ChatScreen/chatscreen"));
 const ChatRoom = lazy(() => import("./chatroom/ChatRoom"));
 const Register = lazy(() => import("./RegisterUser/RegisterUser"));
@@ -35,6 +36,7 @@ class Routing extends React.Component {
                             <Route path='/contacts' exact component={Contacts}></Route>
                             <Route path='/register' exact component={Register}></Route>
                             <Route path='/login' exact component={Login} />
+                            <Route path='/ClientProfile' exact component={ClientProfile}></Route>
                             <Route path='*' exact component={PageNotFound}></Route>
                         </Switch>
                     </Suspense>
