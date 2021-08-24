@@ -21,7 +21,6 @@ class Login extends Component {
 
     componentDidMount() {
         loaderService.hide();
-        console.log(this.props.user.userDetails.token);
         if(this.props.user?.userDetails?.token){
             this.props.history.goBack();
         }
