@@ -26,7 +26,6 @@ class ChatScreen extends Component {
         this.getContacts();
     }
     getContacts = () => {
-        //https://ptchatindia.herokuapp.com/contacts
         console.log("data", this.props.user);
         axios
             .request({
@@ -37,6 +36,7 @@ class ChatScreen extends Component {
                 },
                 data: {
                     username: this.props.user.username,
+                    is_archive: 0
                 },
             })
             .then((res) => {
@@ -61,6 +61,8 @@ class ChatScreen extends Component {
     };
     open = (user) => {
         this.props.createClient(user);
+
+        console.log(user)
         this.props.history.push({
             pathname: "/ChatRoom",
             userDetails: this.props.user.username,
@@ -83,16 +85,42 @@ class ChatScreen extends Component {
     }
 
     getTimeByTimestamp = (timestamp) => {
+        console.log("Timestamp", timestamp);
         let date = new Date(timestamp * 1000);
         let ampm = date.getHours() >= 12 ? 'pm' : 'am';
         let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
         return hours + ":" + date.getMinutes() + ampm;
     }
 
+    getDurationByTimestamp = (timestamp) => {
+        /*
+        random time stamps
+        1629012012 --- 15/08/2021 4 days ago
+        1628302023 --- 7/8/21 1 week
+        1618471212 --- 15/04/21 4 months
+        1587262023 --- 19/04/20  1 year
+         */
+
+        let date = new Date(timestamp * 1000);
+        let days = (new Date() - new Date(date.getFullYear(), date.getMonth(), date.getDate())) / (1000 * 60 * 60 * 24);
+        days = Math.floor(days);
+        let weeks = Math.floor(days / 7);
+        let months = Math.floor(days / 30);
+        let years = Math.floor(days / 365);
+        console.log(days);
+        if (days === 0) return 'Today';
+        else if (days === 1) return 'Yesterday';
+        else if (days < 8) return (days + ' days' + ' ago');
+        else if (weeks === 1) return (weeks + ' week' + ' ago');
+        else if (weeks < 6) return (weeks + ' weeks' + ' ago');
+        else if (months === 1) return (months + ' month' + ' ago');
+        else if (months < 13) return (months + ' months' + ' ago');
+        else if (years === 1) return (years + ' year' + ' ago')
+        else return (years + ' years' + ' ago');
+    }
+
     render() {
         const { isLoading, Data } = this.state;
-        console.log(Data);
-
         return (
             <div className="entire-area">
                 <Header title="Conversations" />
@@ -101,6 +129,7 @@ class ChatScreen extends Component {
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
+                                user.messages && !!user.messages.length &&
                                 <div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
@@ -113,7 +142,7 @@ class ChatScreen extends Component {
                                         </div>
                                         <p>{user.latest.message}</p>
                                     </div>
-                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}</div>
+                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
                                 </div>
                             );
                         })}

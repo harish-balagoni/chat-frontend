@@ -1,9 +1,4 @@
-import React from "react";
-import ChatScreen from "./ChatScreen/chatscreen";
-import ChatRoom from "./chatroom/ChatRoom";
-import Register from "./RegisterUser/RegisterUser";
-import Login from './Login/Login';
-import Contacts from "./ChatScreen/contacts";
+import React, { Suspense, lazy } from "react";
 import { connect } from "react-redux";
 import {
     BrowserRouter,
@@ -11,12 +6,19 @@ import {
     Route
 
 } from "react-router-dom";
+import ClientProfile from "./ClientDetails/ClientProfile";
+const ChatScreen = lazy(() => import("./ChatScreen/chatscreen"));
+const ChatRoom = lazy(() => import("./chatroom/ChatRoom"));
+const Register = lazy(() => import("./RegisterUser/RegisterUser"));
+const Login = lazy(() => import('./Login/Login'));
+const Contacts = lazy(() => import("./ChatScreen/contacts"));
 
 function PageNotFound() {
     return (
         <div className="pageNotFound">Page Not Found</div>
     )
 }
+
 class Routing extends React.Component {
     render() {
         if (!this.props.user && !window.location.href.includes('register') && !window.location.href.includes('login')) {
@@ -26,15 +28,18 @@ class Routing extends React.Component {
         return (
             <BrowserRouter>
                 <div className='dark'>
-                    <Switch>
-                        <Route path='/' exact component={Login}></Route>
-                        <Route path='/ChatRoom' exact component={ChatRoom} />
-                        <Route path='/chats' exact component={ChatScreen}></Route>
-                        <Route path='/contacts' exact component={Contacts}></Route>
-                        <Route path='/register' exact component={Register}></Route>
-                        <Route path='/login' exact component={Login} />
-                        <Route path='*' exact component={PageNotFound}></Route>
-                    </Switch>
+                    <Suspense fallback={<h1>Please Wait...</h1>}>
+                        <Switch>
+                            <Route path='/' exact component={Login}></Route>
+                            <Route path='/ChatRoom' exact component={ChatRoom} />
+                            <Route path='/chats' exact component={ChatScreen}></Route>
+                            <Route path='/contacts' exact component={Contacts}></Route>
+                            <Route path='/register' exact component={Register}></Route>
+                            <Route path='/login' exact component={Login} />
+                            <Route path='/ClientProfile' exact component={ClientProfile}></Route>
+                            <Route path='*' exact component={PageNotFound}></Route>
+                        </Switch>
+                    </Suspense>
                 </div>
             </BrowserRouter>
         );
