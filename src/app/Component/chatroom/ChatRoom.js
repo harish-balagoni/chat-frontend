@@ -18,6 +18,7 @@ class ChatRoom extends Component {
       isEmojiActive: false,
       chatMenu: false,
       chatSettingDetails: false,
+      
     }
     this.message = React.createRef();
   }
@@ -57,7 +58,7 @@ class ChatRoom extends Component {
       if (msg.readStatus === 0 && this.props.user.username !== msg.username)
         return msg.id;
     });
-    if(msgIds && msgIds.length){
+    if (msgIds && msgIds.length) {
       this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
     }
     this.setState({ messages: data.messages });
@@ -127,6 +128,7 @@ class ChatRoom extends Component {
     this.setState({ chatMenu: false, chatSettingDetails: false })
   }
 
+  
   render() {
     const { messages, isEmojiActive } = this.state;
 
@@ -139,7 +141,8 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  <span className='msg-right'>{message.message}</span>
+                
+                    <span className='msg-right'>{message.message}</span>
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
