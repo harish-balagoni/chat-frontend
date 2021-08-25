@@ -1,10 +1,4 @@
 import React, { Suspense, lazy } from "react";
-import ChatScreen from "./ChatScreen/chatscreen";
-import ChatRoom from "./chatroom/ChatRoom";
-import Register from "./RegisterUser/RegisterUser";
-import Login from './Login/Login';
-import Contacts from "./ChatScreen/contacts";
-import ArchivedMessages from './../Component/ArchivedMessages/ArchivedMessages';
 import { connect } from "react-redux";
 import {
     BrowserRouter,
@@ -18,6 +12,7 @@ const ChatRoom = lazy(() => import("./chatroom/ChatRoom"));
 const Register = lazy(() => import("./RegisterUser/RegisterUser"));
 const Login = lazy(() => import('./Login/Login'));
 const Contacts = lazy(() => import("./ChatScreen/contacts"));
+const ArchivedMessages = lazy(() => import("./ArchivedMessages/ArchivedMessages"));
 
 function PageNotFound() {
     return (
