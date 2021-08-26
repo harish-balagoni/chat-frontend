@@ -71,7 +71,9 @@
  flex-direction: column;
  justify-content: center;
  padding-left: 20px;
- 
+ text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 h2{
     color:#ffff;
