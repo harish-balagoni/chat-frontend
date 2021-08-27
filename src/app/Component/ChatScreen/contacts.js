@@ -83,7 +83,7 @@ class Contacts extends Component {
           <div className="chats">
             {this.state.isEmpty && <div>No conversations found</div>}
 
-            { this.props.searchContactData && this.props.searchContactData.length === 0 ?
+            {this.props.searchContactData && this.props.searchContactData.length === 0 ?
 
               this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                 return (
