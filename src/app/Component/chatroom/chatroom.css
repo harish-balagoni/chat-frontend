@@ -8,6 +8,11 @@
     justify-content: center;
     flex-direction: column;
 }
+
+.msg-field-container:hover .reply {
+  display:inline;
+}
+
 .aln-left{
     align-items: flex-start !important;
     margin-left: 5px !important;
@@ -25,8 +30,8 @@
     font-size: 12px;
 }
 
-.typing{
-  
+.reply{
+  display:none
 }
 
   .bounce {

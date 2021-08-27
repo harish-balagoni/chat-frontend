@@ -8,6 +8,7 @@ import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 // import Header from '../Common/Header';
 import ClientHeader from '../ClientDetails/ClientHeader';
+import MessageOptions from '../Common/msgoptions';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -18,9 +19,10 @@ class ChatRoom extends Component {
       isEmojiActive: false,
       chatMenu: false,
       chatSettingDetails: false,
-      
     }
     this.message = React.createRef();
+    this.indexValue=0;
+    this.previousMessage='';
   }
   socket = null;
   componentDidMount = () => {
@@ -30,6 +32,7 @@ class ChatRoom extends Component {
     this.socket.on("message", this.onMessage);
     this.socket.on("typing-start", this.onTyping);
     this.socket.on("typing-end", this.onTyping);
+    
   }
 
   componentWillUnmount() {
@@ -46,8 +49,9 @@ class ChatRoom extends Component {
   }
 
   onMessage = (data) => {
-    this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: [data.id] })
+    this.socket.emit("read_status", {username: this.props.user.username, client2: this.props.client.username, messageIds: [data.id] })
     let messages = this.state.messages;
+    Object.assign(data,{showMsgOptions:false,msgReply:false,replyBtn:false})
     messages.push(data);
     this.previousDate = null;
     this.setState({ messages: messages });
@@ -128,7 +132,28 @@ class ChatRoom extends Component {
     this.setState({ chatMenu: false, chatSettingDetails: false })
   }
 
-  
+  showMsgOptions = (index) => {
+    let messages = this.state.messages;
+    console.log(messages[index])
+    messages[index].showMsgOptions = messages[index].showMsgOptions ? false : true;
+    //messages[index].msgReply = messages[index]. msgReply ? true : false;
+    messages[index].replyBtn= messages[index]. replyBtn ? false : true;
+    this.setState({ messages: messages });
+    console.log(messages)
+  }
+
+  messageReply = (index) => {
+    let messages = this.state.messages;
+    console.log(messages[index])
+   // messages[index].showMsgOptions = messages[index].showMsgOptions ? false : true;
+    messages[index].msgReply = messages[index].msgReply ? false : true;
+   //this.setState({ messages: messages });
+   console.log(messages[index]);
+    this.socket.emit("reply",{username: this.props.user.username, client: this.props.client.username,messageId:index})
+    this.previousMessage=this.state.messages[index].message  
+
+  }
+
   render() {
     const { messages, isEmojiActive } = this.state;
 
@@ -137,12 +162,16 @@ class ChatRoom extends Component {
         <ClientHeader title={this.props.client.username} />
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
+            console.log("message", message);
             return (<div className='message-field' key={index}>
               {this.getDateByTimestamp(message.timestamp)}
+
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                
-                    <span className='msg-right'>{message.message}</span>
+                  <span className='msg-right'>{message.message}
+                   <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></span>
+                  { message.showMsgOptions && <MessageOptions />}
+                  {message.replyBtn && <MessageOptions  messageReply={this.messageReply(index)}/> }
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :

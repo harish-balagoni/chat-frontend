@@ -80,6 +80,15 @@
     cursor: pointer;
 }
 
+.option-item-forward{
+    width: 90%;
+    height: 33.3%;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    cursor: pointer;
+}
 .header-profile-main{
     width: 200px;
     height: 300px;

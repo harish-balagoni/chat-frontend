@@ -29,9 +29,7 @@ class Registration extends Component {
 
     submit = () => {
         if (this.validationForm("all")) {
-            console.log("inside validation");
             loaderService.show();
-            console.log("inside loader");
             let details = {
 
                 username: this.username.current.value,
