@@ -96,7 +96,7 @@ class Contacts extends Component {
                 return (
                   <div key={index} className="contact">
                     <div className="profile-img">
-                      <img src={user.profile} className="image"></img>
+                      <img onClick={()=>this.showpic(user.id)} src={user.profile} className="image"></img>
                     </div>
                     <div className="text profile-nm">
                       <h2
