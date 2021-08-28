@@ -1,10 +1,10 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import "./chatscreen.css";
 import axios from "axios";
 import { connect } from "react-redux";
 import Header from "../Common/Header";
 import { loaderService } from '../../../service/loaderService';
-import { createClient } from '../../actions/actions';
+import { createClient, searchData } from '../../actions/actions';
 
 class Contacts extends Component {
   constructor(props) {
@@ -24,6 +24,7 @@ class Contacts extends Component {
   componentDidMount() {
     console.log(this.state.Data);
     this.getContacts();
+    this.props.searchData([]);
   }
   getContacts = () => {
     axios
@@ -56,7 +57,7 @@ class Contacts extends Component {
       pathname: "/ChatRoom",
       client2: user
     });
-      
+
   };
 
   settings = () => {
@@ -87,32 +88,59 @@ class Contacts extends Component {
   }
   render() {
     const { isLoading, Data } = this.state;
-    console.log(Data);
     return (
       <div className="entire-area">
-        <Header title="Contacts" />
+        <Header title="Contacts" usersData={this.state.Data && this.state.Data} />
         <div>
           <div className="chats">
             {this.state.extendpic?<img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" />:""}
             {this.state.isEmpty && <div>No conversations found</div>}
-            {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
-              return (
-                <div key={index} className="contact">
-                  <div className="profile-img">
-                    <img onClick={()=>this.showpic(index)} src={user.profile} className="image"></img>
+
+            {this.props.searchContactData && this.props.searchContactData.length === 0 ?
+
+              this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
+                return (
+                  <div key={index} className="contact">
+                    <div className="profile-img">
+                      <img src={user.profile} className="image"></img>
+                    </div>
+                    <div className="text profile-nm">
+                      <h2
+                        onClick={() => {
+                          this.open(user);
+                        }}
+                      >
+                        {user.username}
+                      </h2>
+                    </div>
                   </div>
-                  <div className="text profile-nm">
-                    <h2
-                      onClick={() => {
-                        this.open(user);
-                      }}
-                    >
-                      {user.username}
-                    </h2>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              }) :
+              <div><h3>Search Results</h3>
+                {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h4>NotFound</h4> :
+                  <div>
+                    {this.props.searchContactData && this.props.searchContactData.map((user, index) => {
+                      return (
+                        <div key={index} className="contact">
+                          <div className="profile-img">
+                            <img src={user.profile} className="image"></img>
+                          </div>
+                          <div className="text profile-nm">
+                            <h2
+                              onClick={() => {
+                                this.open(user);
+                              }}
+                            >
+                              {user.username}
+                            </h2>
+                          </div>
+                        </div>
+                      );
+                    })
+                    }</div>
+                }
+              </div>
+            }
           </div>
         </div>
       </div>
@@ -124,10 +152,12 @@ const mapStateToProps = (state) => (
   console.log("state home page from redux in mapstatetoprops", state),
   {
     user: state.user.userDetails,
-    client:state.user.client
+    client: state.user.client,
+    searchContactData: state.user.searchContactData
   }
 );
 const mapDispatchToProps = (dispatch) => ({
-  createClient: (data) => dispatch(createClient(data))
+  createClient: (data) => dispatch(createClient(data)),
+  searchData: (data) => dispatch(searchData(data))
 });
-export default connect(mapStateToProps,mapDispatchToProps)(Contacts);
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

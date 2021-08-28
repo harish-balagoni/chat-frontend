@@ -20,6 +20,9 @@ class Login extends Component {
     }
     componentDidMount() {
         loaderService.hide();
+        if (this.props.user?.userDetails?.token) {
+            this.props.history.goBack();
+        }
     }
     errors = {}
     checkValid = (type) => {
@@ -95,12 +98,12 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => (console.log('state home page from redux in mapstatetoprops', state), {
-    details: state.details,
+    user: state.user
 });
 
 const mapDispatchToProps = (dispatch) => ({
     userLogin: (username) => dispatch(userLogin(username)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 

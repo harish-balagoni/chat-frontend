@@ -3,6 +3,7 @@ export const USER_LOGIN = "USER_LOGIN";
 export const SUBMIT_REGISTER = "SUBMIT_REGISTER";
 export const LOG_OUT = "LOG_OUT";
 export const CREATE_CLIENT = "CREATE_CLIENT";
+export const SEARCH_DATA ="SEARCH_DATA"; 
 
 export const fetchUser = (user) => {
     console.log("actions")
@@ -34,4 +35,9 @@ export const logOut = () =>({
 export const createClient = (data) =>({
     type: CREATE_CLIENT,
     payload: data
+});
+
+export  const searchData=(data)=>({
+    type:SEARCH_DATA,
+    data
 });
