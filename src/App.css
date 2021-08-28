@@ -65,7 +65,7 @@ html, body{
 .emoji-holder{
   position: absolute;
     height: 320px;
-    width: 280px;
+    width: 250px;
     left: 5%;
     bottom: 13%;
 }
@@ -137,9 +137,13 @@ input:focus{
 
 .message-field{
  margin-top: 10px;
-}
+ }
 
 .msg-right{
+  position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+
   background: #8a8787;
     border-radius: 1rem;
     padding: 10px;
@@ -155,6 +159,10 @@ input:focus{
 }
 
 .msg-left{
+  position: relative;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+
   background: #8a8787;
     border-radius: 1rem;
     padding: 10px;
@@ -197,3 +205,4 @@ input:focus{
 [placeholder]:-ms-input-placeholder { color: #d7d7d7; padding-left: 5px; padding-top: 5px;}
 [placeholder]:hover:-ms-input-placeholder { color: rgba(255,255,255,.4); padding-left: 5px; padding-top: 5px;}
 [placeholder]:focus:-ms-input-placeholder { color: transparent; padding-left: 5px; padding-top: 5px;}
+

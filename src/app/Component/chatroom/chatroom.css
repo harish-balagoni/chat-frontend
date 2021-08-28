@@ -25,10 +25,6 @@
     font-size: 12px;
 }
 
-.typing{
-  
-}
-
   .bounce {
   position: absolute;
   bottom: 176px;
@@ -112,43 +108,65 @@
     align-items: center;
   }
 
-  .messagePopUp-right{
+  .messagepopup-right{
     height: 200px;
     width: 180px;
-    position: absolute;
-    margin-right: 7rem;
-    margin-top: 8px;
+    margin-right: 5rem; 
+     margin-top: 8px;
     background: #50535a;
     box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
     border-radius: 10px;
 }
 
-.messagePopUp-left{
+.messagepopup-left{
   height: 200px;
   width: 180px;
-  position: absolute;
-  margin-left: 7rem;
+  margin-left: 5rem;
   margin-top: 8px;
   background: #50535a;
   box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
   border-radius: 10px;
 }
 
-.messagePopUp-items{
+.messagepopup-items{
     width: 90%;
     height: 25%;
-    justify-content: flex-start;
     display: flex;
     align-items: center;
     padding-left: 20px;
     border-width: 0px 0px 1px 0px;
     cursor: pointer;
 }
-.PopUp{
+.popup{
   cursor:pointer;
   color:#828282;
-  margin-left: 5px;
+  margin-left: 6px;
+  float: right;
 }
-.PopUp:hover{
+.popup:hover{
  color:white;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  border: 0;
+  outline: 0;
+  color: #fff;
+}
+
+textarea {
+  overflow: auto;
+  vertical-align: top;
+  resize: none;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  height: 70%;
+  border: 1px solid rgba(0,0,0,.5);
+  background: rgba(0,0,0,.25);
+  border-radius: 10px;
 }

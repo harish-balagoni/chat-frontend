@@ -54,7 +54,6 @@ class Contacts extends Component {
       pathname: "/ChatRoom",
       client2: user
     });
-
   };
 
   settings = () => {
@@ -89,7 +88,6 @@ class Contacts extends Component {
           <div className="chats">
             {this.state.extendpic?<img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" />:""}
             {this.state.isEmpty && <div>No conversations found</div>}
-
             {this.props.searchContactData && this.props.searchContactData.length === 0 ?
 
               this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {

@@ -8,6 +8,8 @@ import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 // import Header from '../Common/Header';
 import ClientHeader from '../ClientDetails/ClientHeader';
+import MessagePopup from './MessagePopup';
+import { couldStartTrivia } from 'typescript';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,7 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
+      confirmationpopup: false
 
     }
     this.message = React.createRef();
@@ -116,15 +119,42 @@ class ChatRoom extends Component {
 
   showMessagePopUp = (index) => {
     let messages = this.state.messages
-    messages[index].messagePopUp = messages[index].messagePopUp ? false : true;
-    this.setState({ messages: messages });
+    for (let i = 0; i < messages.length; i++) {
+      if (i === index) {
+        messages[i].messagePopUp = true;
+        this.setState({});
+      } else {
+        if (messages[i].messagePopUp) {
+          messages[i].messagePopUp = false;
+          this.setState({});
+        }
+      }
+    }
+    this.closePopup = () => {
+      let message = this.state.messages;
+      if (message[index]) {
+        if (messages[index].messagePopUp) {
+          messages[index].messagePopUp = false;
+          this.setState({})
+        }
+      }
+      this.setState({ messages: messages });
+    }
   }
 
+  deleteMessage=(index)=>{
+      let message=this.state.messages;
+      let delMsg=message[index].message;
+      if(window.confirm("You want to delete this message"+"    " +delMsg )){
+            message.splice(index,1);
+      }  
+    this.setState({})
+}
   render() {
     const { messages, isEmojiActive } = this.state;
 
     return (
-      <div className='chat-room' >
+      <div className='chat-room' onClick={this.closePopup} >
         <ClientHeader title={this.props.client.username} />
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
@@ -132,31 +162,15 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  <span className='msg-right'>{message.message}
-                    <span className="PopUp" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span></span>
-                  {message.messagePopUp ?
-                    <div className="messagePopUp-right">
-                      <div className="messagePopUp-items" >Reply</div>
-                      <div className="messagePopUp-items">Forward Message</div>
-                      <div className="messagePopUp-items" >Delete Message</div>
-                      <div className="messagePopUp-items" >Star Messages</div>
-                    </div> :
-                    null}
-
+                  <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
+                  {message.messagePopUp && <MessagePopup type="right" messages={this.deleteMessage} index={index}/>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                 (<div className="msg-field-container aln-left">
-                  <span className='msg-left'>{message.message}
-                    <span className="PopUp" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span></span>
-                  {message.messagePopUp ?
-                    <div className="messagePopUp-left">
-                      <div className="messagePopUp-items" >Reply</div>
-                      <div className="messagePopUp-items">Forward Message</div>
-                      <div className="messagePopUp-items" >Delete Message</div>
-                      <div className="messagePopUp-items" >Star Messages</div>
-                    </div> :
-                    null}
+                  <span className='msg-left'>
+                    <span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
+                  {message.messagePopUp && <MessagePopup type="left" messages={this.deleteMessage} index={index} />}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
               }
@@ -191,7 +205,7 @@ class ChatRoom extends Component {
             }
           </div>
           <div className='message-input'>
-            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
+            <textarea className='textfield' ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
           <div className='submit-button'>
             <button className='send' onClick={() => { this.send() }}>Send</button>
