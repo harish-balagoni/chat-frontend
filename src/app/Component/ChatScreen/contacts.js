@@ -18,11 +18,9 @@ class Contacts extends Component {
       extendpic:false,
             extendpicid:0
     };
-    console.log(this.props, 'in contacts');
     loaderService.show();
   }
   componentDidMount() {
-    console.log(this.state.Data);
     this.getContacts();
     this.props.searchData([]);
   }
@@ -36,7 +34,6 @@ class Contacts extends Component {
         },
       })
       .then((res) => {
-        console.log("response", res);
         let index = null,
           details = [];
         res.data.map((user, index) => {
@@ -78,9 +75,6 @@ class Contacts extends Component {
 
   showpic=(id)=>
   {
-
-      console.log("id:",id);
-      console.log(this.state.Data[this.state.extendpicid]['profile']);
       if(this.state.extendpic===false)
       this.setState({extendpic:true,extendpicid:id});
       else
@@ -149,7 +143,6 @@ class Contacts extends Component {
 }
 
 const mapStateToProps = (state) => (
-  console.log("state home page from redux in mapstatetoprops", state),
   {
     user: state.user.userDetails,
     client: state.user.client,
