@@ -91,7 +91,7 @@ class ChatScreen extends Component {
         let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
         return hours + ":" + date.getMinutes() + ampm;
     }
-
+   
     getDurationByTimestamp = (timestamp) => {
         /*
         random time stamps
@@ -126,26 +126,29 @@ class ChatScreen extends Component {
                 <Header title="Conversations" />
                 <div>
                     <div className="chats">
+                   
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
                                 user.messages && !!user.messages.length &&
-                                <div key={index} className="contact" onClick={() => {
+                                <><div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
-                                    <div className="profile-img">
-                                        <img src={user.client.profile} className="image"></img>
+                                        <img  src={user.client.profile} className="image"></img>
                                     </div>
+                                    
                                     <div className="text profile-nm">
                                         <div className="profile-name">
                                             {user.client.username}
                                         </div>
                                         <p>{user.latest.message}</p>
-                                    </div>
+                                    
                                     <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
                                 </div>
+                                </>
                             );
                         })}
+                        
                     </div>
                 </div>
                 <div className="contacts-footer">
