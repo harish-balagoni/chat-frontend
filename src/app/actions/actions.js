@@ -8,7 +8,6 @@ export const CONVERSATION = "CONVERSATION";
 export const CONTACTS = "CONTACTS";
 
 export const fetchUser = (user) => {
-    console.log("actions")
     return {
         type : FETCH_USER,
         user
