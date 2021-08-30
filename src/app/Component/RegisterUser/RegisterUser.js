@@ -57,7 +57,7 @@ class Registration extends Component {
                 this.errors.username = 'Please enter username.';
             } 
             else if(this.username.current.value.length<4){
-                this.errors.username = 'Please check username strength.';
+                this.errors.username = 'Please check username length.';
             }
             else {
                 console.log('username is true');
