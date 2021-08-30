@@ -5,6 +5,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
+import { socketConnect } from '../../../service/socket';
 
 class ChatScreen extends Component {
     constructor(props) {
@@ -20,10 +21,19 @@ class ChatScreen extends Component {
         loaderService.show();
     }
     componentDidMount() {
-        // socketConnect((socket) => {
-        //     // this.props.createSocket(socket);
-        //     this.socket = socket;
-        // });
+        this.getContacts();
+        socketConnect((socket) => {
+            this.socket = socket;
+            this.socket.emit("notifications", { username: this.props.user.username });
+            this.socket.on("notification", this.onNotification);
+        });
+    }
+
+    componentWillUnmount = () => {
+        this.socket.off("notification", this.onNotification);
+    }
+
+    onNotification = () => {
         this.getContacts();
     }
 
