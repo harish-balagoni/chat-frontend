@@ -175,8 +175,8 @@ class ChatRoom extends Component {
               </div>
             }
           </div>
-          <div src={emoji}  className="emoji">
-            <input type="file" onChange={this.imageUploading} ></input></div>
+          <div className="emoji">
+            <input type="file" onChange={this.imageUploading}  ></input></div>
           <div className='message-input'>
             <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
