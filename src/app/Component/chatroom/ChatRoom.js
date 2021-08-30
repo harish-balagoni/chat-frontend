@@ -149,14 +149,16 @@ class ChatRoom extends Component {
             </div>)
           })}
           {this.state.isOponentTyping &&
-            <div className="typing">
-              <div className="bounce">
-              </div>
-              <div className="bounce1">
-              </div>
-              <div className="bounce2">
-              </div>
-            </div>}
+          <div>
+          <div className="msg-left">
+          <div className="bounce">
+          </div>
+          <div className="bounce1">
+          </div>
+          <div className="bounce2">
+          </div>
+        </div></div>
+            }
         </div>
         <div className='footer'>
           <div className="emoji">
@@ -176,7 +178,7 @@ class ChatRoom extends Component {
               </div>
             }
           </div>
-          <div src={emoji}  className="emoji">
+          <div className="emoji">
             <input type="file" onChange={this.imageUploading} ></input></div>
           <div className='message-input'>
             <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
