@@ -5,6 +5,7 @@
     background: transparent;
     position: absolute;
 }.common-header{
+    padding: 10px 0 10px 0;
     width:90%;
     margin-left: 5%;
     height:15%;
@@ -22,6 +23,7 @@
 }
 
 .header-name{
+    padding-top: 12px;
     width:80%;
     height: 100%;
     display: flex;

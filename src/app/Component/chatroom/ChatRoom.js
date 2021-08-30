@@ -3,10 +3,8 @@ import './chatroom.css';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
-import emoji from './../../../assests/emoji.png';
 import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
-// import Header from '../Common/Header';
 import ClientHeader from '../ClientDetails/ClientHeader';
 class ChatRoom extends Component {
   constructor(props) {
@@ -16,8 +14,6 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
-      chatMenu: false,
-      chatSettingDetails: false,
     }
     this.message = React.createRef();
   }
@@ -114,18 +110,19 @@ class ChatRoom extends Component {
     this.setState({ isEmojiActive: !this.state.isEmojiActive });
   }
 
-
-  chatSettings = () => {
-    this.setState({ chatMenu: true })
+  imageUploading=(e)=>{
+    console.log(e.target.files[0],'image event');
+      if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
+      {
+        alert('worng format of file');
+      }else{
+        if(e.target.files[0].size/1024<1024){
+          console.log('file is below 2mb and image format is also acceptable');
+        }
+      }
+    
   }
 
-  chatSettingDetails = () => {
-    this.setState({ chatSettingDetails: true })
-  }
-
-  chatCancel = () => {
-    this.setState({ chatMenu: false, chatSettingDetails: false })
-  }
 
   render() {
     const { messages, isEmojiActive } = this.state;
@@ -162,7 +159,7 @@ class ChatRoom extends Component {
         </div>
         <div className='footer'>
           <div className="emoji">
-            {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
+            {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
             {isEmojiActive &&
               <div className="emoji-holder">
                 <Picker
@@ -178,6 +175,8 @@ class ChatRoom extends Component {
               </div>
             }
           </div>
+          <div src={this.emoji}  className="emoji">
+            <input type="file" onChange={this.imageUploading} ></input></div>
           <div className='message-input'>
             <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>

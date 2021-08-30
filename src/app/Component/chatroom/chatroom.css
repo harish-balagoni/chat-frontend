@@ -25,14 +25,10 @@
     font-size: 12px;
 }
 
-.typing{
-  
-}
-
-  .bounce {
+.bounce {
   position: absolute;
-  bottom: 15px;
-  left: 25% ;
+  bottom: 176px;
+  left: 13% ;
   width: 5px;
   height: 5px ;
     background: #fff;
@@ -48,8 +44,8 @@
   
   .bounce1 {
   position: absolute;
-  bottom: 15px;
-  left: 50% ;
+  bottom: 176px;
+  left: 14% ;
   width: 5px;
   height: 5px ;
     background: #fff;
@@ -66,8 +62,8 @@
   
   .bounce2 {
   position: absolute;
-  bottom: 15px;
-  left: 75% ;
+  bottom: 176px;
+  left: 15% ;
   width: 5px;
   height: 5px ;
     background: #fff;

@@ -12,6 +12,7 @@ const ChatRoom = lazy(() => import("./chatroom/ChatRoom"));
 const Register = lazy(() => import("./RegisterUser/RegisterUser"));
 const Login = lazy(() => import('./Login/Login'));
 const Contacts = lazy(() => import("./ChatScreen/contacts"));
+const ArchivedMessages = lazy(() => import("./ArchivedMessages/ArchivedMessages"));
 
 function PageNotFound() {
     return (
@@ -32,6 +33,7 @@ class Routing extends React.Component {
                         <Switch>
                             <Route path='/' exact component={Login}></Route>
                             <Route path='/ChatRoom' exact component={ChatRoom} />
+                            <Route path='/Archived' component={ArchivedMessages} />
                             <Route path='/chats' exact component={ChatScreen}></Route>
                             <Route path='/contacts' exact component={Contacts}></Route>
                             <Route path='/register' exact component={Register}></Route>

@@ -4,9 +4,10 @@ export const SUBMIT_REGISTER = "SUBMIT_REGISTER";
 export const LOG_OUT = "LOG_OUT";
 export const CREATE_CLIENT = "CREATE_CLIENT";
 export const SEARCH_DATA ="SEARCH_DATA"; 
+export const CONVERSATION = "CONVERSATION";
+export const CONTACTS = "CONTACTS";
 
 export const fetchUser = (user) => {
-    console.log("actions")
     return {
         type : FETCH_USER,
         user
@@ -40,4 +41,11 @@ export const createClient = (data) =>({
 export  const searchData=(data)=>({
     type:SEARCH_DATA,
     data
+});
+
+export const conversation = () =>({
+    type: 'CONVERSATION',
+});
+export const contacts = () =>({
+    type: 'CONTACTS',
 });
