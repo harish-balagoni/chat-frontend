@@ -110,7 +110,7 @@ class Contacts extends Component {
                 );
               }) :
               <div><h3>Search Results</h3>
-                {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h4>NotFound</h4> :
+                {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h1 style={{textAlign:"center",paddingTop:"10%"}}>User Not Found</h1> :
                   <div>
                     {this.props.searchContactData && this.props.searchContactData.map((user, index) => {
                       return (
