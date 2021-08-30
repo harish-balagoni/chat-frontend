@@ -93,14 +93,14 @@ class Registration extends Component {
             }
             else {
                 delete this.errors.password;
-                this.errors.cpassword = 'Password and confirm password should match';
+                this.errors.confirmpassword = 'Password and confirm password should match';
             }
 
             if (this.password.current.value === this.confirmpassword.current.value) {
-                delete this.errors.cpassword;
+                delete this.errors.confirmpassword;
 
             } else {
-                this.errors.cpassword = 'Password and confirm password should match';
+                this.errors.confirmpassword = 'Password and confirm password should match';
             }
         }
         if (type === 'all' || type === 'number') {
@@ -126,7 +126,7 @@ class Registration extends Component {
                     <div className='login-header'>Register</div>
                     <div className='login-input'>
                         <label>Username</label>
-                        <input type='text' ref={this.username} onBlur={this.checkValid} placeholder='Enter Userame...' />
+                        <input type='text' ref={this.username} onBlur={this.checkValid} placeholder='Enter Username...' />
                         <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
@@ -147,7 +147,7 @@ class Registration extends Component {
                     <div className='login-input'>
                         <label>Confirm Password</label>
                         <input type='password' ref={this.confirmpassword} onBlur={this.checkValid} placeholder='Enter Password...' />
-                        <div className='error-msg'>{this.errors.cpassword}</div>
+                        <div className='error-msg'>{this.errors.confirmpassword}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div>
@@ -194,10 +194,10 @@ class Registration extends Component {
             //             {this.errors.password}
             //         </div>
             //         <div className='form-group'>
-            //                 <input className='form-control' type='password' name='cpassword' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
+            //                 <input className='form-control' type='password' name='confirmpassword' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
             //         </div>
             //         <div style={{ color: '#FFFFFFBF' }}>
-            //             {this.errors.cpassword}
+            //             {this.errors.confirmpassword}
             //         </div>
 
             //         <div className='btn' >
