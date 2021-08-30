@@ -10,8 +10,11 @@ class ChatScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Data: null,
+            data:null,
             user: this.props.location.state && this.props.location.state.user,
+            menu: false,
+            settingDetails: false,
+            isEmpty: false,
         };
         loaderService.show();
     }
@@ -41,7 +44,7 @@ class ChatScreen extends Component {
                                 details.push(user);
                             }
                         });
-                        this.setState({ Data: details });
+                        this.setState({ data: details });
                         loaderService.hide();
                     }
                     else {
@@ -96,14 +99,13 @@ class ChatScreen extends Component {
     }
 
     render() {
-        const { isLoading, Data } = this.state;
         return (
             <div className="entire-area">
                 <Header title="Archived Messages" />
                 <div>
                     <div className="chats">
                         {this.state.isEmpty && <div>No conversations found</div>}
-                        {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
+                        {this.state.data && !!this.state.data.length && this.state.data.map((user, index) => {
                             return (
                                 user.messages && !!user.messages.length &&
                                 <div key={index} className="contact" onClick={() => {
