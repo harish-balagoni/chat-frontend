@@ -57,13 +57,13 @@
 {
     border-radius: 90%;
     margin-top: 6px;
-    margin-left: 450px;
+    margin-left: 550px;
     display: flex;
     height:220px;
     width: 250px;
     z-index: 9;
     background: transparent;
-    position: absolute;
+    position: fixed;
 }
 
 .profile-name{

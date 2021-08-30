@@ -15,8 +15,8 @@ class Contacts extends Component {
       menu: false,
       settingDetails: false,
       conversationButton: false,
-      extendpic:false,
-            extendpicid:0
+      extendpic: false,
+      extendpicid: 0,
     };
     loaderService.show();
   }
@@ -72,12 +72,17 @@ class Contacts extends Component {
     this.setState({ conversationButton: true });
   };
 
-  showpic=(id)=>
-  {
-      if(this.state.extendpic===false)
-      this.setState({extendpic:true,extendpicid:id});
-      else
-      this.setState({extendpic:false});
+  showpic = (id) => {
+    if (this.state.extendpic === false) {
+     document.getElementById('blur1').style.filter = 'blur(4px)'
+      this.setState({ extendpic: true, extendpicid: id, backgroundblur: true });
+    }
+    else {
+      document.getElementById('blur1').style.filter = ''
+      this.setState({ extendpic: false, backgroundblur: false });
+    }
+
+
   }
   render() {
     const { isLoading, Data } = this.state;
@@ -88,7 +93,7 @@ class Contacts extends Component {
           <div className="chats">
             {this.state.extendpic?<img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" />:""}
             {this.state.isEmpty && <div>No conversations found</div>}
-
+            <div id="blur1">
             {this.props.searchContactData && this.props.searchContactData.length === 0 ?
 
               this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
@@ -134,6 +139,7 @@ class Contacts extends Component {
                 }
               </div>
             }
+           </div>
           </div>
         </div>
       </div>
