@@ -161,6 +161,9 @@ input:focus{
     line-height: 1.5;
     color: hsla(0,0%,100%,.75);
     max-width: 40%;
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .msg-left{
@@ -177,6 +180,9 @@ input:focus{
     color: hsla(0,0%,100%,.75);
     max-width: 40%;
     text-align: left;
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .chat-typing{
