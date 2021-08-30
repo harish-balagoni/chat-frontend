@@ -25,8 +25,6 @@
   font-size: 12px;
 }
 
-
-
 .bounce {
 position: absolute;
 bottom: 15px;
@@ -167,3 +165,4 @@ animation: bounce 1s infinite;
   font-weight: 400;
   color: hsla(0,0%,100%,.75);
 }
+

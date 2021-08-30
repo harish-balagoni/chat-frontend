@@ -103,11 +103,14 @@ class ChatRoom extends Component {
     }
     else{
          this.indexValue=type
+        //if(this.indexValue!==0){
           console.log(this.indexValue)
           console.log('reply',this.props.user)
           this.setState({ReplyMsg:true,messageReply:false})
           this.socket.emit("reply",{username: this.props.user.username, client: this.props.client.username,messageId:this.indexValue,message:this.message.current.value})
-          this.previousMessage=this.state.messages[this.indexValue].message.length===2 ? this.state.messages[this.indexValue].message[1]:this.state.messages[this.indexValue].message   }
+
+          this.previousMessage=this.state.messages[this.indexValue].message.length===2 ? this.state.messages[this.indexValue].message[1]
+:      this.state.messages[this.indexValue].message   }
     
   }
   settings = () => {
@@ -178,7 +181,11 @@ class ChatRoom extends Component {
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                   <button onClick={()=>{this.send(index)}}>Reply</button>
-                  </div>):
+                  
+
+                  
+                  
+                </div>):
                 (<div className="msg-field-container aln-left">
                   <span className='msg-left'>{message.message}</span>
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>

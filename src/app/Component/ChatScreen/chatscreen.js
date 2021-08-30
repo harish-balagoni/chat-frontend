@@ -19,10 +19,6 @@ class ChatScreen extends Component {
         loaderService.show();
     }
     componentDidMount() {
-        // socketConnect((socket) => {
-        //     // this.props.createSocket(socket);
-        //     this.socket = socket;
-        // });
         this.getContacts();
     }
     getContacts = () => {
