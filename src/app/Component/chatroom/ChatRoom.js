@@ -149,7 +149,7 @@ class ChatRoom extends Component {
           })}
           {this.state.isOponentTyping &&
           <div>
-          <div className="msg-left">
+          <div className="msg-left" style={{width:'14px',paddingLeft:'13px',marginLeft:'5px'}}>
           <div className="bounce">
           </div>
           <div className="bounce1">
