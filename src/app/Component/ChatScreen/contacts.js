@@ -52,7 +52,6 @@ class Contacts extends Component {
     this.props.createClient(user);
     this.props.history.push({
       pathname: "/ChatRoom",
-      client2: user
     });
 
   };
@@ -85,7 +84,7 @@ class Contacts extends Component {
     return (
       <div className="entire-area">
         <Header title="Contacts" usersData={this.state.Data && this.state.Data} />
-        <div>
+        <div className="entire-area-subdiv">
           <div className="chats">
             {this.state.extendpic?<img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" />:""}
             {this.state.isEmpty && <div>No conversations found</div>}
@@ -142,13 +141,11 @@ class Contacts extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  {
+const mapStateToProps = (state) => ({
     user: state.user.userDetails,
     client: state.user.client,
     searchContactData: state.user.searchContactData
-  }
-);
+  });
 const mapDispatchToProps = (dispatch) => ({
   createClient: (data) => dispatch(createClient(data)),
   searchData: (data) => dispatch(searchData(data))

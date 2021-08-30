@@ -15,7 +15,8 @@ class Registration extends Component {
             username: '',
             email: '',
             mobile: 0,
-            password: ''
+            password: '',
+            exsitingUser:''
         }
         this.username = React.createRef();
         this.email = React.createRef();
@@ -45,7 +46,15 @@ class Registration extends Component {
                             pathname: '/chats'
                         })
                     }
-                }).catch(error => console.log(error));
+                }).catch(error =>{ if(error.response.status === 400){
+                    this.setState({exsitingUser:'Entered user already existing'});
+                    this.username.current.value='';
+                    this.email.current.value='';
+                    this.mobile.current.value='';
+                    this.password.current.value='';
+                    this.confirmpassword.current.value='';
+                    loaderService.hide();
+                }});
         }
     }
 
@@ -55,7 +64,11 @@ class Registration extends Component {
             if (!this.username.current.value) {
                 console.log('username not valid');
                 this.errors.username = 'Please enter username.';
-            } else {
+            } 
+            else if(this.username.current.value.length<4){
+                this.errors.username = 'Please check username length.';
+            }
+            else {
                 console.log('username is true');
                 delete this.errors.username;
             }
@@ -80,19 +93,22 @@ class Registration extends Component {
             }
             else {
                 delete this.errors.password;
-                this.errors.cpassword = 'Password field and confirm passoword should match';
+                this.errors.cpassword = 'Password and confirm password should match';
             }
 
             if (this.password.current.value === this.confirmpassword.current.value) {
                 delete this.errors.cpassword;
 
             } else {
-                this.errors.cpassword = 'Password field and confirm passoword should match';
+                this.errors.cpassword = 'Password and confirm password should match';
             }
         }
         if (type === 'all' || type === 'number') {
             if (!this.mobile.current.value) {
                 this.errors.mobile = 'Please enter mobile number.';
+            }
+            else if(this.mobile.current.value.length!=10){
+                this.errors.mobile = 'Please check mobile number strength.';
             }
             else {
                 delete this.errors.mobile;
@@ -110,34 +126,36 @@ class Registration extends Component {
                     <div className='login-header'>Register</div>
                     <div className='login-input'>
                         <label>Username</label>
-                        <input type='text' name='username' ref={this.username} onBlur={this.checkValid} placeholder='Enter Userame...' />
+                        <input type='text' ref={this.username} onBlur={this.checkValid} placeholder='Enter Userame...' />
                         <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
                         <label>Email</label>
-                        <input type='text' name='username' ref={this.email} onBlur={this.checkValid} placeholder='Enter Email...' />
-                        <div className='error-msg'>{this.errors.username}</div>
+                        <input type='text' ref={this.email} onBlur={this.checkValid} placeholder='Enter Email...' />
+                        <div className='error-msg'>{this.errors.email}</div>
                     </div>
                     <div className='login-input'>
                         <label>Mobile</label>
-                        <input type='text' name='username' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' maxLength="10"/>
+                        <input type='number' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' maxLength="10"/>
                         <div className='error-msg'>{this.errors.mobile}</div>
                     </div>
                     <div className='login-input'>
                         <label>Password</label>
-                        <input type='password' name='username' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <input type='password' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.password}</div>
                     </div>
                     <div className='login-input'>
                         <label>Confirm Password</label>
-                        <input type='password' name='username' ref={this.confirmpassword} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <input type='password' ref={this.confirmpassword} onBlur={this.checkValid} placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.cpassword}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div>
                        <ProfileUploader />
                     </div>
-
+                    <div style={{color: '#cc1524'}}>
+                        <p>{this.state.exsitingUser}</p>
+                    </div>
                     <div className='login-submit'>
                         <button className='login-button' onClick={this.submit} >Submit</button>
                     </div>

@@ -5,6 +5,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
+
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +26,7 @@ class ChatScreen extends Component {
         // });
         this.getContacts();
     }
+
     getContacts = () => {
         console.log("data", this.props.user);
         axios
@@ -40,7 +42,7 @@ class ChatScreen extends Component {
                 },
             })
             .then((res) => {
-                console.log("response", res.data);
+                console.log("response", res.data.data);
                 if (res.status === 200) {
                     if (res.data.data && res.data.data.length) {
                         let details = [];
@@ -59,14 +61,28 @@ class ChatScreen extends Component {
                 }
             });
     };
+
+    archiveMessage = (id) => {
+        axios
+        .request({
+            method: "POST",
+            url: `https://ptchatindia.herokuapp.com/archive`,
+            headers: {
+                authorization: this.props.user.token,
+            },
+            data: {
+                username: this.props.user.username,
+                roomIds:[id],
+            },
+        }).then((res) => {
+                console.log("response", res.data);
+            })
+    };
+
     open = (user) => {
         this.props.createClient(user);
-
-        console.log(user)
         this.props.history.push({
-            pathname: "/ChatRoom",
-            userDetails: this.props.user.username,
-            client2: user,
+            pathname: "/ChatRoom"
         });
     };
     settings = () => {
@@ -118,6 +134,11 @@ class ChatScreen extends Component {
         else if (years === 1) return (years + ' year' + ' ago')
         else return (years + ' years' + ' ago');
     }
+    redirectingToArchived=()=>{
+        this.props.history.push({
+            pathname: "/Archived"
+        })
+    }
 
     render() {
         const { isLoading, Data } = this.state;
@@ -136,14 +157,17 @@ class ChatScreen extends Component {
                                 }}>
                                         <img  src={user.client.profile} className="image"></img>
                                     </div>
-                                    
-                                    <div className="text profile-nm">
+                                    <div className="text profile-nm">                                        
                                         <div className="profile-name">
                                             {user.client.username}
                                         </div>
                                         <p>{user.latest.message}</p>
                                     
                                     <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
+                                    <div className="archive-submit">
+                                    <button className="archive-button" onClick={()=>{this.archiveMessage(user.id)}} > Archive</button>
+                                    </div>
+                                   
                                 </div>
                                 </>
                             );
@@ -152,8 +176,11 @@ class ChatScreen extends Component {
                     </div>
                 </div>
                 <div className="contacts-footer">
+                    <div className="chats" onClick={this.redirectingToArchived}><h4>Archived Messages</h4></div>
                     <div className="chats-position">
-                        <button className="chats-button" onClick={() => { this.selectContact() }}><img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" /></button>
+                        <button className="chats-button" onClick={() => { this.selectContact() }}>
+                            <img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" />
+                        </button>
                     </div>
                 </div>
             </div>
