@@ -22,7 +22,7 @@ class Registration extends Component {
         this.email = React.createRef();
         this.password = React.createRef();
         this.mobile = React.createRef();
-        this.confirmpassword = React.createRef();
+        this.confirmPassword = React.createRef();
     }
 
     componentDidMount() {
@@ -52,7 +52,7 @@ class Registration extends Component {
                     this.email.current.value='';
                     this.mobile.current.value='';
                     this.password.current.value='';
-                    this.confirmpassword.current.value='';
+                    this.confirmPassword.current.value='';
                     loaderService.hide();
                 }});
         }
@@ -69,7 +69,6 @@ class Registration extends Component {
                 this.errors.username = 'Please check username length.';
             }
             else {
-                console.log('username is true');
                 delete this.errors.username;
             }
         }
@@ -93,14 +92,14 @@ class Registration extends Component {
             }
             else {
                 delete this.errors.password;
-                this.errors.confirmpassword = 'Password and confirm password should match';
+                this.errors.confirmPassword = 'Password and confirm password should match';
             }
 
-            if (this.password.current.value === this.confirmpassword.current.value) {
-                delete this.errors.confirmpassword;
+            if (this.password.current.value === this.confirmPassword.current.value) {
+                delete this.errors.confirmPassword;
 
             } else {
-                this.errors.confirmpassword = 'Password and confirm password should match';
+                this.errors.confirmPassword = 'Password and confirm password should match';
             }
         }
         if (type === 'all' || type === 'number') {
@@ -146,8 +145,8 @@ class Registration extends Component {
                     </div>
                     <div className='login-input'>
                         <label>Confirm Password</label>
-                        <input type='password' ref={this.confirmpassword} onBlur={this.checkValid} placeholder='Enter Password...' />
-                        <div className='error-msg'>{this.errors.confirmpassword}</div>
+                        <input type='password' ref={this.confirmPassword} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <div className='error-msg'>{this.errors.confirmPassword}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div>
@@ -164,52 +163,6 @@ class Registration extends Component {
                     </div>
                 </div>
             </div>
-            // <div className='container'>
-            //     <div className='container__body'>
-            //         <div className='content_container'>
-            //             <div className='form_conatiner'>
-            //              <div><h3 style={{color:'FFFFFFBF'}}>Create User</h3></div>
-
-            //         <div className='form-group'>
-            //             <input className='form-control' type='username' ref={this.username}
-            //                 onBlur={this.validationForm.bind(this, 'username')} placeholder="Enter Name" />
-            //         </div>
-            //         <div><p>{this.errors.username}</p></div>
-            //         <div className='form-group'>
-            //             <input className='form-control' type='email' ref={this.email} onBlur={this.validationForm.bind(this, 'email')} placeholder="Email" ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF' }}>
-            //             {this.errors.email}
-            //         </div>
-            //         <div className='form-group'>
-            //             <input className='form-control' type='number' placeholder="Enter Mobile Number" ref={this.mobile} onBlur={this.validationForm.bind(this, 'number')} ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF' }}>
-            //             {this.errors.mobile}
-            //         </div>
-            //         <div className='form-group'>
-            //                 <input className='form-control' type='password' placeholder="Enter Password" ref={this.password} onBlur={this.validationForm.bind(this, 'password')} ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF'}}>
-            //             {this.errors.password}
-            //         </div>
-            //         <div className='form-group'>
-            //                 <input className='form-control' type='password' name='confirmpassword' placeholder="Confirm Password" ref={this.confirmpassword} onBlur={this.validationForm.bind(this, 'password')} ></input>
-            //         </div>
-            //         <div style={{ color: '#FFFFFFBF' }}>
-            //             {this.errors.confirmpassword}
-            //         </div>
-
-            //         <div className='btn' >
-            //         <button style={{ backgroundColor: '#408bff',
-            //         color: 'white',height: '37px', width: '301px', borderRadius: '25px'}}
-            //         onClick={this.submit} type='button'>
-            //         Submit</button>
-            //         </div>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </div>
         );
     }
 }
