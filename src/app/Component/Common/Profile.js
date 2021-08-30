@@ -10,7 +10,7 @@ class Profile extends Component {
                 </div>
                 <div className="header-profile-item">{this.props.user.username}</div>
                 <div className="header-profile-item">{this.props.user.email}</div>
-                <div className="header-profile-item">{this.props.user.mobile}</div>
+                <div className="header-profile-item">(+91) {this.props.user.mobile}</div>
             </div>
         )
     }
