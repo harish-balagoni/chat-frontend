@@ -116,3 +116,13 @@ label{
     justify-content: space-around;
     width: 200px;
 }
+
+.input-change{
+    width: 190px;
+    height: 19px;
+    border-radius: 15px 15px 15px 15px;
+    margin-right: 1rem;
+    background-color:#4b4e55;
+    color :white;
+    font-size: 15px;
+}

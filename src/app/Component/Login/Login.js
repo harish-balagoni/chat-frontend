@@ -77,12 +77,12 @@ class Login extends Component {
                     <div className='login-header'>Login</div>
                     <div className='login-input'>
                         <label>Username</label>
-                        <input type='text' ref={this.username} onBlur={this.checkValid} placeholder='Enter Username...' />
+                        <input type='text' ref={this.username}  className='input-change' onBlur={this.checkValid} placeholder='Enter Username...' />
                         <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
                         <label>Password</label>
-                        <input type='password' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <input type='password' ref={this.password} className='input-change' onBlur={this.checkValid} placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.password}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
