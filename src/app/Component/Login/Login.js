@@ -66,6 +66,7 @@ class Login extends Component {
                 }).catch((err) => {
                     console.log('errors', err.message);
                     this.setState({ failedLogin: !this.failedLogin });
+                    loaderService.hide();
                 });
         }
     }
