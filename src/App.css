@@ -61,7 +61,14 @@ html, body{
   align-items: center;
   cursor: pointer;
 }
-
+.emoji-style{
+  font-size: 25px;
+  height: 50%;
+  background-color: rgba(0,0,0,.25);
+  border-radius: 50%;
+  width: 25%;
+  text-align: center;
+}
 .emoji-holder{
   position: absolute;
     height: 320px;

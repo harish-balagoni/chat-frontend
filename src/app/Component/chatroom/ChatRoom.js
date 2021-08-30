@@ -3,7 +3,6 @@ import './chatroom.css';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
-import emoji from './../../../assests/emoji.png';
 import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 // import Header from '../Common/Header';
@@ -162,7 +161,7 @@ class ChatRoom extends Component {
         </div>
         <div className='footer'>
           <div className="emoji">
-            {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
+            {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
             {isEmojiActive &&
               <div className="emoji-holder">
                 <Picker

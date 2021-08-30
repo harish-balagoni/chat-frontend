@@ -21,7 +21,7 @@ check=(e)=>
     if(e.target.files[0].type!=="image/jpeg")
     {
         console.log("not a picture");
-        const error="selected was not jpeg format";
+        const error="selected image is not in jpeg format";
         this.setState({error:error});
     }
     else{

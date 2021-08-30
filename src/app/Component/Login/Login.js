@@ -45,7 +45,6 @@ class Login extends Component {
     }
     checkLogin = () => {
         if (this.checkValid('all')) {
-            loaderService.show();
             axios.post("https://ptchatindia.herokuapp.com/login",
                 {
                     "username": this.username.current.value,
@@ -53,6 +52,7 @@ class Login extends Component {
                 }).then(res => {
                     console.log(res.data);
                     if (res.status === 200) {
+                        loaderService.show();
                         this.props.userLogin(res.data.data);
                         this.props.history.push({
                             pathname: '/chats'
@@ -73,12 +73,12 @@ class Login extends Component {
                     <div className='login-header'>Login</div>
                     <div className='login-input'>
                         <label>Username</label>
-                        <input type='text' name='username' ref={this.username} onBlur={this.checkValid} placeholder='Enter Userame...' />
+                        <input type='text' ref={this.username} onBlur={this.checkValid} placeholder='Enter Username...' />
                         <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
                         <label>Password</label>
-                        <input type='password' name='username' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <input type='password' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.password}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
