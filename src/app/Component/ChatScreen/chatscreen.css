@@ -1,4 +1,7 @@
-
+.entire-area-subdiv{
+    height: max-content;
+    background-color: #202124;
+}
 
 .image{
     float: left;
@@ -17,8 +20,8 @@
     left:0 ;
 }
 .entire-area{
-    height: 100%;
-}
+    height: max-content;
+    background-color: #202124;}
 
 .chats{
     width: 90%;
@@ -49,6 +52,18 @@
     justify-content: center;
     align-items: center;
     
+}
+ .extendedimage
+{
+    border-radius: 90%;
+    margin-top: 6px;
+    margin-left: 450px;
+    display: flex;
+    height:220px;
+    width: 250px;
+    z-index: 9;
+    background: transparent;
+    position: absolute;
 }
 
 .profile-name{
@@ -153,7 +168,7 @@ p{
 }
 
 .chats-position{
-    position: absolute;
+    position: fixed;
     border: 3px solid #e2e2e3;
     border-radius: 50%;
     right: 5%;

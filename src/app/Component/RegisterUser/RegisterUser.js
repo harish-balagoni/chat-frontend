@@ -15,7 +15,8 @@ class Registration extends Component {
             username: '',
             email: '',
             mobile: 0,
-            password: ''
+            password: '',
+            exsitingUser:''
         }
         this.username = React.createRef();
         this.email = React.createRef();
@@ -45,7 +46,15 @@ class Registration extends Component {
                             pathname: '/chats'
                         })
                     }
-                }).catch(error => console.log(error));
+                }).catch(error =>{ if(error.response.status === 400){
+                    this.setState({exsitingUser:'Entered user already existing'});
+                    this.username.current.value='';
+                    this.email.current.value='';
+                    this.mobile.current.value='';
+                    this.password.current.value='';
+                    this.confirmpassword.current.value='';
+                    loaderService.hide();
+                }});
         }
     }
 
@@ -137,7 +146,9 @@ class Registration extends Component {
                     <div>
                        <ProfileUploader />
                     </div>
-
+                    <div style={{color: '#cc1524'}}>
+                        <p>{this.state.exsitingUser}</p>
+                    </div>
                     <div className='login-submit'>
                         <button className='login-button' onClick={this.submit} >Submit</button>
                     </div>

@@ -12,23 +12,14 @@ class ChatScreen extends Component {
         this.state = {
             Data: null,
             user: this.props.location.state && this.props.location.state.user,
-            menu: false,
-            settingDetails: false,
-            isEmpty: false,
         };
-        console.log(this.props);
         loaderService.show();
     }
     componentDidMount() {
-        // socketConnect((socket) => {
-        //     // this.props.createSocket(socket);
-        //     this.socket = socket;
-        // });
         this.getContacts();
     }
 
     getContacts = () => {
-        console.log("data", this.props.user);
         axios
         .request({
             method: "POST",
@@ -42,7 +33,6 @@ class ChatScreen extends Component {
             },
         })
             .then((res) => {
-                console.log("response", res.data.data);
                 if (res.status === 200) {
                     if (res.data.data && res.data.data.length) {
                         let details = [];
@@ -65,8 +55,6 @@ class ChatScreen extends Component {
         this.props.createClient(user);
         this.props.history.push({
             pathname: "/ChatRoom",
-            userDetails: this.props.user.username,
-            client2: user,
         });
     };
     settings = () => {
@@ -92,7 +80,6 @@ class ChatScreen extends Component {
     }
 
     unArchiveMessage = (id) =>{
-        console.log([id],'token');
         axios
         .request({
             method: "POST",
@@ -105,16 +92,11 @@ class ChatScreen extends Component {
                 roomIds:[id],
             },
         }).then((res) => {
-            console.log(res.status);
-                console.log("response", res.data);
-
             }).catch((error)=>console.log(error))
     }
 
     render() {
         const { isLoading, Data } = this.state;
-        console.log(Data);
-
         return (
             <div className="entire-area">
                 <Header title="Archived Messages" />
@@ -123,6 +105,7 @@ class ChatScreen extends Component {
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
+                                user.messages && !!user.messages.length &&
                                 <div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
@@ -150,13 +133,9 @@ class ChatScreen extends Component {
     }
 }
 
-const mapStateToProps = (state) => (
-    console.log("state home page from redux in mapstatetoprops", state),
-    {
+const mapStateToProps = (state) => ({
         user: state.user.userDetails,
-        client: state.user.client
-    }
-);
+    });
 
 const mapDispatchToProps = (dispatch) => ({
     createClient: (data) => dispatch(createClient(data))

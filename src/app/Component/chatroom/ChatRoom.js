@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import emoji from './../../../assests/emoji.png';
 import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
-// import Header from '../Common/Header';
 import ClientHeader from '../ClientDetails/ClientHeader';
 class ChatRoom extends Component {
   constructor(props) {
@@ -112,7 +111,7 @@ class ChatRoom extends Component {
     this.setState({ isEmojiActive: !this.state.isEmojiActive });
   }
 
-  imagePicker=(e)=>{
+  imageUploading=(e)=>{
     console.log(e.target.files[0],'image event');
       if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
       {
@@ -178,7 +177,7 @@ class ChatRoom extends Component {
             }
           </div>
           <div src={emoji}  className="emoji">
-            <input type="file" onChange={this.imagePicker} ></input></div>
+            <input type="file" onChange={this.imageUploading} ></input></div>
           <div className='message-input'>
             <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>

@@ -36,8 +36,9 @@ html, body{
 }
 
 .footer{
+  position: fixed;
   width: 90%;
-  height: 10%;
+  height: 6%;
   bottom: 0;
   display: flex;
   background: #373a3f;
@@ -125,7 +126,6 @@ input:focus{
 
 .msg-container{
   scroll-behavior: smooth;
-
   width: 90%;
   height: 80%;
   background-color: #383a3f;
@@ -145,7 +145,7 @@ input:focus{
   background: #8a8787;
     border-radius: 1rem;
     padding: 10px;
-    float: right;
+    float: right; 
     margin-right: 5px;
     padding-left: 15px;
     padding-right: 15px;
