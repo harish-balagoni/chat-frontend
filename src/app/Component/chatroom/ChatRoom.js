@@ -193,8 +193,8 @@ class ChatRoom extends Component {
     return (
       <div className='chat-room' onClick={this.closePopup} >
         <ClientHeader title={this.props.client.username} />
-        <div className='msg-container'>
-          {messages && !!messages.length && messages.map((message, index) => {console.log(messages)
+          <div className='msg-container'>
+          {messages && !!messages.length && messages.map((message, index) => {
             return (<div className='message-field' key={index}>
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
@@ -213,14 +213,16 @@ class ChatRoom extends Component {
             </div>)
           })}
           {this.state.isOponentTyping &&
-            <div className="typing">
-              <div className="bounce">
-              </div>
-              <div className="bounce1">
-              </div>
-              <div className="bounce2">
-              </div>
-            </div>}
+          <div>
+          <div className="msg-left" style={{width:'14px',paddingLeft:'13px',marginLeft:'5px'}}>
+          <div className="bounce">
+          </div>
+          <div className="bounce1">
+          </div>
+          <div className="bounce2">
+          </div>
+        </div></div>
+            }
         </div>
         
         {this.state.ReplyMsg?<div className='footer-reply'><div className="emoji">
@@ -269,7 +271,7 @@ class ChatRoom extends Component {
             }
           </div>
           <div className="emoji">
-            <input type="file" onChange={this.imageUploading}  ></input></div>
+            <input type="file" onChange={this.imageUploading} ></input></div>
           <div className='message-input'>
             <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
