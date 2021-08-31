@@ -47,15 +47,15 @@ class Registration extends Component {
                         })
                     }
                 }).catch(error =>{
-                    //  if(error.response.status === 400){
-                    // this.setState({exsitingUser:'Entered user already existing'});
-                    // this.username.current.value='';
-                    // this.email.current.value='';
-                    // this.mobile.current.value='';
-                    // this.password.current.value='';
-                    // this.confirmPassword.current.value='';
-                    // loaderService.hide();
-           //     }
+                     if(error.response.status === 400){
+                    this.setState({exsitingUser:'Entered user already existing'});
+                    this.username.current.value='';
+                    this.email.current.value='';
+                    this.mobile.current.value='';
+                    this.password.current.value='';
+                    this.confirmPassword.current.value='';
+                    loaderService.hide();
+               }
             });
         }
     }
