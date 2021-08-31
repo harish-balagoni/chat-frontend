@@ -47,7 +47,8 @@ class Registration extends Component {
                             pathname: '/chats'
                         })
                     }
-                }).catch(error =>{ if(error.response.status === 400){
+                }).catch(error =>{
+                     if(error.response.status === 400){
                     this.setState({exsitingUser:'Entered user already existing'});
                     this.username.current.value='';
                     this.email.current.value='';
@@ -55,7 +56,8 @@ class Registration extends Component {
                     this.password.current.value='';
                     this.confirmPassword.current.value='';
                     loaderService.hide();
-                }});
+               }
+            });
         }
     }
 
