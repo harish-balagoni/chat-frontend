@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './RegisterUser.css';
-import "../Login/CommonStyles.css";
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { loaderService } from '../../../service/loaderService';
 import { submitRegister } from '../../actions/actions';
 import ProfileUploader from '../ProfileUploader';
@@ -15,14 +14,13 @@ class Registration extends Component {
             username: '',
             email: '',
             mobile: 0,
-            password: '',
-            exsitingUser:''
+            password: ''
         }
         this.username = React.createRef();
         this.email = React.createRef();
         this.password = React.createRef();
         this.mobile = React.createRef();
-        this.confirmPassword = React.createRef();
+        this.confirmpassword = React.createRef();
     }
 
     componentDidMount() {
@@ -31,7 +29,7 @@ class Registration extends Component {
 
     submit = () => {
         if (this.validationForm("all")) {
-            loaderService.show();
+            loaderService.szhow();
             let details = {
 
                 username: this.username.current.value,
@@ -39,25 +37,16 @@ class Registration extends Component {
                 mobile: this.mobile.current.value,
                 password: this.password.current.value
             };
-            axios.post("https://ptchatindia.herokuapp.com/register", details)
-                .then(res => {
-                    if (res.status === 200) {
-                        this.props.submitRegister(res.data.data);
-                        this.props.history.push({
-                            pathname: '/chats'
-                        })
-                    }
-                }).catch(error =>{
-                     if(error.response.status === 400){
-                    this.setState({exsitingUser:'Entered user already existing'});
-                    this.username.current.value='';
-                    this.email.current.value='';
-                    this.mobile.current.value='';
-                    this.password.current.value='';
-                    this.confirmPassword.current.value='';
-                    loaderService.hide();
-               }
-            });
+
+            axios.post("https://ptchatindia.herokuapp.com/register", details).then(res => {
+                console.log("registration", res);
+                if (res.status === 200) {
+                    this.props.submitRegister(res.data.data);
+                    this.props.history.push({
+                        pathname: '/chats'
+                    })
+                }
+            }).catch(error => console.log(error));
         }
     }
 
@@ -67,11 +56,8 @@ class Registration extends Component {
             if (!this.username.current.value) {
                 console.log('username not valid');
                 this.errors.username = 'Please enter username.';
-            } 
-            else if(this.username.current.value.length<4){
-                this.errors.username = 'Please check username length.';
-            }
-            else {
+            } else {
+                console.log('username is true');
                 delete this.errors.username;
             }
         }
@@ -95,22 +81,19 @@ class Registration extends Component {
             }
             else {
                 delete this.errors.password;
-                this.errors.confirmPassword = 'Password and confirm password should match';
+                this.errors.cpassword = 'Password field and confirm passoword should match';
             }
 
-            if (this.password.current.value === this.confirmPassword.current.value) {
-                delete this.errors.confirmPassword;
+            if (this.password.current.value === this.confirmpassword.current.value) {
+                delete this.errors.cpassword;
 
             } else {
-                this.errors.confirmPassword = 'Password and confirm password should match';
+                this.errors.cpassword = 'Password field and confirm passoword should match';
             }
         }
         if (type === 'all' || type === 'number') {
             if (!this.mobile.current.value) {
                 this.errors.mobile = 'Please enter mobile number.';
-            }
-            else if(this.mobile.current.value.length!=10){
-                this.errors.mobile = 'Please check mobile number strength.';
             }
             else {
                 delete this.errors.mobile;
@@ -128,36 +111,34 @@ class Registration extends Component {
                     <div className='login-header'>Register</div>
                     <div className='login-input'>
                         <label>Username</label>
-                        <input type='text' ref={this.username} onBlur={this.checkValid} className="input-change"  placeholder='Enter Username...' />
+                        <input type='text' name='username' ref={this.username} onBlur={this.checkValid} placeholder='Enter Userame...' />
                         <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
                         <label>Email</label>
-                        <input type='text' ref={this.email} onBlur={this.checkValid} className="input-change"  placeholder='Enter Email...' />
-                        <div className='error-msg'>{this.errors.email}</div>
+                        <input type='text' name='username' ref={this.email} onBlur={this.checkValid} placeholder='Enter Email...' />
+                        <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
                         <label>Mobile</label>
-                        <input type='number' ref={this.mobile} onBlur={this.checkValid} className="input-change"  placeholder='Enter Mobile Number...' maxLength="10"/>
+                        <input type='text' name='username' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' maxLength="10" />
                         <div className='error-msg'>{this.errors.mobile}</div>
                     </div>
                     <div className='login-input'>
                         <label>Password</label>
-                        <input type='password' ref={this.password} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password...' />
+                        <input type='password' name='username' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.password}</div>
                     </div>
                     <div className='login-input'>
                         <label>Confirm Password</label>
-                        <input type='password' ref={this.confirmPassword} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password...' />
-                        <div className='error-msg'>{this.errors.confirmPassword}</div>
+                        <input type='password' name='username' ref={this.confirmpassword} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <div className='error-msg'>{this.errors.cpassword}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div>
                         <ProfileUploader />
                     </div>
-                    <div style={{color: '#cc1524'}}>
-                        <p>{this.state.exsitingUser}</p>
-                    </div>
+
                     <div className='login-submit'>
                         <button className='login-button' onClick={this.submit} >Submit</button>
                     </div>
@@ -166,6 +147,7 @@ class Registration extends Component {
                     </div>
                 </div>
             </div>
+
         );
     }
 }
