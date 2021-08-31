@@ -130,6 +130,7 @@ class ChatRoom extends Component {
     return (
       <div className='chat-room' >
         <ClientHeader title={this.props.client.username} />
+        <div>
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
             return (<div className='message-field' key={index}>
@@ -185,6 +186,7 @@ class ChatRoom extends Component {
           <div className='submit-button'>
             <button className='send' onClick={() => { this.send() }}>Send</button>
           </div>
+        </div>
         </div>
 
       </div>
