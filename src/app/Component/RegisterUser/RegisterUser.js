@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './RegisterUser.css';
+import "../Login/CommonStyles.css";
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { loaderService } from '../../../service/loaderService';
 import { submitRegister } from '../../actions/actions';
 import ProfileUploader from '../ProfileUploader';
@@ -46,7 +47,8 @@ class Registration extends Component {
                             pathname: '/chats'
                         })
                     }
-                }).catch(error =>{ if(error.response.status === 400){
+                }).catch(error =>{
+                     if(error.response.status === 400){
                     this.setState({exsitingUser:'Entered user already existing'});
                     this.username.current.value='';
                     this.email.current.value='';
@@ -54,7 +56,8 @@ class Registration extends Component {
                     this.password.current.value='';
                     this.confirmPassword.current.value='';
                     loaderService.hide();
-                }});
+               }
+            });
         }
     }
 
@@ -125,27 +128,27 @@ class Registration extends Component {
                     <div className='login-header'>Register</div>
                     <div className='login-input'>
                         <label>Username</label>
-                        <input type='text' ref={this.username} onBlur={this.checkValid} placeholder='Enter Username...' />
+                        <input type='text' ref={this.username} onBlur={this.checkValid} className="input-change"  placeholder='Enter Username...' />
                         <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
                         <label>Email</label>
-                        <input type='text' ref={this.email} onBlur={this.checkValid} placeholder='Enter Email...' />
+                        <input type='text' ref={this.email} onBlur={this.checkValid} className="input-change"  placeholder='Enter Email...' />
                         <div className='error-msg'>{this.errors.email}</div>
                     </div>
                     <div className='login-input'>
                         <label>Mobile</label>
-                        <input type='number' ref={this.mobile} onBlur={this.checkValid} placeholder='Enter Mobile Number...' maxLength="10"/>
+                        <input type='number' ref={this.mobile} onBlur={this.checkValid} className="input-change"  placeholder='Enter Mobile Number...' maxLength="10"/>
                         <div className='error-msg'>{this.errors.mobile}</div>
                     </div>
                     <div className='login-input'>
                         <label>Password</label>
-                        <input type='password' ref={this.password} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <input type='password' ref={this.password} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.password}</div>
                     </div>
                     <div className='login-input'>
                         <label>Confirm Password</label>
-                        <input type='password' ref={this.confirmPassword} onBlur={this.checkValid} placeholder='Enter Password...' />
+                        <input type='password' ref={this.confirmPassword} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.confirmPassword}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}

@@ -7,6 +7,7 @@ import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 import MessageOptions from '../Common/msgoptions';
 import ClientHeader from '../ClientDetails/ClientHeader';
+import MessagePopup from './MessagePopup';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -73,29 +74,15 @@ class ChatRoom extends Component {
     if (this.state.isEmojiActive) {
       this.setState({ isEmojiActive: false });
     }
-
-    if (type === 'send') {
-      if (this.message.current.value) {
-        console.log('chat started', this.props.user);
-        this.socket.emit("chat", {
-          username: this.props.user.username,
-          client2: this.props.client.username,
-          message: this.message.current.value
-        });
-        this.message.current.value = '';
-      }
-    }
-    else if (type === 'reply-send') {
-      this.setState({ messageReply: true, ReplyMsg: false })
-      if (this.message.current.value) {
-        console.log('chat started', this.props.user);
-        this.socket.emit("chat", {
-          username: this.props.user.username,
-          client2: this.props.client.username,
-          message: [this.previousMessage, this.message.current.value]
-        });
-        this.message.current.value = '';
-      }
+    if (this.message.current.value) {
+      console.log('chat started', this.props.user);
+      this.socket.emit("chat", {
+        username: this.props.user.username,
+        client2: this.props.client.username,
+        message: this.message.current.value,
+        messagePopUp: false
+      });
+      this.message.current.value = '';
     }
     else {
       this.indexValue = type
@@ -153,31 +140,37 @@ class ChatRoom extends Component {
     }
 
   }
-
-  chatSettingDetails = () => {
-    this.setState({ chatSettingDetails: true })
+//For Displaying message popup
+  showMessagePopUp = (index) => {
+    let messages = this.state.messages
+    for (let i = 0; i < messages.length; i++) {
+      if (i === index) {
+        messages[i].messagePopUp = true;
+        this.setState({});
+      } else {
+        if (messages[i].messagePopUp) {
+          messages[i].messagePopUp = false;
+          this.setState({});
+        }
+      }
+    }
+    //closing message popup by clicking outside
+    this.closePopup = () => {
+      let message = this.state.messages;
+      if (message[index]) {
+        if (messages[index].messagePopUp) {
+          messages[index].messagePopUp = false;
+          this.setState({})
+        }
+      }
+      this.setState({ messages: messages });
+    }
   }
-
-  chatCancel = () => {
-    this.setState({ chatMenu: false, chatSettingDetails: false })
-  }
-
-
-  showMsgOptions = (index) => {
-    let messages = this.state.messages;
-    messages[index].showMsgOptions = messages[index].showMsgOptions ? false : true;
-    this.setState({ messages: messages });
-  }
-
-  messageReply = (index) => {
-    let messages = this.state.messages;
-    messages[index].msgReply = messages[index].msgReply ? false : true;
-    this.setState({ messages: messages });
-  }
+  
   render() {
     const { messages, isEmojiActive } = this.state;
     return (
-      <div className='chat-room' >
+      <div className='chat-room' onClick={this.closePopup} >
         <ClientHeader title={this.props.client.username} />
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {
@@ -186,13 +179,14 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  {message.message.length === 2 ? <div className='reply-msg-overlay'><p className='reply-msg-right1'>{(message.message[0])}</p><p className='msg-style'>{(message.message[1])} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></p></div> : <div className='msg-right'>{message.message} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></div>}
-                  {message.showMsgOptions && <MessageOptions send={() => { this.send(index) }} onClose={() => { this.showMsgOptions(index) }} />}
+                  <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
+                  {message.messagePopUp && <MessagePopup type="right"/>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                 (<div className="msg-field-container aln-left">
-                  <span className='msg-left'>{message.message}</span>
+                  <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
+                  {message.messagePopUp && <MessagePopup type="left" />}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
               }
@@ -227,9 +221,7 @@ class ChatRoom extends Component {
           }
         </div>
           <div className='message-input'>
-            <div className='reply-msg'>{this.previousMessage}
-              <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' style={{ height: '20px' }} />
-            </div>
+            <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
           <div className='submit-button'>
             <button className='send' onClick={() => { this.send('reply-send') }}>Send</button>
