@@ -61,8 +61,8 @@ body.auth .form-wrapper form .form-control {
 
 .login-box{
     background: #383a3f;
-    padding: 30px;
-    border-radius: 10%;
+    padding: 3%;
+    border-radius: 2%;
     box-shadow: 0px 0px 30px rgb(159 38 234 / 20%);
 }
 

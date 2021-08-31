@@ -186,7 +186,7 @@ class ChatScreen extends Component {
                     </div>
                 </div>
                 <div className="contacts-footer">
-                    <div className="chats" onClick={this.redirectingToArchived}><h4>Archived Messages</h4></div>
+                    <div className="chats" onClick={this.redirectingToArchived}><h4 style={{textAlign:"center"}}>Archived Messages</h4></div>
                     <div className="chats-position">
                         <button className="chats-button" onClick={() => { this.selectContact() }}>
                             <img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" />

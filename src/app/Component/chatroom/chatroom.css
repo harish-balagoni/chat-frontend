@@ -109,8 +109,8 @@
   }
 
   .messagepopup-right{
-    height: 200px;
-    width: 180px;
+    height: 12rem;
+    width: 73%;
     margin-right: 5rem; 
      margin-top: 8px;
     background: #50535a;
@@ -119,8 +119,8 @@
 }
 
 .messagepopup-left{
-  height: 200px;
-  width: 180px;
+  height: 12rem;
+  width: 73%;
   margin-left: 5rem;
   margin-top: 8px;
   background: #50535a;
