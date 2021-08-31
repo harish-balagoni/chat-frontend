@@ -18,17 +18,15 @@ check=(e)=>
             this.setState({pic:reader.result});
         }
     }
-    if(e.target.files[0].type!=="image/jpeg")
+    if(e.target.files[0].type!=="image/jpeg"  &&e.target.files[0].type!=='image/png' && e.target.files[0].type!=='image/jpg')
     {
-        console.log("not a picture");
-        const error="selected was not jpeg format";
+        const error="selected file is not an image";
         this.setState({error:error});
     }
     else{
     if(e.target.files[0].size>2e+6)
     {
-    console.log("pic more size");
-    const error="image size must be lessthan 2 Mb"
+    const error="image size must be less than 2 Mb";
    this.setState({error:error})
     }
     else

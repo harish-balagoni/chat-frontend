@@ -15,12 +15,12 @@ class Contacts extends Component {
       menu: false,
       settingDetails: false,
       conversationButton: false,
+      extendpic: false,
+      extendpicid: 0,
     };
-    console.log(this.props, 'in contacts');
     loaderService.show();
   }
   componentDidMount() {
-    console.log(this.state.Data);
     this.getContacts();
     this.props.searchData([]);
   }
@@ -34,7 +34,6 @@ class Contacts extends Component {
         },
       })
       .then((res) => {
-        console.log("response", res);
         let index = null,
           details = [];
         res.data.map((user, index) => {
@@ -53,7 +52,6 @@ class Contacts extends Component {
     this.props.createClient(user);
     this.props.history.push({
       pathname: "/ChatRoom",
-      client2: user
     });
 
   };
@@ -74,22 +72,35 @@ class Contacts extends Component {
     this.setState({ conversationButton: true });
   };
 
+  showpic = (id) => {
+    if (this.state.extendpic === false) {
+     document.getElementById('blur1').style.filter = 'blur(4px)'
+      this.setState({ extendpic: true, extendpicid: id, backgroundblur: true });
+    }
+    else {
+      document.getElementById('blur1').style.filter = ''
+      this.setState({ extendpic: false, backgroundblur: false });
+    }
+
+
+  }
   render() {
     const { isLoading, Data } = this.state;
     return (
       <div className="entire-area">
         <Header title="Contacts" usersData={this.state.Data && this.state.Data} />
-        <div>
+        <div className="entire-area-subdiv">
           <div className="chats">
+            {this.state.extendpic?<img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" />:""}
             {this.state.isEmpty && <div>No conversations found</div>}
-
-            { this.props.searchContactData && this.props.searchContactData.length === 0 ?
+            <div id="blur1">
+            {this.props.searchContactData && this.props.searchContactData.length === 0 ?
 
               this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                 return (
                   <div key={index} className="contact">
                     <div className="profile-img">
-                      <img src={user.profile} className="image"></img>
+                      <img onClick={()=>this.showpic(user.id)} src={user.profile} className="image"></img>
                     </div>
                     <div className="text profile-nm">
                       <h2
@@ -104,9 +115,9 @@ class Contacts extends Component {
                 );
               }) :
               <div><h3>Search Results</h3>
-                { this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h4>NotFound</h4> :
+                {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h1 style={{textAlign:"center",paddingTop:"10%"}}>User Not Found</h1> :
                   <div>
-                    { this.props.searchContactData && this.props.searchContactData.map((user, index) => {
+                    {this.props.searchContactData && this.props.searchContactData.map((user, index) => {
                       return (
                         <div key={index} className="contact">
                           <div className="profile-img">
@@ -128,6 +139,7 @@ class Contacts extends Component {
                 }
               </div>
             }
+           </div>
           </div>
         </div>
       </div>
@@ -135,14 +147,11 @@ class Contacts extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  console.log("state home page from redux in mapstatetoprops", state),
-  {
+const mapStateToProps = (state) => ({
     user: state.user.userDetails,
     client: state.user.client,
     searchContactData: state.user.searchContactData
-  }
-);
+  });
 const mapDispatchToProps = (dispatch) => ({
   createClient: (data) => dispatch(createClient(data)),
   searchData: (data) => dispatch(searchData(data))

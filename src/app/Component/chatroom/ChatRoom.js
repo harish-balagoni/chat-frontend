@@ -3,11 +3,10 @@ import './chatroom.css';
 import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
-import emoji from './../../../assests/emoji.png';
 import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
-// import Header from '../Common/Header';
 import ClientHeader from '../ClientDetails/ClientHeader';
+import MessagePopup from './MessagePopup';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -16,10 +15,6 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
-      chatMenu: false,
-      chatSettingDetails: false,
-      ReplyMsg:false,
-      messageReply:false
     }
     this.message = React.createRef();
     this.indexValue=0;
@@ -85,7 +80,8 @@ class ChatRoom extends Component {
       this.socket.emit("chat", {
         username: this.props.user.username,
         client2: this.props.client.username,
-        message: this.message.current.value
+        message: this.message.current.value,
+        messagePopUp: false
       });
       this.message.current.value = '';
     }}
@@ -150,25 +146,52 @@ class ChatRoom extends Component {
     this.setState({ isEmojiActive: !this.state.isEmojiActive });
   }
 
-
-  chatSettings = () => {
-    this.setState({ chatMenu: true })
+  imageUploading=(e)=>{
+    console.log(e.target.files[0],'image event');
+      if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
+      {
+        alert('worng format of file');
+      }else{
+        if(e.target.files[0].size/1024<1024){
+          console.log('file is below 2mb and image format is also acceptable');
+        }
+      }
+    
   }
-
-  chatSettingDetails = () => {
-    this.setState({ chatSettingDetails: true })
-  }
-
-  chatCancel = () => {
-    this.setState({ chatMenu: false, chatSettingDetails: false })
+//For Displaying message popup
+  showMessagePopUp = (index) => {
+    let messages = this.state.messages
+    for (let i = 0; i < messages.length; i++) {
+      if (i === index) {
+        messages[i].messagePopUp = true;
+        this.setState({});
+      } else {
+        if (messages[i].messagePopUp) {
+          messages[i].messagePopUp = false;
+          this.setState({});
+        }
+      }
+    }
+    //closing message popup by clicking outside
+    this.closePopup = () => {
+      let message = this.state.messages;
+      if (message[index]) {
+        if (messages[index].messagePopUp) {
+          messages[index].messagePopUp = false;
+          this.setState({})
+        }
+      }
+      this.setState({ messages: messages });
+    }
   }
  
 
+  
   render() {
     const { messages, isEmojiActive } = this.state;
 
     return (
-      <div className='chat-room' >
+      <div className='chat-room' onClick={this.closePopup} >
         <ClientHeader title={this.props.client.username} />
         <div className='msg-container'>
           {messages && !!messages.length && messages.map((message, index) => {console.log(messages)
@@ -176,18 +199,14 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  
-                  {message.message.length===2 ?<div className='reply-msg-overlay'><p className='reply-msg-right1'>{(message.message[0])}</p><p className='msg-style'>{(message.message[1])}</p></div>: <div className='msg-right'>{message.message}</div>}
+                  <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
+                  {message.messagePopUp && <MessagePopup type="right"/>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
-                  <button onClick={()=>{this.send(index)}}>Reply</button>
-                  
-
-                  
-                  
                 </div>):
                 (<div className="msg-field-container aln-left">
-                  <span className='msg-left'>{message.message}</span>
+                  <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
+                  {message.messagePopUp && <MessagePopup type="left" />}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
               }
@@ -205,7 +224,7 @@ class ChatRoom extends Component {
         </div>
         
         {this.state.ReplyMsg?<div className='footer-reply'><div className="emoji">
-            {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
+            {<img alt='emoji' src={this.emoji} onClick={() => { this.handleEmoji() }} />}
             {isEmojiActive &&
               <div className="emoji-holder">
                 <Picker
@@ -233,7 +252,7 @@ class ChatRoom extends Component {
         </div>:
         <div className='footer'>
           <div className="emoji">
-            {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
+            {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
             {isEmojiActive &&
               <div className="emoji-holder">
                 <Picker
@@ -249,9 +268,10 @@ class ChatRoom extends Component {
               </div>
             }
           </div>
-          
+          <div className="emoji">
+            <input type="file" onChange={this.imageUploading}  ></input></div>
           <div className='message-input'>
-            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
+            <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
           <div className='submit-button'>
             <button className='send' onClick={() => { this.send('send') }}>Send</button>

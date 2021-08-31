@@ -8,6 +8,7 @@ import { socketConnect } from '../../../service/socket';
 import ReactNotifications, { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import {searchData} from "../../actions/actions"
+import Navigationmenu from './Navigationmenu';
 
 class Header extends Component {
     constructor(props) {
@@ -93,6 +94,7 @@ componentWillUnmount=()=>{
         if(this.props.title==="Contacts"){this.state.searchIcon=true}
         return (
             <div className="common-header">
+                <Navigationmenu />
                 <div className="header-profile">
                 <img className="header-image" src={this.props.user.profile} alt="profile" />
                 </div>
