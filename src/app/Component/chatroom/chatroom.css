@@ -27,8 +27,8 @@
 
   .bounce {
   position: absolute;
-  bottom: 176px;
-  left: 13% ;
+  bottom: 8%;
+  left: 16px ;
   width: 5px;
   height: 5px ;
     background: #fff;
@@ -44,8 +44,8 @@
   
   .bounce1 {
   position: absolute;
-  bottom: 176px;
-  left: 14% ;
+  bottom: 8%;
+  left: 29px ;
   width: 5px;
   height: 5px ;
     background: #fff;
@@ -62,8 +62,8 @@
   
   .bounce2 {
   position: absolute;
-  bottom: 176px;
-  left: 15% ;
+  bottom: 8%;
+  left: 5%;
   width: 5px;
   height: 5px ;
     background: #fff;
