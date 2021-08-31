@@ -162,31 +162,31 @@ class ChatScreen extends Component {
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
                                 user.messages && !!user.messages.length &&
-                                <><div key={index} className="contact" onClick={() => {
+                                <div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
-                                        <img  src={user.client.profile} className="image"></img>
+                                    <div className="profile-img">
+                                        <img src={user.client.profile} className="image"></img>
                                     </div>
-                                    <div className="text profile-nm">                                        
+                                    <div className="text profile-nm">
                                         <div className="profile-name">
                                             {user.client.username}
                                         </div>
                                         <p>{user.latest.message}</p>
-                                    
+                                    </div>
                                     <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
                                     <div className="archive-submit">
-                                    <button className="archive-button" onClick={()=>{this.archiveMessage(user.id)}} > Archive</button>
-                                    </div>
-                                   
+                                <button className="archive-button" onClick={()=>{this.archiveMessage(user.id)}} > Archive</button>
                                 </div>
-                                </>
+                                </div>
+                               
                             );
                         })}
                         
                     </div>
                 </div>
                 <div className="contacts-footer">
-                    <div className="chats" onClick={this.redirectingToArchived}><h4>Archived Messages</h4></div>
+                    <div className="chats" onClick={this.redirectingToArchived}><h4 style={{textAlign:"center"}}>Archived Messages</h4></div>
                     <div className="chats-position">
                         <button className="chats-button" onClick={() => { this.selectContact() }}>
                             <img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" />
