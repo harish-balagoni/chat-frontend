@@ -161,11 +161,11 @@ class ChatRoom extends Component {
     this.setState({ messages: messages });
   }
 
-  // messageReply = (index) => {
-  //   let messages = this.state.messages;
-  //     messages[index].msgReply = messages[index].msgReply ? false : true;
-  //  this.setState({ messages: messages });
-  // }
+  messageReply = (index) => {
+    let messages = this.state.messages;
+      messages[index].msgReply = messages[index].msgReply ? false : true;
+   this.setState({ messages: messages });
+  }
   render() {
     const { messages, isEmojiActive } = this.state;
     return (

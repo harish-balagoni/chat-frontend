@@ -29,7 +29,7 @@ class Registration extends Component {
 
     submit = () => {
         if (this.validationForm("all")) {
-            loaderService.szhow();
+            loaderService.show();
             let details = {
 
                 username: this.username.current.value,
