@@ -5,6 +5,7 @@ import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
 import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
+import MessageOptions from '../Common/msgoptions';
 import ClientHeader from '../ClientDetails/ClientHeader';
 class ChatRoom extends Component {
   constructor(props) {
@@ -26,15 +27,11 @@ class ChatRoom extends Component {
   socket = null;
   componentDidMount = () => {
     this.socket = getSocket();
-    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
-    
-    
+    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });    
     this.socket.on("messages", this.onMessages);
     this.socket.on("message", this.onMessage);
     this.socket.on("typing-start", this.onTyping);
     this.socket.on("typing-end", this.onTyping);
-    //this.socket.on("reply",this.onReply);
-    
   }
 
   componentWillUnmount() {
@@ -42,7 +39,6 @@ class ChatRoom extends Component {
     this.socket.off('messages', this.onMessages);
     this.socket.off("typing-start", this.onTyping);
     this.socket.off("typing-end", this.onTyping);
-    //this.socket.off("reply",this.onReply);
   }
 
   onTyping = (data) => {
@@ -55,6 +51,7 @@ class ChatRoom extends Component {
   onMessage = (data) => {
     this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: [data.id] })
     let messages = this.state.messages;
+    Object.assign(data,{showMsgOptions:false,msgReply:false})
     messages.push(data);
     this.previousDate = null;
     this.setState({ messages: messages });
@@ -87,7 +84,7 @@ class ChatRoom extends Component {
       });
       this.message.current.value = '';
     }}
-    else if(type==='reply-send'){
+    else if(type === 'reply-send'){
      this.setState({messageReply:true,ReplyMsg:false})
      if (this.message.current.value) {
       console.log('chat started', this.props.user);
@@ -132,12 +129,10 @@ class ChatRoom extends Component {
 
   }
   sendTypingStartStatus = () => {
-    //console.log('type start');
     this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   sendTypingEndStatus = () => {
-    //console.log('type end');
     this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.client.username });
   }
 
@@ -158,10 +153,28 @@ class ChatRoom extends Component {
     
   }
 
+  chatSettingDetails = () => {
+    this.setState({ chatSettingDetails: true })
+  }
 
+  chatCancel = () => {
+    this.setState({ chatMenu: false, chatSettingDetails: false })
+  }
+ 
+ 
+  showMsgOptions = (index) => {
+    let messages = this.state.messages;
+    messages[index].showMsgOptions = messages[index].showMsgOptions ? false : true;
+    this.setState({ messages: messages });
+  }
+
+  messageReply = (index) => {
+    let messages = this.state.messages;
+      messages[index].msgReply = messages[index].msgReply ? false : true;
+   this.setState({ messages: messages });
+  }
   render() {
     const { messages, isEmojiActive } = this.state;
-
     return (
       <div className='chat-room' >
         <ClientHeader title={this.props.client.username} />
@@ -172,10 +185,13 @@ class ChatRoom extends Component {
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
                   
-                  {message.message.length===2 ?<div className='reply-msg-overlay'><p className='reply-msg-right1'>{(message.message[0])}</p><p className='msg-style'>{(message.message[1])}</p></div>: <div className='msg-right'>{message.message}</div>}
+                  {message.message.length===2 ?<div className='reply-msg-overlay'><p className='reply-msg-right1'>{(message.message[0])}</p><p className='msg-style'>{(message.message[1])} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></p></div>: <div className='msg-right'>{message.message} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></div>}
+                  { message.showMsgOptions && <MessageOptions send={()=>{this.send(index)}}  onClose={() => { this.showMsgOptions(index)}}/>}
+                 
+                  
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
-                  <button onClick={()=>{this.send(index)}}>Reply</button>
+                  
                   </div>):
                 (<div className="msg-field-container aln-left">
                   <span className='msg-left'>{message.message}</span>
@@ -212,10 +228,9 @@ class ChatRoom extends Component {
               </div>
             }
           </div>
-          
           <div className='message-input'>
           <div className='reply-msg'>{this.previousMessage}
-            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
+            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' style={{height:'20px'}} />
           </div>
           </div>
           <div className='submit-button'>

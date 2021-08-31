@@ -110,7 +110,6 @@ animation: bounce 1s infinite;
   align-items: center;
 }
 .footer-reply{
-  
     width: 90%;
     height: 15%;
     bottom: 0;
@@ -129,19 +128,23 @@ animation: bounce 1s infinite;
   padding: 5px;
   margin: 1px;
 }
+
+.reply{
+  display:none
+}
+.msg-field-container:hover .reply {
+  display:inline;
+}
 .reply-msg-right1{
   height:50%;
   background: #8a8787;
     border-radius: 1rem;
-    padding:5px 10px 5px 10px  ;
-    
+    padding:5px 10px 5px 10px  ; 
     float: right;
-    
     margin-bottom: 0;
     margin-top: 0;
     font-size: 1rem;
     font-weight: 400;
-    max-width: 40%;
     color: hsla(0,0%,100%,.75);
 }
   .bounce {
@@ -208,7 +211,6 @@ animation: bounce 1s infinite;
   }
 
 .reply-msg-overlay{
-  
   width: 100px;
   display:flex;
   flex-direction: column;

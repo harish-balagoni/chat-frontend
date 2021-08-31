@@ -59,10 +59,20 @@
     box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
     border-radius: 10px;
 }
+.msg-options{
+    height: 200px;
+    width: 180px;
+    position: absolute;
+    right: 12%;
+    top: 30%;
+    background: #50535a;
+    box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+    border-radius: 10px;
+}
 
-.option-item{
+.option-item {
     width: 90%;
-    height: 33.3%;
+    height: 24.3%;
     justify-content: flex-start;
     display: flex;
     align-items: center;
