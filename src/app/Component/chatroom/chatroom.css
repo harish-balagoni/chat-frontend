@@ -211,7 +211,7 @@ animation: bounce 1s infinite;
   }
 
 .reply-msg-overlay{
-  width: 100px;
+  width: 150px;
   display:flex;
   flex-direction: column;
   background: #50535a;

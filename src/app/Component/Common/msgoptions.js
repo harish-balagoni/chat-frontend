@@ -11,7 +11,6 @@ class MessageOptions extends Component {
                     <div className="option-item">starred</div>
                     <div className="option-item">delete</div>
                     <div className="option-item-forward">forward</div>
-                   
                 </div>
             </div>
         )
