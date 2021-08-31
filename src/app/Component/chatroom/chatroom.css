@@ -143,10 +143,69 @@ animation: bounce 1s infinite;
     font-weight: 400;
     max-width: 40%;
     color: hsla(0,0%,100%,.75);
-   
-  
- 
 }
+  .bounce {
+  position: absolute;
+  bottom: 176px;
+  left: 13% ;
+  width: 5px;
+  height: 5px ;
+    background: #fff;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -ms-border-radius:50%;
+  border-radius:50%;
+  animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  -moz-animation: bounce 1s infinite;
+  -o-animation: bounce 1s infinite;
+  }
+  
+  .bounce1 {
+  position: absolute;
+  bottom: 176px;
+  left: 14% ;
+  width: 5px;
+  height: 5px ;
+    background: #fff;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -ms-border-radius:50%;
+  border-radius:50%;
+  animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  -moz-animation: bounce 1s infinite;
+  -o-animation: bounce 1s infinite;
+    animation-delay: 0.2s;
+  }
+  
+  .bounce2 {
+  position: absolute;
+  bottom: 176px;
+  left: 15% ;
+  width: 5px;
+  height: 5px ;
+    background: #fff;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -ms-border-radius:50%;
+  border-radius:50%;
+  animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  -moz-animation: bounce 1s infinite;
+  -o-animation: bounce 1s infinite;
+    animation-delay: 0.4s;
+  }
+   
+  @-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
+  40% {-webkit-transform: translateY(-10px);}
+  }
+   
+  @-moz-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);}
+  40% {-moz-transform: translateY(-10px);}
+  }
 
 .reply-msg-overlay{
   

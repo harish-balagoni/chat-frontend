@@ -5,6 +5,7 @@
     background: transparent;
     position: absolute;
 }.common-header{
+    padding: 10px 0 10px 0;
     width:90%;
     margin-left: 5%;
     height:15%;
@@ -22,6 +23,7 @@
 }
 
 .header-name{
+    padding-top: 12px;
     width:80%;
     height: 100%;
     display: flex;
@@ -126,9 +128,10 @@
 .searchInput{
     width: 230px;
     height: 27px;
-    border-radius: 15px 15px 15px 15px; 
+    border-radius: 15px 15px 15px 15px;
     margin-right: 1rem;
-    background-color:#4b4e55;
+    background-color: #4b4e55;
     color: rgb(219, 217, 217);
-    font-size: 20px;
+    font-size: 15px;
+    padding-left: 5%;
 }

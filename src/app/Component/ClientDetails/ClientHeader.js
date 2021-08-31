@@ -10,6 +10,7 @@ import ClienttProfile from './ClientProfile';
 import { socketConnect } from '../../../service/socket';
 import ReactNotifications, { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
+import Navigationmenu from '../Common/Navigationmenu';
 
 class ClientHeader extends Component {
     constructor(props) {
@@ -61,6 +62,7 @@ componentWillUnmount=()=>{
     render() {
         return (
             <div className="client-common-header">
+                <Navigationmenu />
                 <div className="client-header-profile">
                     <img className="client-header-image" src={this.props.user.profile} alt="profile" />
                 </div>
