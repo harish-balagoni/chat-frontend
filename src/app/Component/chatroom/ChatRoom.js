@@ -18,17 +18,17 @@ class ChatRoom extends Component {
       isEmojiActive: false,
       chatMenu: false,
       chatSettingDetails: false,
-      ReplyMsg:false,
-      messageReply:false
+      ReplyMsg: false,
+      messageReply: false
     }
     this.message = React.createRef();
-    this.indexValue=0;
-    this.previousMessage='';
+    this.indexValue = 0;
+    this.previousMessage = '';
   }
   socket = null;
   componentDidMount = () => {
     this.socket = getSocket();
-    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });    
+    this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
     this.socket.on("messages", this.onMessages);
     this.socket.on("message", this.onMessage);
     this.socket.on("typing-start", this.onTyping);
@@ -52,7 +52,7 @@ class ChatRoom extends Component {
   onMessage = (data) => {
     this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: [data.id] })
     let messages = this.state.messages;
-    Object.assign(data,{showMsgOptions:false,msgReply:false})
+    Object.assign(data, { showMsgOptions: false, msgReply: false })
     messages.push(data);
     this.previousDate = null;
     this.setState({ messages: messages });
@@ -63,7 +63,7 @@ class ChatRoom extends Component {
       if (msg.readStatus === 0 && this.props.user.username !== msg.username)
         return msg.id;
     });
-    if(msgIds && msgIds.length){
+    if (msgIds && msgIds.length) {
       this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
     }
     console.log(data.messages);
@@ -74,37 +74,39 @@ class ChatRoom extends Component {
     if (this.state.isEmojiActive) {
       this.setState({ isEmojiActive: false });
     }
-   
-    if(type==='send'){
-    if (this.message.current.value) {
-      console.log('chat started', this.props.user);
-      this.socket.emit("chat", {
-        username: this.props.user.username,
-        client2: this.props.client.username,
-        message: this.message.current.value
-      });
-      this.message.current.value = '';
-    }}
-    else if(type === 'reply-send'){
-     this.setState({messageReply:true,ReplyMsg:false})
-     if (this.message.current.value) {
-      console.log('chat started', this.props.user);
-      this.socket.emit("chat", {
-        username: this.props.user.username,
-        client2: this.props.client.username,
-        message: [this.previousMessage,this.message.current.value]
-      });
-      this.message.current.value = '';
+
+    if (type === 'send') {
+      if (this.message.current.value) {
+        console.log('chat started', this.props.user);
+        this.socket.emit("chat", {
+          username: this.props.user.username,
+          client2: this.props.client.username,
+          message: this.message.current.value
+        });
+        this.message.current.value = '';
+      }
     }
+    else if (type === 'reply-send') {
+      this.setState({ messageReply: true, ReplyMsg: false })
+      if (this.message.current.value) {
+        console.log('chat started', this.props.user);
+        this.socket.emit("chat", {
+          username: this.props.user.username,
+          client2: this.props.client.username,
+          message: [this.previousMessage, this.message.current.value]
+        });
+        this.message.current.value = '';
+      }
     }
-    else{
-         this.indexValue=type
-          console.log(this.indexValue)
-          console.log('reply',this.props.user)
-          this.setState({ReplyMsg:true,messageReply:false})
-          this.socket.emit("reply",{username: this.props.user.username, client: this.props.client.username,messageId:this.indexValue,message:this.message.current.value})
-          this.previousMessage=this.state.messages[this.indexValue].message.length===2 ? this.state.messages[this.indexValue].message[1]:this.state.messages[this.indexValue].message   }
-    
+    else {
+      this.indexValue = type
+      console.log(this.indexValue)
+      console.log('reply', this.props.user)
+      this.setState({ ReplyMsg: true, messageReply: false })
+      this.socket.emit("reply", { username: this.props.user.username, client: this.props.client.username, messageId: this.indexValue, message: this.message.current.value })
+      this.previousMessage = this.state.messages[this.indexValue].message.length === 2 ? this.state.messages[this.indexValue].message[1] : this.state.messages[this.indexValue].message
+    }
+
   }
   settings = () => {
     this.setState({ menu: true })
@@ -153,8 +155,8 @@ class ChatRoom extends Component {
   chatCancel = () => {
     this.setState({ chatMenu: false, chatSettingDetails: false })
   }
- 
- 
+
+
   showMsgOptions = (index) => {
     let messages = this.state.messages;
     messages[index].showMsgOptions = messages[index].showMsgOptions ? false : true;
@@ -163,8 +165,8 @@ class ChatRoom extends Component {
 
   messageReply = (index) => {
     let messages = this.state.messages;
-      messages[index].msgReply = messages[index].msgReply ? false : true;
-   this.setState({ messages: messages });
+    messages[index].msgReply = messages[index].msgReply ? false : true;
+    this.setState({ messages: messages });
   }
   render() {
     const { messages, isEmojiActive } = this.state;
@@ -172,20 +174,17 @@ class ChatRoom extends Component {
       <div className='chat-room' >
         <ClientHeader title={this.props.client.username} />
         <div className='msg-container'>
-          {messages && !!messages.length && messages.map((message, index) => {console.log(messages)
+          {messages && !!messages.length && messages.map((message, index) => {
+            console.log(messages)
             return (<div className='message-field' key={index}>
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username ?
                 (<div className="msg-field-container">
-                  
-                  {message.message.length===2 ?<div className='reply-msg-overlay'><p className='reply-msg-right1'>{(message.message[0])}</p><p className='msg-style'>{(message.message[1])} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></p></div>: <div className='msg-right'>{message.message} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></div>}
-                  { message.showMsgOptions && <MessageOptions send={()=>{this.send(index)}}  onClose={() => { this.showMsgOptions(index)}}/>}
-                 
-                  
+                  {message.message.length === 2 ? <div className='reply-msg-overlay'><p className='reply-msg-right1'>{(message.message[0])}</p><p className='msg-style'>{(message.message[1])} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></p></div> : <div className='msg-right'>{message.message} <span className="reply" style={{ color: 'black' }} onClick={() => { this.showMsgOptions(index) }}>  V</span></div>}
+                  {message.showMsgOptions && <MessageOptions send={() => { this.send(index) }} onClose={() => { this.showMsgOptions(index) }} />}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
-                  
-                  </div>):
+                </div>) :
                 (<div className="msg-field-container aln-left">
                   <span className='msg-left'>{message.message}</span>
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
@@ -203,59 +202,59 @@ class ChatRoom extends Component {
               </div>
             </div>}
         </div>
-        
-        {this.state.ReplyMsg?<div className='footer-reply'><div className="emoji">
-            {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
-            {isEmojiActive &&
-              <div className="emoji-holder">
-                <Picker
-                  onEmojiClick={(obj, data) => {
-                    this.message.current.value = this.message.current.value + data.emoji;
-                  }}
-                  disableAutoFocus={true}
-                  skinTone={SKIN_TONE_MEDIUM_DARK}
-                  groupNames={{ smileys_people: 'PEOPLE' }}
-                  pickerStyle={{ 'boxShadow': 'none' }}
-                  native
-                />
-              </div>
-            }
-          </div>
+
+        {this.state.ReplyMsg ? <div className='footer-reply'><div className="emoji">
+          {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
+          {isEmojiActive &&
+            <div className="emoji-holder">
+              <Picker
+                onEmojiClick={(obj, data) => {
+                  this.message.current.value = this.message.current.value + data.emoji;
+                }}
+                disableAutoFocus={true}
+                skinTone={SKIN_TONE_MEDIUM_DARK}
+                groupNames={{ smileys_people: 'PEOPLE' }}
+                pickerStyle={{ 'boxShadow': 'none' }}
+                native
+              />
+            </div>
+          }
+        </div>
           <div className='message-input'>
-          <div className='reply-msg'>{this.previousMessage}
-            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' style={{height:'20px'}} />
-          </div>
+            <div className='reply-msg'>{this.previousMessage}
+              <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' style={{ height: '20px' }} />
+            </div>
           </div>
           <div className='submit-button'>
             <button className='send' onClick={() => { this.send('reply-send') }}>Send</button>
           </div>
-        </div>:
-        <div className='footer'>
-          <div className="emoji">
-            {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
-            {isEmojiActive &&
-              <div className="emoji-holder">
-                <Picker
-                  onEmojiClick={(obj, data) => {
-                    this.message.current.value = this.message.current.value + data.emoji;
-                  }}
-                  disableAutoFocus={true}
-                  skinTone={SKIN_TONE_MEDIUM_DARK}
-                  groupNames={{ smileys_people: 'PEOPLE' }}
-                  pickerStyle={{ 'boxShadow': 'none' }}
-                  native
-                />
-              </div>
-            }
-          </div>
-          
-          <div className='message-input'>
-            <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
-          </div>
-          <div className='submit-button'>
-            <button className='send' onClick={() => { this.send('send') }}>Send</button>
-          </div>
-        </div>}
+        </div> :
+          <div className='footer'>
+            <div className="emoji">
+              {<img alt='emoji' src={emoji} onClick={() => { this.handleEmoji() }} />}
+              {isEmojiActive &&
+                <div className="emoji-holder">
+                  <Picker
+                    onEmojiClick={(obj, data) => {
+                      this.message.current.value = this.message.current.value + data.emoji;
+                    }}
+                    disableAutoFocus={true}
+                    skinTone={SKIN_TONE_MEDIUM_DARK}
+                    groupNames={{ smileys_people: 'PEOPLE' }}
+                    pickerStyle={{ 'boxShadow': 'none' }}
+                    native
+                  />
+                </div>
+              }
+            </div>
+
+            <div className='message-input'>
+              <textarea ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
+            </div>
+            <div className='submit-button'>
+              <button className='send' onClick={() => { this.send('send') }}>Send</button>
+            </div>
+          </div>}
 
       </div>
     )
