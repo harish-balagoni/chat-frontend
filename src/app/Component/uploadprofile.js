@@ -51,7 +51,7 @@ export default class ProfileUploader extends Component {
                     <input id="photo-upload" type="file" accept="image/*" onChange={this.check} style={{ display: "none" }} />
                 </label>
 
-                <div style={{ color: "red"}}>{this.state.error} </div>
+                <div style={{ color: "red" }}>{this.state.error} </div>
             </div >
         )
     }
