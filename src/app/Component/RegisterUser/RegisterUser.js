@@ -4,10 +4,10 @@ import "../Login/CommonStyles.css";
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ProfileUploader from '../ProfileUploader';
 import { loaderService } from '../../../service/loaderService';
 import CatchError from '../CatchError/CatchError';
 import { submitRegister } from '../../actions/actions';
+import ProfileUploader from '../ProfileUploader';
 
 class Registration extends Component {
     constructor(props) {
@@ -35,6 +35,7 @@ class Registration extends Component {
         if (this.validationForm("all")) {
             loaderService.show();
             let details = {
+
                 username: this.username.current.value,
                 email: this.email.current.value,
                 mobile: this.mobile.current.value,
@@ -150,7 +151,7 @@ class Registration extends Component {
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div>
-                       <ProfileUploader />
+                        <ProfileUploader />
                     </div>
                     <div style={{color: '#cc1524'}}>
                         <p>{this.state.exsitingUser}</p>
@@ -163,6 +164,7 @@ class Registration extends Component {
                     </div>
                 </div>:<CatchError callBack={this.catchErrorChange}/>}
             </div>
+
         );
     }
 }

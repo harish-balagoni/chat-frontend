@@ -51,6 +51,12 @@ class Login extends Component {
     }
     checkLogin = () => {
         if (this.checkValid('all')) {
+            loaderService.show();
+            let details = {
+                username: this.username.current.value,
+                password: this.password.current.value
+            };
+
             axios.post("https://ptchatindia.herokuapp.com/login",
                 {
                     "username": this.username.current.value,
@@ -65,6 +71,7 @@ class Login extends Component {
                         });
                     } else {
                         this.setState({ failedLogin: !this.failedLogin });
+                        loaderService.hide();
                     }
                 }).catch((err) => {
                     console.log(err.message);
