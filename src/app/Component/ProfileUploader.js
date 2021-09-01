@@ -43,9 +43,9 @@ check=(e)=>
 
             <div className="Profileuploader">
             <label>Choose profile</label>
-            <label htmlFor="photo-upload" className="profile">
+            <label  className="profile">
                 <div className="imageForUpload" >
-                    <img className="pic" for="photo-upload" alt='profile pic' src={this.state.pic} borderRadius="50%" width="45" height="35" />
+                    <img className="pic"  alt='profile pic' src={this.state.pic}  width="45" height="35" />
                 </div>
                 <input id="photo-upload" type="file" accept="image/*" onChange={this.check} style={{display:"none"}} />
             </label>
