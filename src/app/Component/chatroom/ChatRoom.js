@@ -144,10 +144,9 @@ class ChatRoom extends Component {
       if (message[index]) {
         if (messages[index].messagePopUp) {
           messages[index].messagePopUp = false;
-          this.setState({})
         }
       }
-      this.setState({ messages: messages });
+     this.setState({});
     }
   }
   
@@ -161,14 +160,14 @@ class ChatRoom extends Component {
           {messages && !!messages.length && messages.map((message, index) => {
             return (<div className='message-field' key={index}>
               {this.getDateByTimestamp(message.timestamp)}
-              {message.username === this.props.user.username ?
+              {message.username === this.props.user.username && message.message? 
                 (<div className="msg-field-container">
                   <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
-                  {message.messagePopUp && <MessagePopup type="right"/>}
+                  {message.messagePopUp && <MessagePopup type="right" messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username}  socket={this.socket}/>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
-                (<div className="msg-field-container aln-left">
+                 message.message &&(<div className="msg-field-container aln-left">
                   <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
                   {message.messagePopUp && <MessagePopup type="left" />}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
