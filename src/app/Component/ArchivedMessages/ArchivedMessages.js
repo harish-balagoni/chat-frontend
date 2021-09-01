@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
 import CatchError from "../CatchError/CatchError";
+import Unarchive from './../../../assests/Unarchive.svg';
 
 class ChatScreen extends Component {
     constructor(props) {
@@ -135,7 +136,7 @@ class ChatScreen extends Component {
                                         <div className='archive-submit' onClick={() => {
                                             this.unArchiveMessage(user.id)
                                         }}>
-                                            <button className='archive-button' >Unarchive</button></div>
+                                            <img className='archive-button' src={Unarchive}></img></div>
                                     </div>
 
                                 );
