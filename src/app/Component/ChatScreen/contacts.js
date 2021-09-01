@@ -122,29 +122,7 @@ class Contacts extends Component {
                     </div>
                   </div>
                 );
-              }) :
-              <div><h3>Search Results</h3>
-                { this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h4>NotFound</h4> :
-                  <div>
-                    { this.props.searchContactData && this.props.searchContactData.map((user, index) => {
-                      return (
-                        <div key={index} className="contact">
-                          <div className="profile-img">
-                            <img src={user.profile} className="image"></img>
-                          </div>
-                          <div className="text profile-nm">
-                            <h2
-                              onClick={() => {
-                                this.open(user);
-                              }}
-                            >
-                              {user.username}
-                            </h2>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  }) :
+              }) :    
                   <div><h3>Search Results</h3>
                     {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h1 style={{ textAlign: "center", paddingTop: "10%" }}>User Not Found</h1> :
                       <div>

@@ -4,7 +4,6 @@ import "../Login/CommonStyles.css";
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { loaderService } from '../../../service/loaderService';
 import CatchError from '../CatchError/CatchError';
 import { submitRegister } from '../../actions/actions';
