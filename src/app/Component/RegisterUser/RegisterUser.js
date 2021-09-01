@@ -54,7 +54,7 @@ class Registration extends Component {
                 });
         }
     }
-    catchErrorNeg = () => {
+    catchErrorChange = () => {
         this.setState({ catchError: !this.state.catchError });
     }
     errors = {};
@@ -161,7 +161,7 @@ class Registration extends Component {
                     <div className='register'>
                         <Link style={{ color: '#ffffff' }} to='/login'>Login</Link>
                     </div>
-                </div>:<CatchError callBack={this.catchErrorNeg}/>}
+                </div>:<CatchError callBack={this.catchErrorChange}/>}
             </div>
         );
     }
