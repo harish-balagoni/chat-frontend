@@ -37,15 +37,15 @@ html, body{
 
 .footer{
   position: fixed;
-    width: 90%;
-    height: 8%;
-    bottom: 0;
-    display: flex;
-    background: #373a3f;
-    margin-left: 5%;
-    border: 1px solid #504e4e;
-    border-width: 1px 0px 0px 0px;
-    border-radius: 0px 0px 10px 10px;
+  width: 90%;
+  height: 8%;
+  bottom: 0;
+  display: flex;
+  background: #373a3f;
+  margin-left: 5%;
+  border: 1px solid #504e4e;
+  border-width: 1px 0px 0px 0px;
+  border-radius: 0px 0px 10px 10px;
 }
 .message-input{
   height: 100%;
@@ -61,16 +61,14 @@ html, body{
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-left: 3%;
 }
 .emoji-style{
   font-size: 25px;
-    height: 55%;
-    background-color: rgba(0,0,0,.25);
-    border-radius: 50%;
-    width: 30%;
-    text-align: center;
-    margin-right: 20px;
+  height: 55%;
+  background-color: rgba(0,0,0,.25);
+  border-radius: 50%;
+  width: 25%;
+  text-align: center;
 }
 .emoji-holder{
   position: absolute;
@@ -101,7 +99,7 @@ input:focus{
   border: 0px;
   outline: none;
 }
-.send{
+.send{  
     background-color: #7652bf;
     color: white;
     height: 45px;
@@ -137,15 +135,15 @@ input:focus{
 
 .msg-container{
   scroll-behavior: smooth;
-    width: 90%;
-    height: 88%;
-    background-color: #383a3f;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    overflow: hidden;
-    margin-left: 5%;
-    border-radius: 3% 3% 0% 0%;
+  width: 90%;
+  height: 88%;
+  background-color: #383a3f;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  margin-left: 5%;
+  border-radius: 3% 3% 0% 0%;
 }
 
 .message-field{

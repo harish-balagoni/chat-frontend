@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Header from "../Common/Header";
 import { loaderService } from '../../../service/loaderService';
 import { createClient, searchData } from '../../actions/actions';
+import CatchError from "../CatchError/CatchError";
 
 class Contacts extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Contacts extends Component {
       conversationButton: false,
       extendpic: false,
       extendpicid: 0,
+      catchError: false
     };
     loaderService.show();
   }
@@ -25,29 +27,37 @@ class Contacts extends Component {
     this.props.searchData([]);
   }
   getContacts = () => {
-    axios
-      .request({
-        method: "POST",
-        url: `https://ptchatindia.herokuapp.com/contacts`,
-        headers: {
-          authorization: this.props.user.token,
-        },
-      })
-      .then((res) => {
-        let index = null,
-          details = [];
-        res.data.map((user, index) => {
-          if (user.username === this.props.user.username) {
-            this.setState({ user: user });
-            index = index;
-          } else {
-            details.push(user);
+    if (!this.state.catchError) {
+      axios
+        .request({
+          method: "POST",
+          url: `https://ptchatindia.herokuapp.com/contacts`,
+          headers: {
+            authorization: this.props.user.token,
+          },
+        })
+        .then((res) => {
+          let index = null,
+            details = [];
+          res.data.map((user, index) => {
+            if (user.username === this.props.user.username) {
+              this.setState({ user: user });
+              index = index;
+            } else {
+              details.push(user);
+            }
+          });
+          this.setState({ Data: details });
+          loaderService.hide();
+        })
+        .catch((err) => {
+          if (err.response.status != 200) {
+            loaderService.hide();
+            this.setState({ catchError: !this.state.catchError })
           }
-        });
-        this.setState({ Data: details });
-        loaderService.hide();
-      });
-  };
+        })
+    };
+  }
   open = (user) => {
     this.props.createClient(user);
     this.props.history.push({
@@ -74,16 +84,15 @@ class Contacts extends Component {
 
   showpic = (id) => {
     if (this.state.extendpic === false) {
-     document.getElementById('blur1').style.filter = 'blur(4px)'
+      document.getElementById('blur1').style.filter = 'blur(4px)'
       this.setState({ extendpic: true, extendpicid: id, backgroundblur: true });
     }
     else {
       document.getElementById('blur1').style.filter = ''
       this.setState({ extendpic: false, backgroundblur: false });
     }
-
-
   }
+
   render() {
     const { isLoading, Data } = this.state;
     return (
@@ -91,55 +100,56 @@ class Contacts extends Component {
         <Header title="Contacts" usersData={this.state.Data && this.state.Data} />
         <div className="entire-area-subdiv">
           <div className="chats">
-            {this.state.extendpic?<img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" />:""}
+            {this.state.extendpic ? <img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" /> : ""}
             {this.state.isEmpty && <div>No conversations found</div>}
-            <div id="blur1">
-            {this.props.searchContactData && this.props.searchContactData.length === 0 ?
+            {!this.state.catchError ? <div>
+              <div id="blur1">
+                {this.props.searchContactData && this.props.searchContactData.length === 0 ?
 
-              this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
-                return (
-                  <div key={index} className="contact">
-                    <div className="profile-img">
-                      <img onClick={()=>this.showpic(user.id)} src={user.profile} className="image"></img>
-                    </div>
-                    <div className="text profile-nm">
-                      <h2
-                        onClick={() => {
-                          this.open(user);
-                        }}
-                      >
-                        {user.username}
-                      </h2>
-                    </div>
-                  </div>
-                );
-              }) :
-              <div><h3>Search Results</h3>
-                {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h1 style={{textAlign:"center",paddingTop:"10%"}}>User Not Found</h1> :
-                  <div>
-                    {this.props.searchContactData && this.props.searchContactData.map((user, index) => {
-                      return (
-                        <div key={index} className="contact">
-                          <div className="profile-img">
-                            <img src={user.profile} className="image"></img>
-                          </div>
-                          <div className="text profile-nm">
-                            <h2
-                              onClick={() => {
-                                this.open(user);
-                              }}
-                            >
-                              {user.username}
-                            </h2>
-                          </div>
+                  this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
+                    return (
+                      <div key={index} className="contact">
+                        <div className="profile-img">
+                          <img onClick={() => this.showpic(user.id)} src={user.profile} className="image"></img>
                         </div>
-                      );
-                    })
-                    }</div>
+                        <div className="text profile-nm">
+                          <h2
+                            onClick={() => {
+                              this.open(user);
+                            }}
+                          >
+                            {user.username}
+                          </h2>
+                        </div>
+                      </div>
+                    );
+                  }) :
+                  <div><h3>Search Results</h3>
+                    {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h1 style={{ textAlign: "center", paddingTop: "10%" }}>User Not Found</h1> :
+                      <div>
+                        {this.props.searchContactData && this.props.searchContactData.map((user, index) => {
+                          return (
+                            <div key={index} className="contact">
+                              <div className="profile-img">
+                                <img src={user.profile} className="image"></img>
+                              </div>
+                              <div className="text profile-nm">
+                                <h2
+                                  onClick={() => {
+                                    this.open(user);
+                                  }}
+                                >
+                                  {user.username}
+                                </h2>
+                              </div>
+                            </div>
+                          );
+                        })
+                        }</div>
+                    }
+                  </div>
                 }
-              </div>
-            }
-           </div>
+              </div></div> : <CatchError callBack={this.getContacts} />}
           </div>
         </div>
       </div>
@@ -148,10 +158,10 @@ class Contacts extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user.userDetails,
-    client: state.user.client,
-    searchContactData: state.user.searchContactData
-  });
+  user: state.user.userDetails,
+  client: state.user.client,
+  searchContactData: state.user.searchContactData
+});
 const mapDispatchToProps = (dispatch) => ({
   createClient: (data) => dispatch(createClient(data)),
   searchData: (data) => dispatch(searchData(data))

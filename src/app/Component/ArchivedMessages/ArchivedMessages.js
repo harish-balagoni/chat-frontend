@@ -5,16 +5,18 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
+import CatchError from "../CatchError/CatchError";
 
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:null,
+            data: null,
             user: this.props.location.state && this.props.location.state.user,
             menu: false,
             settingDetails: false,
             isEmpty: false,
+            catchError: false
         };
         loaderService.show();
     }
@@ -23,37 +25,45 @@ class ChatScreen extends Component {
     }
 
     getContacts = () => {
-        axios
-        .request({
-            method: "POST",
-            url: `https://ptchatindia.herokuapp.com/conversations`,
-            headers: {
-                authorization: this.props.user.token,
-            },
-            data: {
-                username: this.props.user.username,
-                is_archive: 1,
-            },
-        })
-            .then((res) => {
-                if (res.status === 200) {
-                    if (res.data.data && res.data.data.length) {
-                        let details = [];
-                        res.data.data.map((user) => {
-                            if (user.username !== this.props.user.username) {
-                                details.push(user);
-                            }
-                        });
-                        this.setState({ data: details });
-                        loaderService.hide();
+        if (!this.state.catchError) {
+            axios
+                .request({
+                    method: "POST",
+                    url: `https://ptchatindia.herokuapp.com/conversations`,
+                    headers: {
+                        authorization: this.props.user.token,
+                    },
+                    data: {
+                        username: this.props.user.username,
+                        is_archive: 1,
+                    },
+                })
+                .then((res) => {
+                    if (res.status === 200) {
+                        if (res.data.data && res.data.data.length) {
+                            let details = [];
+                            res.data.data.map((user) => {
+                                if (user.username !== this.props.user.username) {
+                                    details.push(user);
+                                }
+                            });
+                            this.setState({ data: details });
+                            loaderService.hide();
+                        }
+                        else {
+                            this.setState({ isEmpty: true });
+                            loaderService.hide();
+                        }
                     }
-                    else {
-                        this.setState({ isEmpty: true });
+                })
+                .catch((err) => {
+                    if (err.response.status != 200) {
                         loaderService.hide();
+                        this.setState({ catchError: !this.state.catchError })
                     }
-                }
-            });
-    };
+                })
+        };
+    }
     open = (user) => {
         this.props.createClient(user);
         this.props.history.push({
@@ -82,20 +92,20 @@ class ChatScreen extends Component {
         return hours + ":" + date.getMinutes() + ampm;
     }
 
-    unArchiveMessage = (id) =>{
+    unArchiveMessage = (id) => {
         axios
-        .request({
-            method: "POST",
-            url: `https://ptchatindia.herokuapp.com/remove_archive`,
-            headers: {
-                authorization: this.props.user.token,
-            },
-            data: {
-                username: this.props.user.username,
-                roomIds:[id],
-            },
-        }).then((res) => {
-            }).catch((error)=>console.log(error))
+            .request({
+                method: "POST",
+                url: `https://ptchatindia.herokuapp.com/remove_archive`,
+                headers: {
+                    authorization: this.props.user.token,
+                },
+                data: {
+                    username: this.props.user.username,
+                    roomIds: [id],
+                },
+            }).then((res) => {
+            }).catch((error) => console.log(error))
     }
 
     render() {
@@ -105,29 +115,31 @@ class ChatScreen extends Component {
                 <div>
                     <div className="chats">
                         {this.state.isEmpty && <div>No conversations found</div>}
-                        {this.state.data && !!this.state.data.length && this.state.data.map((user, index) => {
-                            return (
-                                user.messages && !!user.messages.length &&
-                                <div key={index} className="contact" onClick={() => {
-                                    this.open(user.client);
-                                }}>
-                                    <div className="profile-img">
-                                        <img src={user.client.profile} className="image"></img>
-                                    </div>
-                                    <div className="text profile-nm">
-                                        <div className="profile-name">
-                                            {user.client.username}
+                        {!this.state.catchError ? <div>
+                            {this.state.data && !!this.state.data.length && this.state.data.map((user, index) => {
+                                return (
+                                    user.messages && !!user.messages.length &&
+                                    <div key={index} className="contact" onClick={() => {
+                                        this.open(user.client);
+                                    }}>
+                                        <div className="profile-img">
+                                            <img src={user.client.profile} className="image"></img>
                                         </div>
-                                        <p>{user.latest.message}</p>
-                                    </div>
-                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}</div>
-                                    <div className='archive-submit' onClick={()=>{
-                                        this.unArchiveMessage(user.id)}}>
+                                        <div className="text profile-nm">
+                                            <div className="profile-name">
+                                                {user.client.username}
+                                            </div>
+                                            <p>{user.latest.message}</p>
+                                        </div>
+                                        <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}</div>
+                                        <div className='archive-submit' onClick={() => {
+                                            this.unArchiveMessage(user.id)
+                                        }}>
                                             <button className='archive-button' >Unarchive</button></div>
-                                </div>
-                                
-                            );
-                        })}
+                                    </div>
+
+                                );
+                            })}</div> : <CatchError callBack={this.getContacts} />}
                     </div>
                 </div>
             </div>
@@ -136,8 +148,8 @@ class ChatScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-        user: state.user.userDetails,
-    });
+    user: state.user.userDetails,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     createClient: (data) => dispatch(createClient(data))
