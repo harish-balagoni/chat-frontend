@@ -5,6 +5,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loaderService } from '../../../service/loaderService';
+import CatchError from '../CatchError/CatchError';
 import { submitRegister } from '../../actions/actions';
 import ProfileUploader from '../ProfileUploader';
 
@@ -16,7 +17,8 @@ class Registration extends Component {
             email: '',
             mobile: 0,
             password: '',
-            exsitingUser:''
+            exsitingUser: '',
+            catchError: false
         }
         this.username = React.createRef();
         this.email = React.createRef();
@@ -47,28 +49,23 @@ class Registration extends Component {
                             pathname: '/chats'
                         })
                     }
-                }).catch(error =>{
-                     if(error.response.status === 400){
-                    this.setState({exsitingUser:'Entered user already existing'});
-                    this.username.current.value='';
-                    this.email.current.value='';
-                    this.mobile.current.value='';
-                    this.password.current.value='';
-                    this.confirmPassword.current.value='';
+                }).catch(error => {
+                    this.setState({ catchError: !this.state.catchError });
                     loaderService.hide();
-               }
-            });
+                });
         }
     }
-
+    catchErrorChange = () => {
+        this.setState({ catchError: !this.state.catchError });
+    }
     errors = {};
     validationForm(type) {
         if (type === "all" || type === "username") {
             if (!this.username.current.value) {
                 console.log('username not valid');
                 this.errors.username = 'Please enter username.';
-            } 
-            else if(this.username.current.value.length<4){
+            }
+            else if (this.username.current.value.length < 4) {
                 this.errors.username = 'Please check username length.';
             }
             else {
@@ -109,7 +106,7 @@ class Registration extends Component {
             if (!this.mobile.current.value) {
                 this.errors.mobile = 'Please enter mobile number.';
             }
-            else if(this.mobile.current.value.length!=10){
+            else if (this.mobile.current.value.length != 10) {
                 this.errors.mobile = 'Please check mobile number strength.';
             }
             else {
@@ -124,6 +121,7 @@ class Registration extends Component {
     render() {
         return (
             <div className='login-container'>
+                {!this.state.catchError?
                 <div className='login-box'>
                     <div className='login-header'>Register</div>
                     <div className='login-input'>
@@ -164,7 +162,7 @@ class Registration extends Component {
                     <div className='register'>
                         <Link style={{ color: '#ffffff' }} to='/login'>Login</Link>
                     </div>
-                </div>
+                </div>:<CatchError callBack={this.catchErrorChange}/>}
             </div>
 
         );

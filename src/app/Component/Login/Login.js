@@ -6,6 +6,7 @@ import './Login.css';
 import "./CommonStyles.css";
 import { userLogin } from '../../actions/actions';
 import { loaderService } from '../../../service/loaderService';
+import CatchError from '../CatchError/CatchError';
 
 class Login extends Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class Login extends Component {
             username: '',
             password: '',
             failedLogin: false,
-            isLoading: false
+            isLoading: false,
+            catchError: false
         }
         this.username = React.createRef();
         this.password = React.createRef();
@@ -72,16 +74,20 @@ class Login extends Component {
                         loaderService.hide();
                     }
                 }).catch((err) => {
-                    console.log('errors', err.message);
-                    this.setState({ failedLogin: !this.failedLogin });
+                    console.log(err.message);
+                    this.setState({ failedLogin: !this.failedLogin, catchError: true });
                     loaderService.hide();
                 });
         }
     }
+    catchErrorChange = () => {
+        this.setState({ catchError: !this.state.catchError });
+    }
+
     render() {
         return (
             <div className='login-container'>
-                <div className='login-box'>
+                {!this.state.catchError && <div className='login-box'>
                     <div className='login-header'>Login</div>
                     <div className='login-input'>
                         <label>Username</label>
@@ -93,14 +99,14 @@ class Login extends Component {
                         <input type='password' ref={this.password} className="input-change" onBlur={this.checkValid} placeholder='Enter Password...' />
                         <div className='error-msg'>{this.errors.password}</div>
                     </div>
-                    {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}
                     <div className='login-submit'>
                         <button className='login-button' onClick={this.checkLogin}>Login</button>
                     </div>
                     <div className='register'>
                         <Link style={{ color: '#ffffff' }} to='/register'>Register</Link>
                     </div>
-                </div>
+                </div>}
+                {this.state.catchError && <CatchError  callBack={this.catchErrorChange} />}
             </div>
         )
     }
