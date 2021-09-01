@@ -24,14 +24,10 @@ class ChatRoom extends Component {
   componentDidMount = () => {
     this.socket = getSocket();
     this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
-    
-    
     this.socket.on("messages", this.onMessages);
     this.socket.on("message", this.onMessage);
     this.socket.on("typing-start", this.onTyping);
     this.socket.on("typing-end", this.onTyping);
-    //this.socket.on("reply",this.onReply);
-    
   }
 
   componentWillUnmount() {
@@ -39,11 +35,9 @@ class ChatRoom extends Component {
     this.socket.off('messages', this.onMessages);
     this.socket.off("typing-start", this.onTyping);
     this.socket.off("typing-end", this.onTyping);
-    //this.socket.off("reply",this.onReply);
   }
 
   onTyping = (data) => {
-    console.log(data)
     if (this.props.user.username !== data.username) {
       this.setState({ isOponentTyping: data.typing });
     }
@@ -65,7 +59,6 @@ class ChatRoom extends Component {
     if(msgIds && msgIds.length){
       this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
     }
-    console.log(data.messages);
     this.setState({ messages: data.messages });
   }
 
@@ -99,16 +92,14 @@ class ChatRoom extends Component {
     }
     else{
          this.indexValue=type
-        //if(this.indexValue!==0){
           console.log(this.indexValue)
           console.log('reply',this.props.user)
           this.setState({ReplyMsg:true,messageReply:false})
           this.socket.emit("reply",{username: this.props.user.username, client: this.props.client.username,messageId:this.indexValue,message:this.message.current.value})
-
           this.previousMessage=this.state.messages[this.indexValue].message.length===2 ? this.state.messages[this.indexValue].message[1]
-:      this.state.messages[this.indexValue].message   }
-    
-  }
+          :this.state.messages[this.indexValue].message   }
+    }
+
   settings = () => {
     this.setState({ menu: true })
   }
@@ -133,12 +124,10 @@ class ChatRoom extends Component {
 
   }
   sendTypingStartStatus = () => {
-    //console.log('type start');
     this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   sendTypingEndStatus = () => {
-    //console.log('type end');
     this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.client.username });
   }
 
@@ -185,8 +174,6 @@ class ChatRoom extends Component {
     }
   }
  
-
-  
   render() {
     const { messages, isEmojiActive } = this.state;
 

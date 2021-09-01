@@ -19,13 +19,11 @@ export default class ProfileUploader extends Component {
             }
         }
         if (e.target.files[0].type !== "image/jpeg") {
-            console.log("not a picture");
             const error = "selected was not jpeg format";
             this.setState({ error: error });
         }
         else {
             if (e.target.files[0].size > 2e+6) {
-                console.log("pic more size");
                 const error = "image size must be lessthan 2 Mb"
                 this.setState({ error: error })
             }
