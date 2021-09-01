@@ -7,6 +7,7 @@ import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
 import { socketConnect } from '../../../service/socket';
 import CatchError from "../CatchError/CatchError";
+import Archive from './../../../assests/Archive.svg';
 
 class ChatScreen extends Component {
     constructor(props) {
@@ -183,9 +184,9 @@ class ChatScreen extends Component {
                                         </div>
                                         <p>{user.latest.message}</p>
                                     </div>
-                                    <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
+                                    <div className="profile-time"><div>{this.getTimeByTimestamp(user.latest.timestamp)}</div><div>{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div></div>
                                     <div className="archive-submit">
-                                <button className="archive-button" onClick={()=>{this.archiveMessage(user.id)}} > Archive</button>
+                                <img className="archive-button" src={Archive} onClick={()=>{this.archiveMessage(user.id)}} ></img>
                                 </div>
                                 </div>
                                
