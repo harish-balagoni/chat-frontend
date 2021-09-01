@@ -25,10 +25,10 @@
     font-size: 12px;
 }
 
-.bounce {
+  .bounce {
   position: absolute;
-  bottom: 176px;
-  left: 13% ;
+  bottom: 8%;
+  left: 16px ;
   width: 5px;
   height: 5px ;
     background: #fff;
@@ -44,8 +44,8 @@
   
   .bounce1 {
   position: absolute;
-  bottom: 176px;
-  left: 14% ;
+  bottom: 8%;
+  left: 29px ;
   width: 5px;
   height: 5px ;
     background: #fff;
@@ -62,8 +62,8 @@
   
   .bounce2 {
   position: absolute;
-  bottom: 176px;
-  left: 15% ;
+  bottom: 8%;
+  left: 5%;
   width: 5px;
   height: 5px ;
     background: #fff;
@@ -107,3 +107,65 @@
     justify-content: center;
     align-items: center;
   }
+
+  .messagepopup-right{
+    height: 12rem;
+    width: 73%;
+    margin-right: 5rem; 
+     margin-top: 8px;
+    background: #50535a;
+    box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+    border-radius: 10px;
+}
+
+.messagepopup-left{
+  height: 12rem;
+  width: 73%;
+  margin-left: 5rem;
+  margin-top: 8px;
+  background: #50535a;
+  box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
+  border-radius: 10px;
+}
+
+.messagepopup-items{
+    width: 90%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    border-width: 0px 0px 1px 0px;
+    cursor: pointer;
+}
+.popup{
+  cursor:pointer;
+  color:#828282;
+  margin-left: 6px;
+  float: right;
+}
+.popup:hover{
+ color:white;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  border: 0;
+  outline: 0;
+  color: #fff;
+}
+
+.textfield {
+  overflow: auto;
+  vertical-align: top;
+  resize: none;
+}
+
+#textip {
+  display: block;
+  width: 100%;
+  height: 70%;
+  border: 1px solid rgba(0,0,0,.5);
+  background: rgba(0,0,0,.25);
+  border-radius: 10px;}

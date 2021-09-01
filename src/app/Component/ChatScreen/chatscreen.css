@@ -56,14 +56,14 @@
  .extendedimage
 {
     border-radius: 90%;
-    margin-top: 6px;
-    margin-left: 450px;
+    top: 12%;
+    left: 42%;
     display: flex;
     height:220px;
     width: 250px;
     z-index: 9;
     background: transparent;
-    position: absolute;
+    position: fixed;
 }
 
 .profile-name{
@@ -82,11 +82,13 @@
 .profile-nm{
     width:70%;
     height:100%;
- display: flex;
- flex-direction: column;
- justify-content: center;
- padding-left: 20px;
- 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 h2{
     color:#ffff;

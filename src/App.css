@@ -38,7 +38,7 @@ html, body{
 .footer{
   position: fixed;
   width: 90%;
-  height: 6%;
+  height: 8%;
   bottom: 0;
   display: flex;
   background: #373a3f;
@@ -64,7 +64,7 @@ html, body{
 }
 .emoji-style{
   font-size: 25px;
-  height: 50%;
+  height: 55%;
   background-color: rgba(0,0,0,.25);
   border-radius: 50%;
   width: 25%;
@@ -76,6 +76,8 @@ html, body{
     width: 280px;
     left: 5%;
     bottom: 13%;
+    margin-left: 3%;
+    margin-bottom: 3%;
 }
 
 .submit-button{
@@ -97,7 +99,7 @@ input:focus{
   border: 0px;
   outline: none;
 }
-.send{
+.send{  
     background-color: #7652bf;
     color: white;
     height: 45px;
@@ -134,7 +136,7 @@ input:focus{
 .msg-container{
   scroll-behavior: smooth;
   width: 90%;
-  height: 80%;
+  height: 88%;
   background-color: #383a3f;
   display: flex;
   flex-direction: column;
@@ -161,6 +163,9 @@ input:focus{
     line-height: 1.5;
     color: hsla(0,0%,100%,.75);
     max-width: 40%;
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .msg-left{
@@ -177,6 +182,9 @@ input:focus{
     color: hsla(0,0%,100%,.75);
     max-width: 40%;
     text-align: left;
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .chat-typing{

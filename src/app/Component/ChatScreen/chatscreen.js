@@ -5,6 +5,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
+import { socketConnect } from '../../../service/socket';
+import CatchError from "../CatchError/CatchError";
 
 class ChatScreen extends Component {
     constructor(props) {
@@ -15,66 +17,83 @@ class ChatScreen extends Component {
             menu: false,
             settingDetails: false,
             isEmpty: false,
+            catchError: false
         };
         console.log(this.props);
         loaderService.show();
     }
     componentDidMount() {
-        // socketConnect((socket) => {
-        //     // this.props.createSocket(socket);
-        //     this.socket = socket;
-        // });
+        this.getContacts();
+        socketConnect((socket) => {
+            this.socket = socket;
+            this.socket.emit("notifications", { username: this.props.user.username });
+            this.socket.on("notification", this.onNotification);
+        });
+    }
+
+    componentWillUnmount = () => {
+        this.socket.off("notification", this.onNotification);
+    }
+
+    onNotification = () => {
         this.getContacts();
     }
 
     getContacts = () => {
         console.log("data", this.props.user);
+        if (!this.state.catchError) {
+            axios
+                .request({
+                    method: "POST",
+                    url: `https://ptchatindia.herokuapp.com/conversations`,
+                    headers: {
+                        authorization: this.props.user.token,
+                    },
+                    data: {
+                        username: this.props.user.username,
+                        is_archive: 0
+                    },
+                })
+                .then((res) => {
+                    console.log("response", res.data.data);
+                    if (res.status === 200) {
+                        if (res.data.data && res.data.data.length) {
+                            let details = [];
+                            res.data.data.map((user) => {
+                                if (user.username !== this.props.user.username) {
+                                    details.push(user);
+                                }
+                            });
+                            this.setState({ Data: details });
+                            loaderService.hide();
+                        }
+                        else {
+                            this.setState({ isEmpty: true });
+                            loaderService.hide();
+                        }
+                    }
+                })
+                .catch((err) => {
+                    if (err.response.status != 200) {
+                        loaderService.hide();
+                        this.setState({ catchError: !this.state.catchError })
+                    }
+                })
+        };
+    }
+    archiveMessage = (id) => {
         axios
             .request({
                 method: "POST",
-                url: `https://ptchatindia.herokuapp.com/conversations`,
+                url: `https://ptchatindia.herokuapp.com/archive`,
                 headers: {
                     authorization: this.props.user.token,
                 },
                 data: {
                     username: this.props.user.username,
-                    is_archive: 0
+                    roomIds: [id],
                 },
-            })
-            .then((res) => {
-                console.log("response", res.data.data);
-                if (res.status === 200) {
-                    if (res.data.data && res.data.data.length) {
-                        let details = [];
-                        res.data.data.map((user) => {
-                            if (user.username !== this.props.user.username) {
-                                details.push(user);
-                            }
-                        });
-                        this.setState({ Data: details });
-                        loaderService.hide();
-                    }
-                    else {
-                        this.setState({ isEmpty: true });
-                        loaderService.hide();
-                    }
-                }
-            });
-    };
-
-    archiveMessage = (id) => {
-        axios
-        .request({
-            method: "POST",
-            url: `https://ptchatindia.herokuapp.com/archive`,
-            headers: {
-                authorization: this.props.user.token,
-            },
-            data: {
-                username: this.props.user.username,
-                roomIds:[id],
-            },
-        }).then((res) => {
+            }).then((res) => {
                 console.log("response", res.data);
             })
     };
@@ -107,7 +126,7 @@ class ChatScreen extends Component {
         let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
         return hours + ":" + date.getMinutes() + ampm;
     }
-   
+
     getDurationByTimestamp = (timestamp) => {
         /*
         random time stamps
@@ -134,7 +153,7 @@ class ChatScreen extends Component {
         else if (years === 1) return (years + ' year' + ' ago')
         else return (years + ' years' + ' ago');
     }
-    redirectingToArchived=()=>{
+    redirectingToArchived = () => {
         this.props.history.push({
             pathname: "/Archived"
         })
@@ -144,39 +163,39 @@ class ChatScreen extends Component {
         const { isLoading, Data } = this.state;
         return (
             <div className="entire-area">
+
                 <Header title="Conversations" />
                 <div>
-                    <div className="chats">
-                   
-                        {this.state.isEmpty && <div>No conversations found</div>}
+                    {this.state.isEmpty && <div>No conversations found</div>}
+                    {!this.state.catchError ? <div><div className="chats">
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
                                 user.messages && !!user.messages.length &&
-                                <><div key={index} className="contact" onClick={() => {
+                                <div key={index} className="contact" onClick={() => {
                                     this.open(user.client);
                                 }}>
-                                        <img  src={user.client.profile} className="image"></img>
+                                    <div className="profile-img">
+                                        <img src={user.client.profile} className="image"></img>
                                     </div>
-                                    <div className="text profile-nm">                                        
+                                    <div className="text profile-nm">
                                         <div className="profile-name">
                                             {user.client.username}
                                         </div>
                                         <p>{user.latest.message}</p>
-                                    
+                                    </div>
                                     <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div>
                                     <div className="archive-submit">
-                                    <button className="archive-button" onClick={()=>{this.archiveMessage(user.id)}} > Archive</button>
-                                    </div>
-                                   
+                                <button className="archive-button" onClick={()=>{this.archiveMessage(user.id)}} > Archive</button>
                                 </div>
-                                </>
+                                </div>
+                               
                             );
                         })}
-                        
-                    </div>
+
+                    </div></div> : <CatchError callBack={this.getContacts} />}
                 </div>
                 <div className="contacts-footer">
-                    <div className="chats" onClick={this.redirectingToArchived}><h4>Archived Messages</h4></div>
+                    <div className="chats" onClick={this.redirectingToArchived}><h4 style={{textAlign:"center"}}>Archived Messages</h4></div>
                     <div className="chats-position">
                         <button className="chats-button" onClick={() => { this.selectContact() }}>
                             <img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" />
