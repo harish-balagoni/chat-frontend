@@ -77,7 +77,7 @@ html, body{
     left: 5%;
     bottom: 13%;
     margin-left: 3%;
-    margin-bottom: 3%;
+    margin-bottom: 5%;
 }
 
 .submit-button{
@@ -135,15 +135,15 @@ input:focus{
 
 .msg-container{
   scroll-behavior: smooth;
-  width: 90%;
-  height: 88%;
-  background-color: #383a3f;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  overflow: hidden;
-  margin-left: 5%;
-  border-radius: 3% 3% 0% 0%;
+    width: 90%;
+    height: 86%;
+    background-color: #383a3f;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    margin-left: 5%;
+    border-radius: 3% 3% 0% 0%;
 }
 
 .message-field{
@@ -202,6 +202,7 @@ input:focus{
 .text{
   color: #e2e2e3;
 }
+
 
 [placeholder]::-webkit-input-placeholder { color: #d7d7d7; padding-left: 5px; padding-top: 5px; }
 [placeholder]:hover::-webkit-input-placeholder { color: rgba(255,255,255,.4); padding-left: 5px; padding-top: 5px; }

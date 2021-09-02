@@ -165,7 +165,7 @@ class ChatRoom extends Component {
                   <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
                   {message.messagePopUp && <MessagePopup type="right" messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username}  socket={this.socket}/>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
-                  < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
+                  < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} alt=""/> : <img src={deliveredIcon} alt=""/>}</span>
                 </div>) :
                  message.message &&(<div className="msg-field-container aln-left">
                   <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>

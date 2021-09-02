@@ -15,7 +15,7 @@ class Options extends Component {
             <div className='overlay' onClick={this.props.onClose}>
                 <div className="options">
                     <div className="option-item" onClick={this.props.showProfile}>Profile</div>
-                    <div className="option-item">Add to archive</div>
+                    {/* <div className="option-item">Add to archive</div> */}
                     <div className="option-item-logout" onClick={this.logOut}>Logout</div>
                 </div>
             </div>

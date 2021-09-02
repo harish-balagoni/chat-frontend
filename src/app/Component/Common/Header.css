@@ -53,8 +53,8 @@
 
 
 .options{
-    height: 200px;
-    width: 180px;
+    height: 10rem;
+    width: 10rem;
     position: absolute;
     right: 10%;
     top: 10%;
@@ -65,7 +65,7 @@
 
 .option-item{
     width: 90%;
-    height: 33.3%;
+    height: 50%;
     justify-content: flex-start;
     display: flex;
     align-items: center;

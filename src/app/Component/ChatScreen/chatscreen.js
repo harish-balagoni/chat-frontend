@@ -167,7 +167,7 @@ class ChatScreen extends Component {
 
                 <Header title="Conversations" />
                 <div>
-                    {this.state.isEmpty && <div>No conversations found</div>}
+                    {this.state.isEmpty && <div style={{textAlign:"center"}}>No Conversations Found</div>}
                     {!this.state.catchError ? <div><div className="chats">
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (

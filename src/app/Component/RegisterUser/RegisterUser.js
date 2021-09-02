@@ -105,7 +105,7 @@ class Registration extends Component {
             if (!this.mobile.current.value) {
                 this.errors.mobile = 'Please enter mobile number.';
             }
-            else if (this.mobile.current.value.length != 10) {
+            else if (this.mobile.current.value.length !== 10) {
                 this.errors.mobile = 'Please check mobile number strength.';
             }
             else {
@@ -125,27 +125,27 @@ class Registration extends Component {
                     <div className='login-header'>Register</div>
                     <div className='login-input'>
                         <label>Username</label>
-                        <input type='text' ref={this.username} onBlur={this.checkValid} className="input-change"  placeholder='Enter Username...' />
+                        <input type='text' ref={this.username} onBlur={this.checkValid} className="input-change"  placeholder='Enter Username' />
                         <div className='error-msg'>{this.errors.username}</div>
                     </div>
                     <div className='login-input'>
                         <label>Email</label>
-                        <input type='text' ref={this.email} onBlur={this.checkValid} className="input-change"  placeholder='Enter Email...' />
+                        <input type='text' ref={this.email} onBlur={this.checkValid} className="input-change"  placeholder='Enter Email' />
                         <div className='error-msg'>{this.errors.email}</div>
                     </div>
                     <div className='login-input'>
                         <label>Mobile</label>
-                        <input type='number' ref={this.mobile} onBlur={this.checkValid} className="input-change"  placeholder='Enter Mobile Number...' maxLength="10"/>
+                        <input type='number' ref={this.mobile} onBlur={this.checkValid} className="input-change"  placeholder='Enter Mobile Number' maxLength="10"/>
                         <div className='error-msg'>{this.errors.mobile}</div>
                     </div>
                     <div className='login-input'>
                         <label>Password</label>
-                        <input type='password' ref={this.password} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password...' />
+                        <input type='password' ref={this.password} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password' />
                         <div className='error-msg'>{this.errors.password}</div>
                     </div>
                     <div className='login-input'>
                         <label>Confirm Password</label>
-                        <input type='password' ref={this.confirmPassword} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password...' />
+                        <input type='password' ref={this.confirmPassword} onBlur={this.checkValid} className="input-change"  placeholder='Enter Password' />
                         <div className='error-msg'>{this.errors.confirmPassword}</div>
                     </div>
                     {this.state.failedLogin && <div className='error-msg'>Invalid credentials.</div>}

@@ -102,7 +102,7 @@ componentWillUnmount=()=>{
                 <div className='header-search'>{this.state.searchButton && <input className="searchInput"  autoFocus type="search" placeholder="Search contact's here" onChange={this.showSearch} ref={this.searchContact} /> }
                 {this.state.searchIcon ? <img className="searchButton" src="https://img.icons8.com/material-rounded/50/ffffff/search.png" onClick={this.showSearchbar} /> :null}</div>
                 <div className="header-menu">
-                    <img src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
+                    <img style={{marginTop:"30px"}} src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
                 </div>
                 {this.state.isShowOptions && <Options showProfile={this.showProfile}
                     onClose={() => { this.setState({ isShowOptions: false }) }} />}
