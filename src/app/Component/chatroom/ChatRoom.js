@@ -15,6 +15,8 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
+      reply: false,
+      Index: -1
     }
     this.message = React.createRef();
   }
@@ -60,19 +62,35 @@ class ChatRoom extends Component {
     this.setState({ messages: data.messages });
   }
 
-  send = () => {
+  send = (index) => {
     if (this.state.isEmojiActive) {
       this.setState({ isEmojiActive: false });
     }
-    if (this.message.current.value) {
-      console.log('chat started', this.props.user);
-      this.socket.emit("chat", {
-        username: this.props.user.username,
-        client2: this.props.client.username,
-        message: this.message.current.value,
-        messagePopUp: false
-      });
-      this.message.current.value = '';
+    if (index === -1) {
+      if (this.message.current.value) {
+        console.log('chat started', this.props.user);
+        this.socket.emit("chat", {
+          username: this.props.user.username,
+          client2: this.props.client.username,
+          message: this.message.current.value,
+          messagePopUp: false
+        });
+        this.message.current.value = '';
+      }
+      this.setState({ reply: false });
+
+    }
+    else if (index !== -1) {
+      if (this.message.current.value) {
+        this.socket.emit("reply", {
+          username: this.props.user.username,
+          client: this.props.client.username,
+          messageId: this.state.messages[index].id,
+          message: this.message.current.value
+        });
+        this.message.current.value = ''
+      }
+      this.setState({ Index: -1, reply: false });
     }
   }
   settings = () => {
@@ -114,17 +132,20 @@ class ChatRoom extends Component {
 
   imageUploading=(e)=>{
     console.log(e.target.files[0],'image event');
-      if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
-      {
-        alert('worng format of file');
-      }else{
-        if(e.target.files[0].size/1024<1024){
-          console.log('file is below 2mb and image format is also acceptable');
-        }
+    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
+    {
+      alert('worng format of file');
+    }else{
+      if(e.target.files[0].size/1024<1024){
+        console.log('file is below 2mb and image format is also acceptable');
       }
-    
+    }
+
   }
-//For Displaying message popup
+  msgDisplay=()=>{
+    this.setState({reply:false,Index:-1})
+  }
+  //For Displaying message popup
   showMessagePopUp = (index) => {
     let messages = this.state.messages
     for (let i = 0; i < messages.length; i++) {
@@ -146,78 +167,123 @@ class ChatRoom extends Component {
           messages[index].messagePopUp = false;
         }
       }
-     this.setState({});
+      this.setState({});
     }
+    
   }
-  
+  firstMsg = ''
+  onclickReply = (index) => {
+    this.firstMsg = this.state.messages[index].message
+    this.setState({ reply: true,Index:index })
+  }
+
   render() {
     const { messages, isEmojiActive } = this.state;
 
     return (
       <div className='chat-room' onClick={this.closePopup} >
-        <ClientHeader title={this.props.client.username} />
-          <div className='msg-container'>
-          {messages && !!messages.length && messages.map((message, index) => {
-            return (<div className='message-field' key={index}>
-              {this.getDateByTimestamp(message.timestamp)}
-              {message.username === this.props.user.username && message.message? 
-                (<div className="msg-field-container">
-                  <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
-                  {message.messagePopUp && <MessagePopup type="right" messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username}  socket={this.socket}/>}
-                  <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
-                  < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
-                </div>) :
-                 message.message &&(<div className="msg-field-container aln-left">
-                  <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
-                  {message.messagePopUp && <MessagePopup type="left" />}
-                  <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
-                </div>)
-              }
-            </div>)
-          })}
-          {this.state.isOponentTyping &&
-          <div>
-          <div className="msg-left" style={{width:'14px',paddingLeft:'13px',marginLeft:'5px'}}>
-          <div className="bounce">
-          </div>
-          <div className="bounce1">
-          </div>
-          <div className="bounce2">
-          </div>
-        </div></div>
-            }
-        </div>
-        <div className='footer'>
-          <div className="emoji">
-            {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
-            {isEmojiActive &&
-              <div className="emoji-holder">
-                <Picker
-                  onEmojiClick={(obj, data) => {
-                    this.message.current.value = this.message.current.value + data.emoji;
-                  }}
-                  disableAutoFocus={true}
-                  skinTone={SKIN_TONE_MEDIUM_DARK}
-                  groupNames={{ smileys_people: 'PEOPLE' }}
-                  pickerStyle={{ 'boxShadow': 'none' }}
-                  native
-                />
-              </div>
-            }
-          </div>
-          <div className="emoji">
-            <input type="file" onChange={this.imageUploading} ></input></div>
-          <div className='message-input'>
-            <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
-          </div>
-          <div className='submit-button'>
-            <button className='send' onClick={() => { this.send() }}>Send</button>
-          </div>
-        </div>
+      <ClientHeader title={this.props.client.username} />
+      <div className='msg-container'>
+        {messages && !!messages.length && messages.map((message, index) => {
+          return (<div className='message-field' key={index}>
+            {this.getDateByTimestamp(message.timestamp)}
+            {message.username === this.props.user.username && message.message?
+              (<div className="msg-field-container">
+                <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>
+                  {message.hasOwnProperty('replyId') ?
+                  <div>
+                    {messages && messages.map((firstmsg,index) => {
+                      return (
+                        <div key={index} > 
+                          {message.replyId === firstmsg.id ? 
+                          
+                          <div>
+                            
+                            <div className='reply-msg-style'><div className='username-style'><b>{firstmsg.username}</b></div><span className='first-msg-style'>{firstmsg.message}</span> </div>
+                             <span >{message.message}</span>
+                           </div> : null}
+                          </div>
+                          )})}
+                        </div>
+                  : <span >{message.message}</span>}
+                  
+                    
+                </span>
+                {message.messagePopUp && <MessagePopup type="right" messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username} socket={this.socket} indexValue={index} replyMsg={this.onclickReply} />}
+                <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
+                < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
+              </div>) :
+              message.message &&(<div className="msg-field-container aln-left">
+                <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.hasOwnProperty('replyId') ?
+                  <div>
+                    {messages.map((firstmsg) => {
+                      return (
+                        <div> 
+                          {message.replyId === firstmsg.id ?<div><div className='reply-msg-style'>
+                           <div className='username-style'><b>{firstmsg.username}</b></div>
+                           <div><span className='first-msg-style'>{firstmsg.message}</span> </div></div>
+                           
+                           <span>{message.message}</span>
+                            </div>: null}
+                           </div>
+                      )
+                    })
 
+                    }
+                  </div>
+
+                  : <span>{message.message}</span>}</span>
+                {message.messagePopUp && <MessagePopup type="left" indexValue={index} replyMsg={this.onclickReply} />}
+                <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
+              </div>)
+            }
+          </div>)
+        })}
+        {this.state.isOponentTyping &&
+          <div>
+            <div className="msg-left" style={{width:'14px',paddingLeft:'13px',marginLeft:'5px'}}>
+              <div className="bounce">
+              </div>
+              <div className="bounce1">
+              </div>
+              <div className="bounce2">
+              </div>
+            </div></div>
+        }
+      {this.state.reply ? <div className='reply'><div className='msg-style'><span style={{color: '#c9c3b1',
+    fontSize: 14}}>{this.firstMsg}</span><span onClick={this.msgDisplay}>X</span></div></div> : null}
+      </div>            
+      <div className='footer'>
+        <div className="emoji">
+          {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
+          {isEmojiActive &&
+            <div className="emoji-holder">
+              <Picker
+                onEmojiClick={(obj, data) => {
+                  this.message.current.value = this.message.current.value + data.emoji;
+                }}
+                disableAutoFocus={true}
+                skinTone={SKIN_TONE_MEDIUM_DARK}
+                groupNames={{ smileys_people: 'PEOPLE' }}
+                pickerStyle={{ 'boxShadow': 'none' }}
+                native
+              />
+            </div>
+          }
+        </div>
+        <div className="emoji">
+          <input type="file" onChange={this.imageUploading} ></input></div>
+        <div className='message-input'>
+          <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />        
+        </div>
+        <div className='submit-button'>
+          <button className='send' onClick={() => { this.send(this.state.Index) }}>Send</button>
+        </div>
       </div>
-    )
-  }
+
+    </div>
+  )
+}
 }
 
 const mapStateToProps = (state) => (
