@@ -17,7 +17,8 @@ class ChatScreen extends Component {
             menu: false,
             settingDetails: false,
             isEmpty: false,
-            catchError: false
+            catchError: false,
+            hideMenu: false
         };
         loaderService.show();
     }
@@ -109,12 +110,16 @@ class ChatScreen extends Component {
             }).catch((error) => console.log(error))
     }
 
+    hideMenuBar = () => {
+        this.setState({ hideMenu: !this.state.hideMenu });
+    }
+
     render() {
         return (
             <div className="entire-area">
-                <Header title="Archived Messages" />
+                <Header title="Archived Messages" callBack={this.hideMenuBar}/>
                 <div>
-                    <div className="chats">
+                    <div className={this.state.hideMenu?"menu-active":"chats"}>
                         {this.state.isEmpty && <div>No conversations found</div>}
                         {!this.state.catchError ? <div>
                             {this.state.data && !!this.state.data.length && this.state.data.map((user, index) => {

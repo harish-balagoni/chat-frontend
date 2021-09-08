@@ -12,6 +12,11 @@
     justify-content: center;
     align-self: center;
 }
+.back-arrow{
+    height: 2rem;
+    width: 2rem;
+    margin-top: 1rem;
+}
 .client-header-profile{
     width: 10%;
     height: 100%;
@@ -26,22 +31,22 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 1rem;
     margin-top: 1%;
-    font-size: 26px;
+    font-size: 2rem;
     color: #e2e2e3;
 }
 .client-header-menu{
     width: 10%;
     height: 100%;
     display: flex;
-    margin-top: 1%;
+    margin-top: 1rem;
     justify-content: center;
     align-items: center;
 }
 .client-header-image{
-    width: 60px;
-    height: 60px;
+    width: 3.5rem;
+    height: 3.5rem;
     border-radius: 50%;
 }
 .options1{

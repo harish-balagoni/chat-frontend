@@ -7,9 +7,13 @@ import Profile from './Profile';
 import { socketConnect } from '../../../service/socket';
 import ReactNotifications, { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import {searchData} from "../../actions/actions"
-import Navigationmenu from './Navigationmenu';
-
+import { searchData } from "../../actions/actions"
+import { withRouter } from 'react-router';
+import { BsList } from 'react-icons/bs';
+import { BsXCircleFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import { SideBarData } from './SideBarData';
+import NotificationSound from "../Common/NotificationSound";
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -17,27 +21,28 @@ class Header extends Component {
             isShowOptions: false,
             isShowProfile: false,
             searchButton: false,
-            searchIcon:false,
-            contactsData:[],
+            searchIcon: false,
+            contactsData: [],
+            sidebar: false
         }
-        this.searchContact=React.createRef();
+        this.searchContact = React.createRef();
     }
 
-componentDidMount() {
-    console.log("componentdidmount eader rendered", Math.random());
-    socketConnect((socket) => {
-        this.socket= socket;
-        this.socket.emit("notifications", { username: this.props.user.username });
-        this.socket.on( "notification",this.onNotification );
+    componentDidMount() {
+        console.log("componentdidmount eader rendered", Math.random());
+        socketConnect((socket) => {
+            this.socket = socket;
+            this.socket.emit("notifications", { username: this.props.user.username });
+            this.socket.on("notification", this.onNotification);
         });
-    // this.setState({contactsData: this.props.usersData},()=>console.log(this.state.contactsData))
+        // this.setState({contactsData: this.props.usersData},()=>console.log(this.state.contactsData))
     }
 
-componentWillUnmount=()=>{
-    this.socket.off( "notification",this.onNotification );
-}
+    componentWillUnmount = () => {
+        this.socket.off("notification", this.onNotification);
+    }
 
-    onNotification=(data)=>{
+    onNotification = (data) => {
         console.log(data, "got notifications");
         store.addNotification({
             title: data.username,
@@ -51,6 +56,7 @@ componentWillUnmount=()=>{
                 onScreen: true
             }
         });
+        <NotificationSound />
     }
 
     showProfile = () => {
@@ -62,45 +68,71 @@ componentWillUnmount=()=>{
     }
     showSearchbar = () => {
         this.props.searchData([]);
-        this.setState({ searchButton: this.state.searchButton ? false : true,contactsData: this.props.usersData})
+        this.setState({ searchButton: this.state.searchButton ? false : true, contactsData: this.props.usersData })
     }
     showSearch = () => {
         let searchValue = this.searchContact.current.value
         let result = [];
         if (searchValue.length > 0) {
-          if (isNaN(searchValue)) {
-            searchValue = searchValue.toLowerCase();
-            result = this.state.contactsData.filter((data) => {
-              return data.username.toLowerCase().includes(searchValue);
-            });
-          }
-          else {
-            searchValue = parseInt(searchValue);
-            result = this.state.contactsData.filter((data) => {
-              return data.mobile.includes(searchValue);
-            });
-          }
+            if (isNaN(searchValue)) {
+                searchValue = searchValue.toLowerCase();
+                result = this.state.contactsData.filter((data) => {
+                    return data.username.toLowerCase().includes(searchValue);
+                });
+            }
+            else {
+                searchValue = parseInt(searchValue);
+                result = this.state.contactsData.filter((data) => {
+                    return data.mobile.includes(searchValue);
+                });
+            }
         }
-        if(searchValue.length!== 0 && result.length=== 0)
-        {
-            result[0]="notFound"
+        if (searchValue.length !== 0 && result.length === 0) {
+            result[0] = "notFound"
         }
-        console.log("in header",result[0]);
+        console.log("in header", result[0]);
         this.props.searchData(result);
-        
-      }
-     
+
+    }
+
+    showSidebar = () => {
+        this.setState({
+            sidebar: !this.state.sidebar,
+        });
+        this.props.callBack();
+    }
+
     render() {
-        if(this.props.title==="Contacts"){this.state.searchIcon=true}
+        if (this.props.title === "Contacts") { this.state.searchIcon = true }
         return (
             <div className="common-header">
-                <Navigationmenu />
-                <div className="header-profile">
-                <img className="header-image" src={this.props.user.profile} alt="profile" />
+                <div className='menu-bars'>
+                    <BsList onClick={this.showSidebar} />
+                </div>
+                <div className={this.state.sidebar ? 'nav-menu active' : 'nav-menu'}>
+                    <ul className='nav-menu-items' >
+                        <div className='close-icon'>
+                            <BsXCircleFill onClick={this.showSidebar} />
+                        </div>
+                        <div className='menu-bars'></div>
+                        {SideBarData.map((data, index) => {
+                            return (
+                                <li key={index} className={data.cName}>
+                                    <Link to={data.path}>
+                                        <span>{data.icon}</span>&nbsp;&nbsp;
+                                        <span>{data.title}</span>
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+                <div className="header-profile" >
+                    <img className="header-image" src={this.props.user.profile} alt="profile" />
                 </div>
                 <div className="header-name">{this.props.title}</div>
-                <div className='header-search'>{this.state.searchButton && <input className="searchInput"  autoFocus type="search" placeholder="Search contact's here" onChange={this.showSearch} ref={this.searchContact} /> }
-                {this.state.searchIcon ? <img className="searchButton" src="https://img.icons8.com/material-rounded/50/ffffff/search.png" onClick={this.showSearchbar} /> :null}</div>
+                <div className='header-search'>{this.state.searchButton && <input className="searchInput" autoFocus type="search" placeholder="Search contact's here" onChange={this.showSearch} ref={this.searchContact} />}
+                    {this.state.searchIcon ? <img className="searchButton" src="https://img.icons8.com/material-rounded/50/ffffff/search.png" onClick={this.showSearchbar} /> : null}</div>
                 <div className="header-menu">
                     <img src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
                 </div>
@@ -118,6 +150,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     searchData: (data) => dispatch(searchData(data))
-  });
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
