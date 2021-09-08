@@ -169,3 +169,35 @@ textarea {
   border: 1px solid rgba(0,0,0,.5);
   background: rgba(0,0,0,.25);
   border-radius: 10px;}
+  .reply{
+    display: flex;
+    flex-direction: column;
+    background: #202124;
+    border-radius: 10px;
+    width: 55%;
+    margin-left: 17%;
+    padding: 10px;
+    position: fixed;
+  } 
+  .msg-style{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .reply-msg-style{
+    margin-top:1px;
+    margin-bottom:1px;
+    background-color:#6f7177;
+    border-radius:10px;
+    padding-left:5px;
+    border-left-style: solid;
+    border-left-color: #2021247a;
+  }
+  .username-style{
+    color:rgb(32 33 36 / 58%);
+    font-size:14px
+  }
+  .first-msg-style{
+    color: '#c9c3b1';
+    font-size: 14
+  }
