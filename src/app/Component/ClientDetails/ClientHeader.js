@@ -68,7 +68,6 @@ class ClientHeader extends Component {
                 {this.state.isShowOptions && <HeaderOptions showProfileDetails={this.showProfileDetails}
                     onClose={() => { this.setState({ isShowOptions: false }) }} />}
                 {this.state.isShowProfile && <ClienttProfile />}
-
                 <ReactNotifications />
             </div>
         )
