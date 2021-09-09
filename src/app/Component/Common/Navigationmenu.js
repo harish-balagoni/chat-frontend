@@ -1,50 +1,37 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router";
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { conversation } from '../../actions/actions';
 import { contacts } from '../../actions/actions';
 import hamburger from '../../../assests/Ham-burger-menu.png';
-
+import './Header.css';
 class Navigationmenu extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-
-            isshowBackOptions:false,
-
+            isshowBackOptions: false,
         }
-
     }
 
-
     conversation = () => {
-
         this.props.history.push({
             pathname: '/chats',
             data: this.props.user
-
-
         });
-
     }
     contacts = () => {
         this.props.history.push('/contacts');
     }
-    showBackOptions=()=>
-    {
-        this.setState({isshowBackOptions:this.state.isshowBackOptions?false:true})
+    showBackOptions = () => {
+        this.setState({ isshowBackOptions: this.state.isshowBackOptions ? false : true })
 
     }
 
-
-
     render() {
-
         return (
             <div >
                 <div className="backMenu" onClick={() => this.showBackOptions()}>
-                    <img className="backButtonMenu" src={hamburger} alt="menu" style={{ cursor: "pointer", width: "3%", position: "absolute", marginTop: "1px", left: "1%", top: "4.3%"}} />
+                    <img className="backButtonMenu" src={hamburger} alt="menu" style={{ cursor: "pointer", width: "3%", position: "absolute", marginTop: "1px", left: "1%", top: "4.3%" }} />
                 </div>
                 {this.state.isshowBackOptions &&
                     <div className='linkshow' style={{ width: "150px", height: "118px", position: 'absolute', top: "12%", left: '0%' }}>
@@ -53,9 +40,9 @@ class Navigationmenu extends Component {
                             <a onClick={() => { this.contacts() }}> <li style={{ padding: '8px', borderWidth: ' 0px 0px 1px 0px', color: "white", cursor: "pointer" }}>Contacts</li></a>
                         </ul>
                     </div>
-    }
-                
-        </div>
+                }
+
+            </div>
 
         )
     }
