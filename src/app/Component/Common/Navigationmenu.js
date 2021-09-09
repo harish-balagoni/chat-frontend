@@ -4,6 +4,7 @@ import { connect} from 'react-redux';
 import { conversation } from '../../actions/actions';
 import { contacts } from '../../actions/actions';
 import hamburger from '../../../assests/Ham-burger-menu.png';
+import './Header.css';
 
 class Navigationmenu extends Component {
 
@@ -44,10 +45,10 @@ class Navigationmenu extends Component {
         return (
             <div >
                 <div className="backMenu" onClick={() => this.showBackOptions()}>
-                    <img className="backButtonMenu" src={hamburger} alt="menu" style={{ cursor: "pointer", width: "3%", position: "absolute", marginTop: "1px", left: "1%", top: "4.3%"}} />
+                    <img className="backButtonMenu" src={hamburger} alt="menu" />
                 </div>
                 {this.state.isshowBackOptions &&
-                    <div className='linkshow' style={{ width: "150px", height: "118px", position: 'absolute', top: "12%", left: '0%' }}>
+                    <div className='linkshow' style={{  }}>
                         <ul style={{ alignItems: 'center', borderRadius: '10px', background: '#50535a', listStyleType: "none", padding: "12px", boxShadow: '0px 0px 30px rgb(14 10 16 / 84%' }}>
                             <a onClick={() => { this.conversation() }}><li style={{ padding: '8px', cursor: "pointer", borderBottom: '2px solid white' }}>Conversation</li></a>
                             <a onClick={() => { this.contacts() }}> <li style={{ padding: '8px', borderWidth: ' 0px 0px 1px 0px', color: "white", cursor: "pointer" }}>Contacts</li></a>

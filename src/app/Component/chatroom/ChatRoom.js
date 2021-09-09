@@ -7,6 +7,7 @@ import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 import ClientHeader from '../ClientDetails/ClientHeader';
 import MessagePopup from './MessagePopup';
+import ForwardMessage from '../ForwardMessage/ForwardMessage';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +16,10 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
+      forwardPopup: false,
+      forwardingMessage:''
     }
+    console.log(this.props,'props in cchat scrreen');
     this.message = React.createRef();
   }
   socket = null;
@@ -124,6 +128,10 @@ class ChatRoom extends Component {
       }
     
   }
+
+  forwardPopup = (message) =>{
+    this.setState({forwardPopup: !this.state.forwardPopup,forwardingMessage:message})
+  }
 //For Displaying message popup
   showMessagePopUp = (index) => {
     let messages = this.state.messages
@@ -150,10 +158,19 @@ class ChatRoom extends Component {
     }
   }
   
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps.client.username,'should Component update',this.props.client.username);
+    return nextProps.client.username === this.props.client.username;
+  }
+  // componentWillUpdate=() =>{
+  //   this.forceUpdate();
+  // }
   render() {
     const { messages, isEmojiActive } = this.state;
 
     return (
+      <>
+      {this.state.forwardPopup ? <ForwardMessage message={this.state.forwardingMessage} handleclose={this.forwardPopup} /> : 
       <div className='chat-room' onClick={this.closePopup} >
         <ClientHeader title={this.props.client.username} />
           <div className='msg-container'>
@@ -163,13 +180,13 @@ class ChatRoom extends Component {
               {message.username === this.props.user.username && message.message? 
                 (<div className="msg-field-container">
                   <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
-                  {message.messagePopUp && <MessagePopup type="right" messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username}  socket={this.socket}/>}
+                  {message.messagePopUp && <MessagePopup type="right" forwardMessage={()=>this.forwardPopup(message.message)} messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username}  socket={this.socket}/>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                  message.message &&(<div className="msg-field-container aln-left">
                   <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
-                  {message.messagePopUp && <MessagePopup type="left" />}
+                  {message.messagePopUp && <MessagePopup type="left" forwardMessage={()=>this.forwardPopup(message.message)}/>}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
               }
@@ -187,6 +204,7 @@ class ChatRoom extends Component {
         </div></div>
             }
         </div>
+  
         <div className='footer'>
           <div className="emoji">
             {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
@@ -211,11 +229,12 @@ class ChatRoom extends Component {
             <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
           <div className='submit-button'>
-            <button className='send' onClick={() => { this.send() }}>Send</button>
+            <button className='send' onClick={() => this.send()}>Send</button>
           </div>
         </div>
-
       </div>
+  }
+      </>
     )
   }
 }

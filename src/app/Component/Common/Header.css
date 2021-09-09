@@ -129,3 +129,32 @@
     font-size: 15px;
     padding-left: 5%;
 }
+
+@media screen and (min-height: 900px){
+    .client-common-header {
+        margin-bottom: 1rem;
+        width: 90%;
+        margin-left: 5%;
+        height: 15%;
+        display: flex;
+        justify-content: center;
+        align-self: center;
+    }
+}
+
+.backButtonMenu{
+    cursor: pointer;
+    width: 3%;
+    position: absolute;
+    margin-Top: 1px;
+    left: 1%;
+    top: 4.3%;
+}
+
+.linkshow{
+    width: 150px;
+    height: 118px;
+    position: absolute;
+    top: 12%;
+    left: 0%;
+}

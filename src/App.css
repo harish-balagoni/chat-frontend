@@ -134,6 +134,7 @@ input:focus{
 }
 
 .msg-container{
+  /* overflow-y: scroll!important; */
   scroll-behavior: smooth;
   width: 90%;
   height: 88%;
@@ -201,6 +202,32 @@ input:focus{
 
 .text{
   color: #e2e2e3;
+}
+@media screen and (min-height: 900px){
+  .footer {
+    position: fixed;
+    width: 90%;
+    height: 6%;
+    bottom: 0;
+    display: flex;
+    background: #373a3f;
+    margin-left: 5%;
+    border: 1px solid #504e4e;
+    border-width: 1px 0px 0px 0px;
+    border-radius: 0px 0px 10px 10px;
+}
+  .msg-container {
+    scroll-behavior: smooth;
+  width: 90%;
+  height: 49rem;
+  background-color: #383a3f;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  margin-left: 5%;
+  border-radius: 3% 3% 0% 0%;
+  }
 }
 
 [placeholder]::-webkit-input-placeholder { color: #d7d7d7; padding-left: 5px; padding-top: 5px; }

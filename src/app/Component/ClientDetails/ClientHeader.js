@@ -31,9 +31,10 @@ class ClientHeader extends Component {
         });
     }
 
-componentWillUnmount=()=>{
-    this.socket.off( "notification",this.onNotification );
-}
+// componentWillUnmount=()=>{
+//     console.log(this,'fn error this socket');
+//     this.socket.off( "notification",this.onNotification );
+// }
 
     onNotification=(data)=>{
         console.log(data, "got notifications");
