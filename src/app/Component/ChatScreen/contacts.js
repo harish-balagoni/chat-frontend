@@ -105,25 +105,24 @@ class Contacts extends Component {
             {!this.state.catchError ? <div>
               <div id="blur1">
                 {this.props.searchContactData && this.props.searchContactData.length === 0 ?
-
-                  this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
-                    return (
-                      <div key={index} className="contact">
-                        <div className="profile-img">
-                          <img onClick={() => this.showpic(user.id)} src={user.profile} className="image"></img>
-                        </div>
-                        <div className="text profile-nm">
-                          <h2
-                            onClick={() => {
-                              this.open(user);
-                            }}
-                          >
-                            {user.username}
-                          </h2>
-                        </div>
-                      </div>
-                    );
-                  }) :
+    this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
+                return (
+                  <div key={index} className="contact">
+                    <div className="profile-img">
+                      <img onClick={()=>this.showpic(user.id)} src={user.profile} className="image"></img>
+                    </div>
+                    <div className="text profile-nm">
+                      <h2
+                        onClick={() => {
+                          this.open(user);
+                        }}
+                      >
+                        {user.username}
+                      </h2>
+                    </div>
+                  </div>
+                );
+              }) :    
                   <div><h3>Search Results</h3>
                     {this.props.searchContactData && this.props.searchContactData[0] === "notFound" ? <h1 style={{ textAlign: "center", paddingTop: "10%" }}>User Not Found</h1> :
                       <div>

@@ -8,9 +8,9 @@ class Profile extends Component {
                 <div className="header-profile-item">
                     <img className="header-profile-image" src={this.props.user.profile} alt="image" />
                 </div>
-                <div className="header-profile-item">{this.props.user.username}</div>
-                <div className="header-profile-item">{this.props.user.email}</div>
-                <div className="header-profile-item">(+91) {this.props.user.mobile}</div>
+                <div className="header-profile-item">Name : {this.props.user.username}</div>
+                <div className="header-profile-item">Email : {this.props.user.email}</div>
+                <div className="header-profile-item">Mobileno : (+91) {this.props.user.mobile}</div>
             </div>
         )
     }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Header.css';
 import { withRouter } from "react-router";
 import { connect } from 'react-redux';
-
 import { logOut } from '../../actions/actions';
 
 class Options extends Component {

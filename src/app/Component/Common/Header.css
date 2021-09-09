@@ -86,8 +86,8 @@
 }
 
 .header-profile-main{
-    width: 200px;
-    height: 300px;
+    width: 40%;
+    height: 30%;
     position: absolute;
     top:10%;
     right: 10%;
@@ -119,6 +119,7 @@
     display: flex;
     margin-top: 1.5rem;
 }
+
 .searchInput{
     width: 230px;
     height: 27px;
@@ -129,3 +130,5 @@
     font-size: 15px;
     padding-left: 5%;
 }
+
+
