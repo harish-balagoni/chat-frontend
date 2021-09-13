@@ -134,10 +134,10 @@ input:focus{
 }
 
 .msg-container{
-  /* overflow-y: scroll!important; */
+  overflow-y: scroll!important;
   scroll-behavior: smooth;
   width: 90%;
-  height: 88%;
+  height: 86%;
   background-color: #383a3f;
   display: flex;
   flex-direction: column;
@@ -152,13 +152,14 @@ input:focus{
 }
 
 .msg-right{
-  background: #8a8787;
-    border-radius: 1rem;
-    padding: 10px;
-    float: right; 
-    margin-right: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+ background: #8a8787;
+    
+    float: right;
+    margin-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -167,16 +168,18 @@ input:focus{
     position: relative;
     overflow-wrap: break-word;
     white-space: pre-wrap;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+
 }
 
 .msg-left{
   background: #8a8787;
-    border-radius: 1rem;
-    padding: 10px;
-    float: left;
-    margin-right: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+       float: left;
+    margin-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -186,6 +189,11 @@ input:focus{
     position: relative;
     overflow-wrap: break-word;
     white-space: pre-wrap;
+    border-top-left-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .chat-typing{

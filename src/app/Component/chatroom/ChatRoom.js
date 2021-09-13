@@ -17,7 +17,9 @@ class ChatRoom extends Component {
       isOponentTyping: false,
       isEmojiActive: false,
       forwardPopup: false,
-      forwardingMessage:''
+      forwardingMessage:'',
+      reply: false,
+      Index: -1
     }
     console.log(this.props,'props in cchat scrreen');
     this.message = React.createRef();
@@ -26,7 +28,7 @@ class ChatRoom extends Component {
   componentDidMount = () => {
     this.socket = getSocket();
     this.socket.emit("joinRoom", { username: this.props.user.username, client2: this.props.client.username });
-    this.socket.on("messages", this.onMessages);
+    this.socket.once("messages", this.onMessages);
     this.socket.on("message", this.onMessage);
     this.socket.on("typing-start", this.onTyping);
     this.socket.on("typing-end", this.onTyping);
@@ -64,19 +66,37 @@ class ChatRoom extends Component {
     this.setState({ messages: data.messages });
   }
 
-  send = () => {
+  send = (index) => {
+    console.log('send');
     if (this.state.isEmojiActive) {
       this.setState({ isEmojiActive: false });
     }
-    if (this.message.current.value) {
-      console.log('chat started', this.props.user);
-      this.socket.emit("chat", {
-        username: this.props.user.username,
-        client2: this.props.client.username,
-        message: this.message.current.value,
-        messagePopUp: false
-      });
-      this.message.current.value = '';
+    if (index === -1) {
+      if (this.message.current.value) {
+        console.log('chat started', this.props.user);
+        this.socket.emit("chat", {
+          username: this.props.user.username,
+          client2: this.props.client.username,
+          message: this.message.current.value,
+          messagePopUp: false
+        });
+        this.message.current.value = '';
+      }
+      this.setState({ reply: false });
+
+    }
+    else if (index !== -1) {
+      console.log(this.state.messages[index].id,'message id');
+      if (this.message.current.value) {
+        this.socket.emit("reply", {
+          username: this.props.user.username,
+          client: this.props.client.username,
+          messageId: this.state.messages[index].id,
+          message: this.message.current.value
+        });
+        this.message.current.value = ''
+      }
+      this.setState({ Index: -1, reply: false });
     }
   }
   settings = () => {
@@ -84,11 +104,13 @@ class ChatRoom extends Component {
   }
 
   getTimeByTimestamp = (timestamp) => {
+    console.log('gettime Stamp');
     let date = new Date(timestamp * 1000);
     let ampm = date.getHours() >= 12 ? 'pm' : 'am';
     let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
     return hours + ":" + date.getMinutes() + ampm;
   }
+
   previousDate = null;
   getDateByTimestamp = (timestamp) => {
     let date = new Date(timestamp * 1000);
@@ -103,12 +125,10 @@ class ChatRoom extends Component {
 
   }
   sendTypingStartStatus = () => {
-    console.log('type start');
     this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   sendTypingEndStatus = () => {
-    console.log('type end');
     this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.client.username });
   }
 
@@ -118,15 +138,18 @@ class ChatRoom extends Component {
 
   imageUploading=(e)=>{
     console.log(e.target.files[0],'image event');
-      if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
-      {
-        alert('worng format of file');
-      }else{
-        if(e.target.files[0].size/1024<1024){
-          console.log('file is below 2mb and image format is also acceptable');
-        }
+    if (!e.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i))
+    {
+      alert('worng format of file');
+    }else{
+      if(e.target.files[0].size/1024<1024){
+        console.log('file is below 2mb and image format is also acceptable');
       }
-    
+    }
+
+  }
+  msgDisplay=()=>{
+    this.setState({reply:false,Index:-1})
   }
 
   forwardPopup = (message) =>{
@@ -137,11 +160,11 @@ class ChatRoom extends Component {
     let messages = this.state.messages
     for (let i = 0; i < messages.length; i++) {
       if (i === index) {
-        messages[i].messagePopUp = true;
+        messages[i].messagePopUp = !messages[index].messagePopUp;
         this.setState({});
       } else {
         if (messages[i].messagePopUp) {
-          messages[i].messagePopUp = false;
+          messages[i].messagePopUp = !messages[index].messagePopUp;
           this.setState({});
         }
       }
@@ -151,11 +174,17 @@ class ChatRoom extends Component {
       let message = this.state.messages;
       if (message[index]) {
         if (messages[index].messagePopUp) {
-          messages[index].messagePopUp = false;
+          messages[index].messagePopUp = !messages[index].messagePopUp;
         }
       }
-     this.setState({});
+      this.setState({});
     }
+    
+  }
+  firstMsg = ''
+  onclickReply = (index) => {
+    this.firstMsg = this.state.messages[index].message
+    this.setState({ reply: true,Index:index })
   }
   
   shouldComponentUpdate(nextProps, nextState) {
@@ -179,14 +208,50 @@ class ChatRoom extends Component {
               {this.getDateByTimestamp(message.timestamp)}
               {message.username === this.props.user.username && message.message? 
                 (<div className="msg-field-container">
-                  <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
-                  {message.messagePopUp && <MessagePopup type="right" forwardMessage={()=>this.forwardPopup(message.message)} messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username}  socket={this.socket}/>}
+                  <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>
+                  {message.hasOwnProperty('replyId') ?
+                  <div>
+                    {messages && messages.map((firstmsg,index) => {
+                      return (
+                        <div key={index} > 
+                          {message.replyId === firstmsg.id ? 
+                          
+                          <div>
+                            
+                            <div className='reply-msg-style'><div className='username-style'><b>{firstmsg.username}</b></div><span className='first-msg-style'>{firstmsg.message}</span> </div>
+                             <span >{message.message}</span>
+                           </div> : null}
+                          </div>
+                          )})}
+                        </div>
+                  : <span >{message.message}</span>}
+
+                  </span>
+                  {message.messagePopUp && <MessagePopup type="right" forwardMessage={()=>this.forwardPopup(message.message)} messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username}  socket={this.socket} indexValue={index} replyMsg={this.onclickReply}/>}
                   <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                   < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
                 </div>) :
                  message.message &&(<div className="msg-field-container aln-left">
-                  <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.message}</span>
-                  {message.messagePopUp && <MessagePopup type="left" forwardMessage={()=>this.forwardPopup(message.message)}/>}
+                  <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.hasOwnProperty('replyId') ?
+                  <div>
+                    {messages.map((firstmsg) => {
+                      return (
+                        <div> 
+                          {message.replyId === firstmsg.id ?<div><div className='reply-msg-style'>
+                           <div className='username-style'><b>{firstmsg.username}</b></div>
+                           <div><span className='first-msg-style'>{firstmsg.message}</span> </div></div>
+                           
+                           <span>{message.message}</span>
+                            </div>: null}
+                           </div>
+                      )
+                    })
+
+                    }
+                  </div>
+
+                  : <span>{message.message}</span>}</span>
+                  {message.messagePopUp && <MessagePopup type="left" forwardMessage={()=>this.forwardPopup(message.message)} indexValue={index} replyMsg={this.onclickReply}/>}
                   <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 </div>)
               }
@@ -203,6 +268,8 @@ class ChatRoom extends Component {
           </div>
         </div></div>
             }
+            {this.state.reply ? <div className='reply'><div className='msg-style'><span style={{color: '#c9c3b1',
+    fontSize: 14}}>{this.firstMsg}</span><span onClick={this.msgDisplay}>X</span></div></div> : null}
         </div>
   
         <div className='footer'>
@@ -229,7 +296,7 @@ class ChatRoom extends Component {
             <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />
           </div>
           <div className='submit-button'>
-            <button className='send' onClick={() => this.send()}>Send</button>
+            <button className='send' onClick={() =>{this.send(this.state.Index)}}>Send</button>
           </div>
         </div>
       </div>

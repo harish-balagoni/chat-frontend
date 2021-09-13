@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Header from '../Common/Header';
 import CatchError from '../CatchError/CatchError';
 import { withRouter } from "react-router";
 import { getSocket } from '../../../service/socket';
@@ -23,14 +22,11 @@ class ForwardMessage extends Component {
             isEmpty: false,
             catchError: false
         };
-        console.log(this.props);
         loaderService.show();
     }
     componentDidMount() {
-        console.log(this.props.user.username);
         this.getContacts();
         this.getNewContacts();
-       // this.getData();
          this.socket = getSocket();
         socketConnect((socket) => {
             this.socket = socket;
@@ -51,7 +47,6 @@ class ForwardMessage extends Component {
             })
             .then(async res=>{
                 loaderService.show();
-                console.log(res.data,'responseContacts');
                 let index = null,
                 details = [];
               res.data.map((user) => {
@@ -59,20 +54,16 @@ class ForwardMessage extends Component {
                     details.push(user);
                 }}
               );
-              console.log(this.state.dataConversation);
-            //   this.state.dataConversation.map((userConversation)=>{
-            //       console.log(userConversation,'details');
-            //       details.map((user,index)=>{
-            //       if(userConversation.client.username === user.username){
-            //             details.splice(index,1);
-            //         }
-            //     })
-            // })
-            console.log(details,'details');
+              this.state.dataConversation.map((userConversation)=>{
+                  details.map((user,index)=>{
+                  if(userConversation.client.username === user.username){
+                        details.splice(index,1);
+                    }
+                })
+            })
               this.setState({ dataContacts: details });
               loaderService.hide();
             }).catch((err) => {
-                console.log(err,'error');
               })
     }
     
@@ -91,7 +82,6 @@ class ForwardMessage extends Component {
                     },
                 })
                 .then((res) => {
-                    console.log("responseConver", res.data.data);
                     if (res.status === 200) {
                         if (res.data.data && res.data.data.length) {
                             let details = [];
@@ -119,19 +109,7 @@ class ForwardMessage extends Component {
     }
     forwordUserList=[];
     open = (user) => {
-        console.log(this.props.message,'clicked',user,this.props.user.username);
         this.forwordUserList.push(user);
-        // this.props.createClient(user);
-        // this.socket.emit("chat", {
-        //     username: this.props.user.username,
-        //     client2: user.username,
-        //     message: this.props.message,
-        //   });
-        //this.props.createClient(user);
-        // this.props.handleclose();
-        // this.props.history.push({
-        //     pathname: "/ChatRoom"
-        // });
     };
     settings = () => {
         this.setState({ menu: true });
@@ -182,7 +160,6 @@ class ForwardMessage extends Component {
     }
 
     handleForwardMessage = () =>{
-        console.log(this.forwordUserList);
         this.forwordUserList.map(user=>{
             this.socket.emit('joinRoom', {
                 username: this.props.user.username,
@@ -212,11 +189,7 @@ class ForwardMessage extends Component {
                         {this.state.dataConversation && !!this.state.dataConversation.length && this.state.dataConversation.map((user, index) => {
                             return (
                                 user.messages && !!user.messages.length &&
-                                <div key={index} className="contact" 
-                                // onClick={() => {
-                                //     this.open(user.client);
-                                // }}
-                                >
+                                <div key={index} className="contact" >
                                     <div className="checkbox-div"><input className="chekbox" type="checkbox" onClick={() => {
                                                 this.open(user.client);
                                             }} /></div>
@@ -238,7 +211,6 @@ class ForwardMessage extends Component {
                          { this.state.dataContacts && !!this.state.dataContacts.length && this.state.dataContacts.map((user, index) => {
                     return (
                       <div key={index} className="contact">
-                          {/* {console.log(user)} */}
                            <div className="checkbox-div"><input className="chekbox" type="checkbox" onClick={() => {
                                 this.open(user);
                             }} /></div>
@@ -246,22 +218,12 @@ class ForwardMessage extends Component {
                           <img src={user.profile} className="image"></img>
                         </div>
                         <div className="text profile-nm">
-                        {/* <input type="checkbox" onClick={() => {
-                            this.open(user);
-                        }} /> */}
-                          <h2
-                            // onClick={() => {
-                            //   this.open(user)
-                            // }}
-                          >
-                            {user.username}
-                          </h2>
+                          <h2>{user.username}</h2>
                         </div>
                       </div>
                     );
                   })}
                     </div>
-                    {/* <div><input type="button" value="Send"/></div> */}
                     </div> : <CatchError callBack={this.getContacts} />}
                 </div>
             </div>

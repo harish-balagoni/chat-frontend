@@ -105,7 +105,11 @@
 
   }
 
-  .chekbox{
+  .chekbox {
     vertical-align: middle;
     margin-left: 20px;
+  }
+
+  .chats {
+    padding-top: 53px;
   }
