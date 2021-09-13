@@ -2,15 +2,18 @@
     height: max-content;
     background-color: #202124;
 }
-
+.menu-active
+{
+  pointer-events: none;
+}
 .image{
     float: left;
-    height: 60px;
-    width: 60px;
-    border-radius: 30px;
-    margin-left: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 2rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .whatsapp-screen{
@@ -73,7 +76,7 @@
     display: flex;
     width: 10%;
     height: 100%;
-    font-size: 15px;
+    font-size: 1rem;
     justify-content: center;
     color: #b0b0b3;
     align-items: center;
@@ -81,20 +84,21 @@
 }
 
 .profile-nm{
-    width:70%;
-    height:100%;
+    width: 70%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 20px;
+    padding-left: 1.5rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
 h2{
-    color:#ffff;
-    font :20px sans-serif;
-    float:left;
+    color: #ffff;
+    font: 20px sans-serif;
+    float: left;
+    font-size: 1.5rem;
 }
 p{
     color: #ffffffB3;
@@ -167,19 +171,18 @@ p{
 .chats-button{
     border-radius: 50%;
     cursor: pointer;
-    background: #3a3f51;
+    font-size: 3rem;
 }
 
 .chats-position{
     position: fixed;
-    border: 3px solid #e2e2e3;
-    border-radius: 50%;
-    right: 5%;
+    border-radius: 2rem;
+    right: 10%;
     bottom: 5%;
 }
 
-.chats-position:hover{
-    box-shadow: 0 0 15px #e4e0e6c0 ; 
+.chats-button:hover{
+    box-shadow: 0 0 1rem #e4e0e6c0; 
 }
 
 textarea {
@@ -207,8 +210,8 @@ textarea {
   }
 
 .chats-icon{
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
 }
 
 .img{

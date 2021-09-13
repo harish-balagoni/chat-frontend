@@ -181,6 +181,7 @@ class ChatRoom extends Component {
     const { messages, isEmojiActive } = this.state;
 
     return (
+      <div className='main-chat-room'>
       <div className='chat-room' onClick={this.closePopup} >
       <ClientHeader title={this.props.client.username} />
       <div className='msg-container'>
@@ -189,7 +190,7 @@ class ChatRoom extends Component {
             {this.getDateByTimestamp(message.timestamp)}
             {message.username === this.props.user.username && message.message?
               (<div className="msg-field-container">
-                <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>
+                <span className='msg-right'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>&#8942;</span>
                   {message.hasOwnProperty('replyId') ?
                   <div>
                     {messages && messages.map((firstmsg,index) => {
@@ -214,7 +215,7 @@ class ChatRoom extends Component {
                 < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
               </div>) :
               message.message &&(<div className="msg-field-container aln-left">
-                <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>v</span>{message.hasOwnProperty('replyId') ?
+                <span className='msg-left'><span className="popup" alt="dots" onClick={() => { this.showMessagePopUp(index) }}>&#8942;</span>{message.hasOwnProperty('replyId') ?
                   <div>
                     {messages.map((firstmsg) => {
                       return (
@@ -280,7 +281,7 @@ class ChatRoom extends Component {
           <button className='send' onClick={() => { this.send(this.state.Index) }}>Send</button>
         </div>
       </div>
-
+      </div>
     </div>
   )
 }

@@ -10,8 +10,8 @@ import ClienttProfile from './ClientProfile';
 import { socketConnect } from '../../../service/socket';
 import ReactNotifications, { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import Navigationmenu from '../Common/Navigationmenu';
-
+import { withRouter } from 'react-router';
+import {BsChevronLeft} from 'react-icons/bs';
 class ClientHeader extends Component {
     constructor(props) {
         super(props);
@@ -25,17 +25,17 @@ class ClientHeader extends Component {
 
         console.log("componentdidmount eader rendered", Math.random());
         socketConnect((socket) => {
-            this.socket= socket;
+            this.socket = socket;
             this.socket.emit("notifications", { username: this.props.user.username });
-            this.socket.on( "notification",this.onNotification );
+            this.socket.on("notification", this.onNotification);
         });
     }
 
-componentWillUnmount=()=>{
-    this.socket.off( "notification",this.onNotification );
-}
+    componentWillUnmount = () => {
+        this.socket.off("notification", this.onNotification);
+    }
 
-    onNotification=(data)=>{
+    onNotification = (data) => {
         console.log(data, "got notifications");
         store.addNotification({
             title: data.username,
@@ -58,12 +58,15 @@ componentWillUnmount=()=>{
     showOptions = () => {
         this.setState({ isShowOptions: true, isShowProfile: false })
     }
-
+    handleBack = () => {
+        this.props.history.goBack();
+    }
+   
     render() {
         return (
             <div className="client-common-header">
-                <Navigationmenu />
-                <div className="client-header-profile">
+             <BsChevronLeft className='back-arrow' onClick={this.handleBack} />
+                <div className="client-header-profile"> 
                     <img className="client-header-image" src={this.props.user.profile} alt="profile" />
                 </div>
                 <div className="client-header-name">{this.props.title}</div>
@@ -82,4 +85,4 @@ const mapStateToProps = (state) => ({
     user: state.user.userDetails
 });
 
-export default connect(mapStateToProps, null)(ClientHeader)
+export default connect(mapStateToProps, null)(withRouter(ClientHeader));

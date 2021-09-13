@@ -8,7 +8,8 @@ import { loaderService } from "../../../service/loaderService";
 import { socketConnect } from '../../../service/socket';
 import CatchError from "../CatchError/CatchError";
 import Archive from './../../../assests/Archive.svg';
-
+// import NotificationSound from "../Common/NotificationSound";
+import { BsChatDots } from 'react-icons/bs';
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,9 @@ class ChatScreen extends Component {
             menu: false,
             settingDetails: false,
             isEmpty: false,
-            catchError: false
+            catchError: false,
+            onNotificationSound: false,
+            hideMenu: false
         };
         console.log(this.props);
         loaderService.show();
@@ -38,6 +41,7 @@ class ChatScreen extends Component {
 
     onNotification = () => {
         this.getContacts();
+        // this.setState({ onNotificationSound: true });
     }
 
     getContacts = () => {
@@ -154,19 +158,18 @@ class ChatScreen extends Component {
         else if (years === 1) return (years + ' year' + ' ago')
         else return (years + ' years' + ' ago');
     }
-    redirectingToArchived = () => {
-        this.props.history.push({
-            pathname: "/Archived"
-        })
+   
+    hideMenuBar = () => {
+        this.setState({hideMenu: !this.state.hideMenu});
     }
 
     render() {
         const { isLoading, Data } = this.state;
         return (
             <div className="entire-area">
-
-                <Header title="Conversations" />
-                <div>
+                {/* {this.state.onNotificationSound ? <NotificationSound /> : null} */}
+                <Header title="Conversations" callBack={this.hideMenuBar} />
+                <div className={this.state.hideMenu ? "menu-active":null}>
                     {this.state.isEmpty && <div>No conversations found</div>}
                     {!this.state.catchError ? <div><div className="chats">
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
@@ -186,24 +189,23 @@ class ChatScreen extends Component {
                                     </div>
                                     <div className="profile-time"><div>{this.getTimeByTimestamp(user.latest.timestamp)}</div><div>{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div></div>
                                     <div className="archive-submit">
-                                <img className="archive-button" src={Archive} onClick={()=>{this.archiveMessage(user.id)}} ></img>
+                                        <img className="archive-button" src={Archive} onClick={() => { this.archiveMessage(user.id) }} ></img>
+                                    </div>
                                 </div>
-                                </div>
-                               
+
                             );
                         })}
 
                     </div></div> : <CatchError callBack={this.getContacts} />}
-                </div>
                 <div className="contacts-footer">
-                    <div className="chats" onClick={this.redirectingToArchived}><h4 style={{textAlign:"center"}}>Archived Messages</h4></div>
                     <div className="chats-position">
-                        <button className="chats-button" onClick={() => { this.selectContact() }}>
-                            <img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" />
-                        </button>
+                        <div className="chats-button" onClick={() => { this.selectContact() }}>
+                            <BsChatDots />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> 
+        </div>
         );
     }
 }
