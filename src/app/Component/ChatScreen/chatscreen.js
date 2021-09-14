@@ -23,7 +23,6 @@ class ChatScreen extends Component {
             catchError: false,
             temp:-1
         };
-        console.log(this.props);
         loaderService.show();
     }
     componentDidMount() {
