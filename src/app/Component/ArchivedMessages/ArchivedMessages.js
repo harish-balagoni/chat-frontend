@@ -7,6 +7,8 @@ import { createClient } from "../../actions/actions";
 import { loaderService } from "../../../service/loaderService";
 import CatchError from "../CatchError/CatchError";
 import Unarchive from './../../../assests/Unarchive.svg';
+import menu from './../../../assests/three-dots-vertical.svg'
+import ArchivePinOptions from "../ChatScreen/ArchivePinOptions";
 
 class ChatScreen extends Component {
     constructor(props) {
@@ -17,7 +19,8 @@ class ChatScreen extends Component {
             menu: false,
             settingDetails: false,
             isEmpty: false,
-            catchError: false
+            catchError: false,
+            temp:-1
         };
         loaderService.show();
     }
@@ -93,7 +96,9 @@ class ChatScreen extends Component {
         return hours + ":" + date.getMinutes() + ampm;
     }
 
-    unArchiveMessage = (id) => {
+    unArchiveMessage = (id,index) => {
+       let data=this.state.data;
+        data[index].optionsShow=false;
         axios
             .request({
                 method: "POST",
@@ -107,7 +112,30 @@ class ChatScreen extends Component {
                 },
             }).then((res) => {
             }).catch((error) => console.log(error))
+this.setState({data:data})
     }
+    showOptions=(index)=>
+    {
+        let data=this.state.data;
+        let temp=this.state.temp;
+        if(data[index].optionsShow)
+        {
+        data[index].optionsShow=false;
+        }
+        else
+        {
+            if(index!==temp && temp>=0)
+            {
+                if(data[temp])
+                data[temp].optionsShow=false;
+            }
+            data[index].optionsShow=true;
+            temp=index;
+        }
+        temp=index;
+        this.setState({data:data,temp:temp});
+    }
+
 
     render() {
         return (
@@ -120,23 +148,22 @@ class ChatScreen extends Component {
                             {this.state.data && !!this.state.data.length && this.state.data.map((user, index) => {
                                 return (
                                     user.messages && !!user.messages.length &&
-                                    <div key={index} className="contact" onClick={() => {
-                                        this.open(user.client);
-                                    }}>
+                                    <div key={index} className="contact">
                                         <div className="profile-img">
                                             <img src={user.client.profile} className="image"></img>
                                         </div>
-                                        <div className="text profile-nm">
+                                        <div className="text profile-nm"  onClick={() => {
+                                        this.open(user.client);
+                                    }}>
                                             <div className="profile-name">
                                                 {user.client.username}
                                             </div>
                                             <p>{user.latest.message}</p>
                                         </div>
                                         <div className="profile-time">{this.getTimeByTimestamp(user.latest.timestamp)}</div>
-                                        <div className='archive-submit' onClick={() => {
-                                            this.unArchiveMessage(user.id)
-                                        }}>
-                                            <img className='archive-button' src={Unarchive}></img></div>
+                                     <div className='archive-submit'>
+                                            <img className='archive-button'  onClick={()=>{this.showOptions(index)}} src={menu}></img></div>
+                                            {this.state.data[index].optionsShow && <ArchivePinOptions type='unarchive' id={this.state.data[index].id} unArchiveMessage={this.unArchiveMessage} index={index} />}
                                     </div>
 
                                 );
