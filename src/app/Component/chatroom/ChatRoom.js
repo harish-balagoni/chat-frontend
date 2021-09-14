@@ -7,6 +7,7 @@ import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 import ClientHeader from '../ClientDetails/ClientHeader';
 import MessagePopup from './MessagePopup';
+import fileuploadicon from './../../../assests/attach.png';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -256,6 +257,10 @@ class ChatRoom extends Component {
       </div>            
       <div className='footer'>
         <div className="emoji">
+          <label className='fileUpload'>
+          <img title='Attach' className='fileUploadIcon' src={fileuploadicon} alt='file-upload-icon'/>
+          <input className='file' type="file" onChange={this.imageUploading} ></input></label></div>
+          <div className="emoji">
           {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
           {isEmojiActive &&
             <div className="emoji-holder">
@@ -272,8 +277,6 @@ class ChatRoom extends Component {
             </div>
           }
         </div>
-        <div className="emoji">
-          <input type="file" onChange={this.imageUploading} ></input></div>
         <div className='message-input'>
           <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />        
         </div>

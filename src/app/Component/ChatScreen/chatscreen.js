@@ -10,6 +10,9 @@ import CatchError from "../CatchError/CatchError";
 import Archive from './../../../assests/Archive.svg';
 // import NotificationSound from "../Common/NotificationSound";
 import { BsChatDots } from 'react-icons/bs';
+import menu from './../../../assests/three-dots-vertical.svg';
+import ArchivePinOptions from "./ArchivePinOptions";
+
 class ChatScreen extends Component {
     constructor(props) {
         super(props);
@@ -21,9 +24,9 @@ class ChatScreen extends Component {
             isEmpty: false,
             catchError: false,
             onNotificationSound: false,
-            hideMenu: false
+            hideMenu: false,
+            temp:-1
         };
-        console.log(this.props);
         loaderService.show();
     }
     componentDidMount() {
@@ -86,7 +89,9 @@ class ChatScreen extends Component {
                 })
         };
     }
-    archiveMessage = (id) => {
+    archiveMessage = (id,index) => {
+        let data=this.state.Data;
+        data[index].optionsShow=false;
         axios
             .request({
                 method: "POST",
@@ -101,6 +106,7 @@ class ChatScreen extends Component {
             }).then((res) => {
                 console.log("response", res.data);
             })
+           this.setState({Data:data});
     };
 
     open = (user) => {
@@ -162,6 +168,28 @@ class ChatScreen extends Component {
     hideMenuBar = () => {
         this.setState({hideMenu: !this.state.hideMenu});
     }
+    showOptions=(index)=>
+    {
+        let data=this.state.Data;
+        let temp=this.state.temp;
+        if(data[index].optionsShow)
+        {
+        data[index].optionsShow=false;
+        }
+        else
+        {
+            if(index!==temp && temp>=0)
+            {
+                if(data[temp])
+                data[temp].optionsShow=false;
+                
+            }
+            data[index].optionsShow=true;
+            temp=index;
+        }
+        temp=index;
+        this.setState({Data:data,temp:temp});
+    }
 
     render() {
         const { isLoading, Data } = this.state;
@@ -175,13 +203,13 @@ class ChatScreen extends Component {
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
                             return (
                                 user.messages && !!user.messages.length &&
-                                <div key={index} className="contact" onClick={() => {
-                                    this.open(user.client);
-                                }}>
+                                <div key={index} className="contact" >
                                     <div className="profile-img">
                                         <img src={user.client.profile} className="image"></img>
                                     </div>
-                                    <div className="text profile-nm">
+                                    <div className="text profile-nm" onClick={() => {
+                                    this.open(user.client);
+                                }}>
                                         <div className="profile-name">
                                             {user.client.username}
                                         </div>
@@ -189,8 +217,9 @@ class ChatScreen extends Component {
                                     </div>
                                     <div className="profile-time"><div>{this.getTimeByTimestamp(user.latest.timestamp)}</div><div>{' ' + this.getDurationByTimestamp(user.latest.timestamp)}</div></div>
                                     <div className="archive-submit">
-                                        <img className="archive-button" src={Archive} onClick={() => { this.archiveMessage(user.id) }} ></img>
-                                    </div>
+                                <img className="archive-button" src={menu} onClick={()=>{this.showOptions(index)}} ></img>
+                                {this.state.Data[index].optionsShow && <ArchivePinOptions  archiveMessage={this.archiveMessage} id={this.state.Data[index].id} index={index} type='archive-pin'/>}
+                                </div>
                                 </div>
 
                             );
