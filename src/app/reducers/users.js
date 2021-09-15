@@ -1,4 +1,4 @@
-import { CREATE_CLIENT, FETCH_USER } from "../actions/actions";
+import { CREATE_CLIENT, FETCH_USER ,PIN_CONVERSATION} from "../actions/actions";
 import { USER_LOGIN } from "../actions/actions";
 import { SUBMIT_REGISTER } from "../actions/actions";
 import { LOG_OUT,SEARCH_DATA,CONTACTS,CONVERSATION } from "../actions/actions";
@@ -13,7 +13,8 @@ const initialState = {
         token: ''
     },
     client: null,
-    searchContactData:[]
+    searchContactData:[],
+    pin_data:[]
 }
 
 const userReducer = (state = initialState, action) => {
@@ -46,6 +47,8 @@ const userReducer = (state = initialState, action) => {
             return initialState;
         case CONTACTS:
             return initialState;
+        case PIN_CONVERSATION:
+            return Object.assign({}, state, { pin_data: action.data });
         default: return state
     }
 

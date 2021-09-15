@@ -16,7 +16,7 @@ const ArchivedMessages = lazy(() => import("./ArchivedMessages/ArchivedMessages"
 
 function PageNotFound() {
     return (
-        <div className="pageNotFound">Page Not Found</div>
+        <div className="pageNotFound" style={{textAlign:"center",paddingTop:"10%"}}>Page Not Found</div>
     )
 }
 
