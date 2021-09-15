@@ -209,7 +209,6 @@ input:focus{
   font-family: Nunito,sans-serif;
   height: 100%;
   color: white;
-  /* filter: blur(5px); */
 }
 
 .text{

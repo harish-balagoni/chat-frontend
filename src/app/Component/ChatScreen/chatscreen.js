@@ -8,7 +8,6 @@ import { loaderService } from "../../../service/loaderService";
 import { socketConnect } from '../../../service/socket';
 import CatchError from "../CatchError/CatchError";
 import Archive from './../../../assests/Archive.svg';
-// import NotificationSound from "../Common/NotificationSound";
 import { BsChatDots } from 'react-icons/bs';
 import menu from './../../../assests/three-dots-vertical.svg';
 import ArchivePinOptions from "./ArchivePinOptions";
@@ -195,7 +194,6 @@ class ChatScreen extends Component {
         const { isLoading, Data } = this.state;
         return (
             <div className="entire-area">
-                {/* {this.state.onNotificationSound ? <NotificationSound /> : null} */}
                 <Header title="Conversations" callBack={this.hideMenuBar} />
                 <div className={this.state.hideMenu ? "menu-active":null}>
                     {this.state.isEmpty && <div>No conversations found</div>}

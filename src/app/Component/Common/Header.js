@@ -30,7 +30,6 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        console.log("componentdidmount eader rendered", Math.random());
         socketConnect((socket) => {
             this.socket = socket;
             this.socket.emit("notifications", { username: this.props.user.username });
@@ -57,7 +56,6 @@ class Header extends Component {
                 onScreen: true
             }
         });
-        // <NotificationSound/>
         this.setState({ onNotificationSound: true });
     }
 
