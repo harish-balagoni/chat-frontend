@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './chatroom.css';
-import Picker, { SKIN_TONE_MEDIUM_DARK } from 'emoji-picker-react';
+import Picker, { SKIN_TONE_MEDIUM_DARK} from 'emoji-picker-react';
 import { getSocket } from '../../../service/socket';
 import { connect } from 'react-redux';
 import readIcon from './../../../assests/seenTick.png';
@@ -8,6 +8,8 @@ import deliveredIcon from './../../../assests/deliveredTick.png';
 import ClientHeader from '../ClientDetails/ClientHeader';
 import MessagePopup from './MessagePopup';
 import fileuploadicon from './../../../assests/attach.png';
+import { GrEmoji } from "react-icons/gr";
+import {IoImagesOutline} from 'react-icons/io5';
 class ChatRoom extends Component {
   constructor(props) {
     super(props);
@@ -256,12 +258,8 @@ class ChatRoom extends Component {
     fontSize: 14}}>{this.firstMsg}</span><span onClick={this.msgDisplay}>X</span></div></div> : null}
       </div>            
       <div className='footer'>
-        <div className="emoji">
-          <label className='fileUpload'>
-          <img title='Attach' className='fileUploadIcon' src={fileuploadicon} alt='file-upload-icon'/>
-          <input className='file' type="file" onChange={this.imageUploading} ></input></label></div>
-          <div className="emoji">
-          {<p className='emoji-style' onClick={() => { this.handleEmoji() }}>+</p>}
+      <div className="emoji">
+          <GrEmoji className='emoji-style' onClick={() => { this.handleEmoji() }}/>
           {isEmojiActive &&
             <div className="emoji-holder">
               <Picker
@@ -277,6 +275,11 @@ class ChatRoom extends Component {
             </div>
           }
         </div>
+        <div className="images">
+          <label className='fileUpload'>
+          <IoImagesOutline className='fileUploadIcon' style={{color:"white"}} />
+          <input className='file' type="file" onChange={this.imageUploading} ></input></label></div>
+         
         <div className='message-input'>
           <textarea className='textfield' id="textip" ref={this.message} onFocus={() => { this.sendTypingStartStatus() }} onBlur={() => { this.sendTypingEndStatus() }} placeholder='Type a message' />        
         </div>

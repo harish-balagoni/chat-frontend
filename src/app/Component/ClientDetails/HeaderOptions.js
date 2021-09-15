@@ -15,7 +15,6 @@ class HeaderOptions extends Component {
             <div className='overlay1' onClick={this.props.onClose}>
                 <div className="options1">
                     <div className="option-item2" onClick={()=>{this.props.history.push('/ClientProfile')}}>Profile</div>
-                    <div className="option-item1">Add to archive</div>
                 </div>
             </div>
         )

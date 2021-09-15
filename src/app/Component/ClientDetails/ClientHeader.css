@@ -50,8 +50,8 @@
     border-radius: 50%;
 }
 .options1{
-    height: 200px;
-    width: 180px;
+    height: 4rem;
+    width: 8rem;
     position: absolute;
     right: 10%;
     top: 10%;
@@ -64,10 +64,10 @@
     justify-content: flex-start;
     display: flex;
     align-items: center;
-    padding-left: 20px;
-    border: 1px solid white;
+    padding-left: 2.4rem;
+    padding-top: 1rem;
     border-width: 0px 0px 1px 0px;
-    cursor: pointer;   
+    cursor: pointer;  
 }
 .option-item1{
     width: 90%;
@@ -101,9 +101,8 @@
     height: 50%;
     align-items: center;
     margin-left: 25%;
-  margin-right: auto;
-  margin-top: 1%;
-    
+    margin-right: auto;
+    margin-top: 1%;
 }
 
 .client-header-profile-item{
