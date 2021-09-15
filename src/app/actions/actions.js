@@ -52,7 +52,6 @@ export const contacts = () =>({
     type: 'CONTACTS',
 });
 export const pin_conversation= (data) => (
-    console.log("In Actions"),
     {
     type: PIN_CONVERSATION,
     data

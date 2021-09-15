@@ -185,11 +185,9 @@ class ChatScreen extends Component {
     }
 
     pinContact = (obj) => {
-        console.log("pin contact", this.props.pin_data && this.props.pin_data.length);
         let pin_data = this.props.pin_data;
         let contacts = this.state.Data
         if (pin_data.length < 3) {
-            console.log("pincontact inside");
             pin_data.push(obj)
             let temp = [], index = 0;
             for (let i = 0; i < contacts.length; i++) {
@@ -210,9 +208,7 @@ class ChatScreen extends Component {
     unPinContact = (obj) => {
         let pin_data = this.props.pin_data;
         let contacts = this.state.Data;
-
         for (let i = 0; i < contacts.length; i++) {
-
             if (contacts[i].id === obj.id) {
                 contacts[i].optionsShow = false;
                 contacts.splice(i, 1);
@@ -248,7 +244,6 @@ class ChatScreen extends Component {
             if (index !== temp && temp >= 0) {
                 if (data[temp])
                     data[temp].optionsShow = false;
-
             }
             data[index].optionsShow = true;
             temp = index;
@@ -311,7 +306,6 @@ class ChatScreen extends Component {
 }
 
 const mapStateToProps = (state) => (
-    console.log("in chat room", state),
     {
         user: state.user.userDetails,
         pin_data: state.user.pin_data,

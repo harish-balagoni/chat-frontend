@@ -48,7 +48,6 @@ const userReducer = (state = initialState, action) => {
         case CONTACTS:
             return initialState;
         case PIN_CONVERSATION:
-            console.log("In Reducer");
             return Object.assign({}, state, { pin_data: action.data });
         default: return state
     }
