@@ -8,6 +8,7 @@ import { loaderService } from "../../../service/loaderService";
 import { socketConnect } from '../../../service/socket';
 import CatchError from "../CatchError/CatchError";
 import Archive from './../../../assests/Archive.svg';
+import { BsChatDots } from 'react-icons/bs';
 import menu from './../../../assests/three-dots-vertical.svg';
 import ArchivePinOptions from "./ArchivePinOptions";
 
@@ -21,6 +22,8 @@ class ChatScreen extends Component {
             settingDetails: false,
             isEmpty: false,
             catchError: false,
+            onNotificationSound: false,
+            hideMenu: false,
             temp:-1
         };
         loaderService.show();
@@ -40,6 +43,7 @@ class ChatScreen extends Component {
 
     onNotification = () => {
         this.getContacts();
+        // this.setState({ onNotificationSound: true });
     }
 
     getContacts = () => {
@@ -159,10 +163,9 @@ class ChatScreen extends Component {
         else if (years === 1) return (years + ' year' + ' ago')
         else return (years + ' years' + ' ago');
     }
-    redirectingToArchived = () => {
-        this.props.history.push({
-            pathname: "/Archived"
-        })
+   
+    hideMenuBar = () => {
+        this.setState({hideMenu: !this.state.hideMenu});
     }
     showOptions=(index)=>
     {
@@ -191,9 +194,8 @@ class ChatScreen extends Component {
         const { isLoading, Data } = this.state;
         return (
             <div className="entire-area">
-
-                <Header title="Conversations" />
-                <div>
+                <Header title="Conversations" callBack={this.hideMenuBar} />
+                <div className={this.state.hideMenu ? "menu-active":null}>
                     {this.state.isEmpty && <div>No conversations found</div>}
                     {!this.state.catchError ? <div><div className="chats">
                         {this.state.Data && !!this.state.Data.length && this.state.Data.map((user, index) => {
@@ -217,21 +219,20 @@ class ChatScreen extends Component {
                                 {this.state.Data[index].optionsShow && <ArchivePinOptions  archiveMessage={this.archiveMessage} id={this.state.Data[index].id} index={index} type='archive-pin'/>}
                                 </div>
                                 </div>
-                               
+
                             );
                         })}
 
                     </div></div> : <CatchError callBack={this.getContacts} />}
-                </div>
                 <div className="contacts-footer">
-                    <div className="chats" onClick={this.redirectingToArchived}><h4 style={{textAlign:"center"}}>Archived Messages</h4></div>
                     <div className="chats-position">
-                        <button className="chats-button" onClick={() => { this.selectContact() }}>
-                            <img className="chats-icon" src="https://www.searchpng.com/wp-content/uploads/2019/02/Chat-Icon-PNG-1.png" />
-                        </button>
+                        <div className="chats-button" onClick={() => { this.selectContact() }}>
+                            <BsChatDots />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> 
+        </div>
         );
     }
 }

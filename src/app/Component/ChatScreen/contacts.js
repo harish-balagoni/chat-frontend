@@ -18,7 +18,8 @@ class Contacts extends Component {
       conversationButton: false,
       extendpic: false,
       extendpicid: 0,
-      catchError: false
+      catchError: false,
+      hideMenu: false
     };
     loaderService.show();
   }
@@ -93,12 +94,16 @@ class Contacts extends Component {
     }
   }
 
+  hideMenuBar = () => {
+    this.setState({ hideMenu: !this.state.hideMenu });
+  }
+
   render() {
     const { isLoading, Data } = this.state;
     return (
       <div className="entire-area">
-        <Header title="Contacts" usersData={this.state.Data && this.state.Data} />
-        <div className="entire-area-subdiv">
+        <Header title="Contacts" usersData={this.state.Data && this.state.Data} callBack={this.hideMenuBar}/>
+        <div className={this.state.hideMenu ? "menu-active":"entire-area-subdiv"}>
           <div className="chats">
             {this.state.extendpic ? <img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" /> : ""}
             {this.state.isEmpty && <div>No conversations found</div>}
