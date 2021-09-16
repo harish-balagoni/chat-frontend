@@ -24,7 +24,6 @@ class ChatRoom extends Component {
       reply: false,
       Index: -1
     }
-    console.log(this.props,'props in cchat scrreen');
     this.message = React.createRef();
   }
   socket = null;
@@ -188,7 +187,6 @@ class ChatRoom extends Component {
   }
   
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(nextProps.client.username,'should Component update',this.props.client.username);
     return nextProps.client.username === this.props.client.username;
   }
   deleteMessage = (user,client,msgId) =>{
