@@ -65,13 +65,15 @@ class ClientHeader extends Component {
     render() {
         return (
             <div className="client-common-header">
-             <BsChevronLeft className='back-arrow' onClick={this.handleBack} />
+                <div style={{marginLeft:'-4rem'}}>
+                <BsChevronLeft className='back-arrow' onClick={this.handleBack} />
+                </div>
                 <div className="client-header-profile"> 
                     <img className="client-header-image" src={this.props.user.profile} alt="profile" />
                 </div>
                 <div className="client-header-name">{this.props.title}</div>
                 <div className="client-header-menu">
-                    <img src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
+                    <img src={menu} style={{ cursor: 'pointer',height:'2.1rem' }} alt="menu" onClick={() => { this.showOptions() }} />
                 </div>
                 {this.state.isShowOptions && <HeaderOptions showProfile={this.showProfile}
                     onClose={() => { this.setState({ isShowOptions: false }) }} />}

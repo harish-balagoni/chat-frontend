@@ -166,12 +166,13 @@ textarea {
   background: rgba(0,0,0,.25);
   border-radius: 10px;}
   .reply{
+    bottom: 3rem;
     display: flex;
     flex-direction: column;
     background: #202124;
     border-radius: 10px;
-    width: 55%;
-    margin-left: 17%;
+    width: 45rem;
+    margin-left: 15%;
     padding: 10px;
     position: fixed;
   } 
@@ -212,14 +213,11 @@ textarea {
   }
   .fileUploadIcon
   {
-    width: 20px;
-    height: 17px;
+    height: 16px;
     cursor: pointer;
     padding-top: 5px;
-    padding: 5px;
-    margin-top: 0.7rem;
-    margin-right: 1rem;
-   
+    padding: 1rem;
+    margin-right: 1rem;   
   }
   .file
   {

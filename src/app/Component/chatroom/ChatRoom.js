@@ -7,6 +7,7 @@ import readIcon from './../../../assests/seenTick.png';
 import deliveredIcon from './../../../assests/deliveredTick.png';
 import ClientHeader from '../ClientDetails/ClientHeader';
 import MessagePopup from './MessagePopup';
+import ForwardMessage from '../ForwardMessage/ForwardMessage';
 import fileuploadicon from './../../../assests/attach.png';
 import { GrEmoji } from "react-icons/gr";
 import {IoImagesOutline} from 'react-icons/io5';
@@ -18,6 +19,8 @@ class ChatRoom extends Component {
       messages: [],
       isOponentTyping: false,
       isEmojiActive: false,
+      forwardPopup: false,
+      forwardingMessage:'',
       reply: false,
       Index: -1
     }
@@ -49,6 +52,7 @@ class ChatRoom extends Component {
   onMessage = (data) => {
     this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: [data.id] })
     let messages = this.state.messages;
+    Object.assign(data, {messagePopUp: false});
     messages.push(data);
     this.previousDate = null;
     this.setState({ messages: messages });
@@ -62,7 +66,7 @@ class ChatRoom extends Component {
     if(msgIds && msgIds.length){
       this.socket.emit("read_status", { username: this.props.user.username, client2: this.props.client.username, messageIds: msgIds });
     }
-    this.setState({ messages: data.messages });
+    this.setState({ messages: data.messages },()=>this.socket.off("messages",true));
   }
 
   send = (index) => {
@@ -75,8 +79,7 @@ class ChatRoom extends Component {
         this.socket.emit("chat", {
           username: this.props.user.username,
           client2: this.props.client.username,
-          message: this.message.current.value,
-          messagePopUp: false
+          message: this.message.current.value
         });
         this.message.current.value = '';
       }
@@ -106,6 +109,7 @@ class ChatRoom extends Component {
     let hours = date.getHours() >= 12 ? date.getHours() - 12 : date.getHours();
     return hours + ":" + date.getMinutes() + ampm;
   }
+
   previousDate = null;
   getDateByTimestamp = (timestamp) => {
     let date = new Date(timestamp * 1000);
@@ -120,12 +124,10 @@ class ChatRoom extends Component {
 
   }
   sendTypingStartStatus = () => {
-    console.log('type start');
     this.socket.emit("typing-start", { username: this.props.user.username, client2: this.props.client.username });
   }
 
   sendTypingEndStatus = () => {
-    console.log('type end');
     this.socket.emit("typing-end", { username: this.props.user.username, client2: this.props.client.username });
   }
 
@@ -148,16 +150,20 @@ class ChatRoom extends Component {
   msgDisplay=()=>{
     this.setState({reply:false,Index:-1})
   }
+
+  forwardPopup = (message) =>{
+    this.setState({forwardPopup: !this.state.forwardPopup,forwardingMessage:message})
+  }
   //For Displaying message popup
   showMessagePopUp = (index) => {
     let messages = this.state.messages
     for (let i = 0; i < messages.length; i++) {
       if (i === index) {
-        messages[i].messagePopUp = true;
+        messages[i].messagePopUp = !messages[index].messagePopUp;
         this.setState({});
       } else {
         if (messages[i].messagePopUp) {
-          messages[i].messagePopUp = false;
+          messages[i].messagePopUp = !messages[index].messagePopUp;
           this.setState({});
         }
       }
@@ -167,7 +173,7 @@ class ChatRoom extends Component {
       let message = this.state.messages;
       if (message[index]) {
         if (messages[index].messagePopUp) {
-          messages[index].messagePopUp = false;
+          messages[index].messagePopUp = !messages[index].messagePopUp;
         }
       }
       this.setState({});
@@ -179,12 +185,19 @@ class ChatRoom extends Component {
     this.firstMsg = this.state.messages[index].message
     this.setState({ reply: true,Index:index })
   }
-
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.client.username === this.props.client.username;
+  }
+  deleteMessage = (user,client,msgId) =>{
+    this.socket.emit("delete", { username:user, client:client, messageId:msgId });
+  }
+  
   render() {
     const { messages, isEmojiActive } = this.state;
-
-    return (
-      <div className='main-chat-room'>
+    return(
+      <>
+      {this.state.forwardPopup ? <ForwardMessage message={this.state.forwardingMessage} handleclose={this.forwardPopup} /> : 
       <div className='chat-room' onClick={this.closePopup} >
       <ClientHeader title={this.props.client.username} />
       <div className='msg-container'>
@@ -213,7 +226,7 @@ class ChatRoom extends Component {
                   
                     
                 </span>
-                {message.messagePopUp && <MessagePopup type="right" messageId={message.id} userName={this.props.user.username} clientName={this.props.client.username} socket={this.socket} indexValue={index} replyMsg={this.onclickReply} />}
+                {message.messagePopUp && <MessagePopup type="right" forwardMessage={()=>this.forwardPopup(message.message)} socket={this.socket} indexValue={index} replyMsg={this.onclickReply} deleting={()=>this.deleteMessage(this.props.user.username,this.props.client.username,message.id)} />}
                 <span className='msg-time-right'>{this.getTimeByTimestamp(message.timestamp)}</span>
                 < span className='msg-time-right'>{message.readStatus ? <img src={readIcon} /> : <img src={deliveredIcon} />}</span>
               </div>) :
@@ -237,7 +250,7 @@ class ChatRoom extends Component {
                   </div>
 
                   : <span>{message.message}</span>}</span>
-                {message.messagePopUp && <MessagePopup type="left" indexValue={index} replyMsg={this.onclickReply} />}
+                {message.messagePopUp && <MessagePopup forwardMessage={()=>this.forwardPopup(message.message)}  type="left" indexValue={index} replyMsg={this.onclickReply} />}
                 <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
               </div>)
             }
@@ -254,10 +267,12 @@ class ChatRoom extends Component {
               </div>
             </div></div>
         }
-      {this.state.reply ? <div className='reply'><div className='msg-style'><span style={{color: '#c9c3b1',
-    fontSize: 14}}>{this.firstMsg}</span><span onClick={this.msgDisplay}>X</span></div></div> : null}
-      </div>            
+      
+      </div>  
+                
       <div className='footer'>
+      <div>{this.state.reply ? <div className='reply'><div className='msg-style'><span style={{color: '#c9c3b1',
+    fontSize: 14}}>{this.firstMsg}</span><span onClick={this.msgDisplay}>X</span></div></div> : null}</div>
       <div className="emoji">
           <GrEmoji className='emoji-style' onClick={() => { this.handleEmoji() }}/>
           {isEmojiActive &&
@@ -288,8 +303,9 @@ class ChatRoom extends Component {
         </div>
       </div>
       </div>
-    </div>
-  )
+  }
+      </>
+    );
 }
 }
 

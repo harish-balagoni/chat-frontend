@@ -5,6 +5,7 @@
     background: transparent;
     position: absolute;
 }.client-common-header{
+    padding-bottom: 0.5rem;
     width:90%;
     margin-left: 5%;
     height:15%;

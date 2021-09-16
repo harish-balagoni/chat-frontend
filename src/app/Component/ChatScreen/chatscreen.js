@@ -107,7 +107,9 @@ class ChatScreen extends Component {
             })
         };
     }
-    archiveMessage = (id) => {
+    archiveMessage = (id,index) => {
+        let data=this.state.Data;
+        data[index].optionsShow=false;
         axios
             .request({
                 method: "POST",
@@ -122,6 +124,7 @@ class ChatScreen extends Component {
             }).then((res) => {
                 console.log("response", res.data);
             })
+           this.setState({Data:data});
     };
 
     open = (user) => {

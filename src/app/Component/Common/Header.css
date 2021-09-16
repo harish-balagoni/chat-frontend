@@ -210,4 +210,14 @@
     align-items: center;
   }
 
-  
+  @media screen and (min-height: 900px){
+    .client-common-header {
+        margin-bottom: 1rem;
+        width: 90%;
+        margin-left: 5%;
+        height: 15%;
+        display: flex;
+        justify-content: center;
+        align-self: center;
+    }
+}
