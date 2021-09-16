@@ -5,12 +5,18 @@
     background: transparent;
     position: absolute;
 }.client-common-header{
+    padding-bottom: 0.5rem;
     width:90%;
     margin-left: 5%;
     height:15%;
     display: flex;
     justify-content: center;
     align-self: center;
+}
+.back-arrow{
+    height: 2rem;
+    width: 2rem;
+    margin-top: 1rem;
 }
 .client-header-profile{
     width: 10%;
@@ -26,27 +32,27 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 1rem;
     margin-top: 1%;
-    font-size: 26px;
+    font-size: 2rem;
     color: #e2e2e3;
 }
 .client-header-menu{
     width: 10%;
     height: 100%;
     display: flex;
-    margin-top: 1%;
+    margin-top: 1rem;
     justify-content: center;
     align-items: center;
 }
 .client-header-image{
-    width: 60px;
-    height: 60px;
+    width: 3.5rem;
+    height: 3.5rem;
     border-radius: 50%;
 }
 .options1{
-    height: 200px;
-    width: 180px;
+    height: 4rem;
+    width: 8rem;
     position: absolute;
     right: 10%;
     top: 10%;
@@ -59,10 +65,10 @@
     justify-content: flex-start;
     display: flex;
     align-items: center;
-    padding-left: 20px;
-    border: 1px solid white;
+    padding-left: 2.4rem;
+    padding-top: 1rem;
     border-width: 0px 0px 1px 0px;
-    cursor: pointer;   
+    cursor: pointer;  
 }
 .option-item1{
     width: 90%;
@@ -96,9 +102,8 @@
     height: 50%;
     align-items: center;
     margin-left: 25%;
-  margin-right: auto;
-  margin-top: 1%;
-    
+    margin-right: auto;
+    margin-top: 1%;
 }
 
 .client-header-profile-item{

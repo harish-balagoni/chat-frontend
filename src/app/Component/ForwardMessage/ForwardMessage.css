@@ -14,7 +14,6 @@
     margin: 0 auto;
     height: auto;
     max-height: 70vh;
-    /* margin-top: calc(100vh - 85vh - 20px); */
     background: #50535a;
     border-radius: 4px;
     padding: 20px;
@@ -23,7 +22,7 @@
     top: 4rem;
   }
    
-  .close-icon {
+  .close-icon-forward {
     content: 'x';
     cursor: pointer;
     position: fixed;
@@ -35,7 +34,6 @@
     border-radius: 10%;
     line-height: 26px;
     text-align: center;
-    /* border: 1px solid #999; */
     font-size: 20px;
   }
 
@@ -45,7 +43,6 @@
     top: 4rem;
     width: 503px;
     background-color: #2c2d2f;
-    /* margin-left: 5%; */
     position: fixed;
     justify-content: space-around;
     align-content: space-between;
@@ -65,21 +62,8 @@
     margin-top: 4rem;
   }
 
-  .forward-div{
-
-  }
   .forword-send {
-
     margin-top: 14px;
-    background-color: #7652bf;
-    color: white;
-    height: 28px;
-    font-size: 15px;
-    width: 70px;
-    border-radius: 25px;
-    cursor: pointer;
-    border-width: 0;
-
     background-color: #7652bf;
     color: white;
     height: 28px;
@@ -101,15 +85,8 @@
 .forwardind-chats {
   padding-top: 4rem;
 }
-  .checkbox-div {
-
-  }
 
   .chekbox {
     vertical-align: middle;
     margin-left: 20px;
-  }
-
-  .chats {
-    padding-top: 53px;
   }

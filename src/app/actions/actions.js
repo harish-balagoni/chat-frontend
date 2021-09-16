@@ -6,6 +6,8 @@ export const CREATE_CLIENT = "CREATE_CLIENT";
 export const SEARCH_DATA ="SEARCH_DATA"; 
 export const CONVERSATION = "CONVERSATION";
 export const CONTACTS = "CONTACTS";
+export const PIN_CONVERSATION="PIN_CONVERSATION"
+
 
 export const fetchUser = (user) => {
     return {
@@ -49,3 +51,9 @@ export const conversation = () =>({
 export const contacts = () =>({
     type: 'CONTACTS',
 });
+export const pin_conversation= (data) => (
+    {
+    type: PIN_CONVERSATION,
+    data
+})
+

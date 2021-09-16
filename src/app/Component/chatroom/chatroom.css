@@ -1,7 +1,3 @@
-/* :hover{
-  background-color: #603e42 !important;
-} */
-
 .msg-field-container{
     display: flex;
     align-items: flex-end;
@@ -140,7 +136,7 @@
 .popup{
   cursor:pointer;
   color:#828282;
-  margin-left: 6px;
+  margin-left: 0.1rem;
   float: right;
 }
 .popup:hover{
@@ -170,12 +166,13 @@ textarea {
   background: rgba(0,0,0,.25);
   border-radius: 10px;}
   .reply{
+    bottom: 3rem;
     display: flex;
     flex-direction: column;
     background: #202124;
     border-radius: 10px;
-    width: 55%;
-    margin-left: 17%;
+    width: 45rem;
+    margin-left: 15%;
     padding: 10px;
     position: fixed;
   } 
@@ -200,4 +197,29 @@ textarea {
   .first-msg-style{
     color: '#c9c3b1';
     font-size: 14
+  }
+  .fileUpload
+  {
+    border-radius: 50%;
+    width:32px;
+    height: 32px;
+  }
+  
+  .images{
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+  }
+  .fileUploadIcon
+  {
+    height: 16px;
+    cursor: pointer;
+    padding-top: 5px;
+    padding: 1rem;
+    margin-right: 1rem;   
+  }
+  .file
+  {
+    display: none;
   }

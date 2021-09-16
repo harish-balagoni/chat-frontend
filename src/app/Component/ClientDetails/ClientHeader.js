@@ -10,8 +10,8 @@ import ClienttProfile from './ClientProfile';
 import { socketConnect } from '../../../service/socket';
 import ReactNotifications, { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import Navigationmenu from '../Common/Navigationmenu';
-
+import { withRouter } from 'react-router';
+import {BsChevronLeft} from 'react-icons/bs';
 class ClientHeader extends Component {
     constructor(props) {
         super(props);
@@ -25,18 +25,17 @@ class ClientHeader extends Component {
 
         console.log("componentdidmount eader rendered", Math.random());
         socketConnect((socket) => {
-            this.socket= socket;
+            this.socket = socket;
             this.socket.emit("notifications", { username: this.props.user.username });
-            this.socket.on( "notification",this.onNotification );
+            this.socket.on("notification", this.onNotification);
         });
     }
 
-// componentWillUnmount=()=>{
-//     console.log(this,'fn error this socket');
-//     this.socket.off( "notification",this.onNotification );
-// }
+    componentWillUnmount = () => {
+        this.socket.off("notification", this.onNotification);
+    }
 
-    onNotification=(data)=>{
+    onNotification = (data) => {
         console.log(data, "got notifications");
         store.addNotification({
             title: data.username,
@@ -59,17 +58,22 @@ class ClientHeader extends Component {
     showOptions = () => {
         this.setState({ isShowOptions: true, isShowProfile: false })
     }
-
+    handleBack = () => {
+        this.props.history.goBack();
+    }
+   
     render() {
         return (
             <div className="client-common-header">
-                <Navigationmenu />
-                <div className="client-header-profile">
+                <div style={{marginLeft:'-4rem'}}>
+                <BsChevronLeft className='back-arrow' onClick={this.handleBack} />
+                </div>
+                <div className="client-header-profile"> 
                     <img className="client-header-image" src={this.props.user.profile} alt="profile" />
                 </div>
                 <div className="client-header-name">{this.props.title}</div>
                 <div className="client-header-menu">
-                    <img src={menu} style={{ cursor: 'pointer' }} alt="menu" onClick={() => { this.showOptions() }} />
+                    <img src={menu} style={{ cursor: 'pointer',height:'2.1rem' }} alt="menu" onClick={() => { this.showOptions() }} />
                 </div>
                 {this.state.isShowOptions && <HeaderOptions showProfile={this.showProfile}
                     onClose={() => { this.setState({ isShowOptions: false }) }} />}
@@ -83,4 +87,4 @@ const mapStateToProps = (state) => ({
     user: state.user.userDetails
 });
 
-export default connect(mapStateToProps, null)(ClientHeader)
+export default connect(mapStateToProps, null)(withRouter(ClientHeader));

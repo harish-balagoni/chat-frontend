@@ -180,12 +180,12 @@ class ForwardMessage extends Component {
             <div className="popup-box">
                 <div className="box">
                     <div className="forward-text">
-                    <span className="close-icon" onClick={this.props.handleclose} >X</span>
+                    <span className="close-icon-forward" onClick={this.props.handleclose} >X</span>
                     <h3>Forward message to</h3>
                     <div className="forward-div"><input className="forword-send" type="button" value="Send" onClick={this.handleForwardMessage}/></div>
                     </div>
                     {!this.state.catchError ? <div>
-                        <div className="chats ">
+                        <div className="" style={{paddingTop:'4rem'}}>
                         {this.state.dataConversation && !!this.state.dataConversation.length && this.state.dataConversation.map((user, index) => {
                             return (
                                 user.messages && !!user.messages.length &&
