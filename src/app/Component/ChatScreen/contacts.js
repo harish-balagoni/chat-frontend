@@ -19,7 +19,8 @@ class Contacts extends Component {
       extendpic: false,
       extendpicid: 0,
       catchError: false,
-      hideMenu: false
+      hideMenu: false,
+      backgroundblur:false
     };
     loaderService.show();
   }
@@ -89,24 +90,30 @@ class Contacts extends Component {
       this.setState({ extendpic: true, extendpicid: id, backgroundblur: true });
     }
     else {
+      if(this.state.extendpicid===id){
       document.getElementById('blur1').style.filter = ''
       this.setState({ extendpic: false, backgroundblur: false });
-    }
+    }}
+  }
+  closePopUp=()=>{
+    document.getElementById('blur1').style.filter = ''
+    this.setState({extendpic: false, backgroundblur: false})
   }
 
   hideMenuBar = () => {
     this.setState({ hideMenu: !this.state.hideMenu });
   }
-
+    
   render() {
     const { isLoading, Data } = this.state;
-    return (
+    return (      
       <div className="entire-area">
         <Header title="Contacts" usersData={this.state.Data && this.state.Data} callBack={this.hideMenuBar}/>
         <div className={this.state.hideMenu ? "menu-active":"entire-area-subdiv"}>
           <div className="chats">
-            {this.state.extendpic ? <img className="extendedimage" src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" /> : ""}
-            {this.state.isEmpty && <div>No conversations found</div>}
+            {this.state.extendpic ? <img className="extendedimage"  onClick={this.closePopUp} src={this.state.Data[this.state.extendpicid]['profile']} alt="profile" width="120px" height="100px" /> : ""}
+            <div className={this.state.backgroundblur?'background-inactive':null} >
+            {this.state.isEmpty && <div style={{textAlign:"center"}}>No conversations found</div>}
             {!this.state.catchError ? <div>
               <div id="blur1">
                 {this.props.searchContactData && this.props.searchContactData.length === 0 ?
@@ -157,7 +164,8 @@ class Contacts extends Component {
               </div></div> : <CatchError callBack={this.getContacts} />}
           </div>
         </div>
-      </div>
+        </div>
+        </div>
     );
   }
 }

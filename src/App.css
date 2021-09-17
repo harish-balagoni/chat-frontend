@@ -154,48 +154,49 @@ input:focus{
 }
 
 .msg-right{
- background: #8a8787;
-    float: right;
-    margin-right: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: hsla(0,0%,100%,.75);
-    max-width: 40%;
-    position: relative;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-    border-top-left-radius: 1.5rem;
-    border-bottom-left-radius: 1.5rem;
-    border-top-right-radius: 1.5rem;
-
-}
-
-.msg-left{
-  background: #8a8787;
-       float: left;
-    margin-right: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: hsla(0,0%,100%,.75);
-    max-width: 40%;
-    text-align: left;
-    position: relative;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-    border-top-left-radius: 1.5rem;
-    border-bottom-right-radius: 1.5rem;
-    border-top-right-radius: 1.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-}
+  background: #437f60a1;
+     
+     float: right;
+     margin-right: 0.5rem;
+     padding-left: 0.5rem;
+     padding-right: 0.5rem;
+     padding-top: 0.5rem;
+     padding-bottom: 0.5rem;
+     font-size: 1rem;
+     font-weight: 400;
+     line-height: 1.5;
+     color: hsla(0,0%,100%,.75);
+     max-width: 40%;
+     position: relative;
+     overflow-wrap: break-word;
+     white-space: pre-wrap;
+     border-top-left-radius: 1rem;
+     border-bottom-left-radius: 1rem;
+     border-top-right-radius: 1rem;
+     
+ }
+ 
+ .msg-left{
+   background: #1a1a1a;
+        float: left;
+     margin-right: 0.5rem;
+     padding-left: 0.5rem;
+     padding-right: 0.5rem;
+     font-size: 1rem;
+     font-weight: 400;
+     line-height: 1.5;
+     color: hsla(0,0%,100%,.75);
+     max-width: 40%;
+     text-align: left;
+     position: relative;
+     overflow-wrap: break-word;
+     white-space: pre-wrap;
+     border-top-left-radius: 1rem;
+     border-bottom-right-radius: 1rem;
+     border-top-right-radius: 1rem;
+     padding-top: 0.5rem;
+     padding-bottom: 0.5rem;
+ }
 
 .chat-typing{
   background: url("./assests/typing.svg") no-repeat top left;
