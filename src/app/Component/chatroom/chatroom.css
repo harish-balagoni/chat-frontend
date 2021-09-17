@@ -230,6 +230,7 @@ textarea {
   padding-top: 5px;
   padding: 1rem;
   margin-right: 1rem;   
+  color:white;
 }
 .file
 {
@@ -266,4 +267,8 @@ textarea {
  .background-inactive{
   pointer-events: none;
  }
- 
+ .reply-footer-display{
+  overflow:'hidden';
+  color: '#c9c3b1';
+  font-size: 14
+ }

@@ -72,8 +72,7 @@ class ChatRoom extends Component {
   }
 
   send = (index) => {
-    let tempmsg;
-    tempmsg=this.message.current.value.trim();
+   let tempmsg=this.message.current.value.trim();
     if (this.state.isEmojiActive) {
       this.setState({ isEmojiActive: false });
     }
@@ -235,7 +234,7 @@ handleReaction=(obj)=>{
                           
                           <div>
                             
-                            <div className='right-reply-msg-style'><div className='right-username-style'><b>{firstmsg.username}</b></div><span className='first-msg-style'>{firstmsg.message.trim()}</span> </div>
+                            <div className='right-reply-msg-style'><div className='right-username-style'><b>{firstmsg.username}</b></div><span className='first-msg-style'>{firstmsg.message}</span> </div>
                              <span >{message.message}</span>
                            </div> : null}
                           </div>
@@ -269,9 +268,9 @@ handleReaction=(obj)=>{
                     }
                   </div>
 
-              : <span className='message-onclick' onClick={()=>{this.handleReaction(message)}}>{message.message.trim()}</span>}
+              : <span className='message-onclick' onClick={()=>{this.handleReaction(message)}}>{message.message}</span>}
               </span>
-                {messages && message.reaction?<div className='msg-reaction-left' onClick={()=>{this.removeReaction(message)}}><span  style={{float:'right'}}>{message.reaction}</span></div>:null}
+                {messages && message.reaction?<div className='msg-reaction-left' onClick={()=>{this.removeReaction(message)}}><span>{message.reaction}</span></div>:null}
                 {message.messagePopUp && <MessagePopup forwardMessage={()=>this.forwardPopup(message.message)} type="left" indexValue={index} replyMsg={this.onclickReply} />}                             
                 <span className='msg-time-left'>{this.getTimeByTimestamp(message.timestamp)}</span>
               </div>)
@@ -293,7 +292,7 @@ handleReaction=(obj)=>{
       </div>  
                 
       <div className='footer'>
-      <div>{this.state.reply ? <div className='reply'><div className='msg-style'><span style={{overflow:'hidden',color: '#c9c3b1',fontSize: 14}}>{this.firstMsg}</span>
+      <div>{this.state.reply ? <div className='reply'><div className='msg-style'><span className='reply-footer-display'>{this.firstMsg}</span>
       <span className='msg-display' onClick={this.msgDisplay}>X</span></div></div> : null}</div>
       <div className="emoji">
           <GrEmoji className='emoji-style' onClick={() => { this.handleEmoji() }}/>
@@ -326,7 +325,7 @@ handleReaction=(obj)=>{
         </div>
         <div className="images">
           <label className='fileUpload'>
-          <IoImagesOutline className='fileUploadIcon' style={{color:"white"}} />
+          <IoImagesOutline className='fileUploadIcon'  />
           <input className='file' type="file" onChange={this.imageUploading} ></input></label></div>
 
         <div className='message-input'>
