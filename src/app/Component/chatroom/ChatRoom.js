@@ -236,12 +236,12 @@ handleReaction=(obj)=>{
                           <div>
                             
                             <div className='right-reply-msg-style'><div className='right-username-style'><b>{firstmsg.username}</b></div><span className='first-msg-style'>{firstmsg.message.trim()}</span> </div>
-                             <span >{message.message.trim()}</span>
+                             <span >{message.message}</span>
                            </div> : null}
                           </div>
                           )})}
                         </div>
-                  : <span >{message.message.trim()}</span>}
+                  : <span >{message.message}</span>}
 
 
                </span>                
@@ -258,9 +258,9 @@ handleReaction=(obj)=>{
                         <div> 
                           {message.replyId === firstmsg.id ?<div onClick={()=>{this.handleReaction(message)}}><div className='left-reply-msg-style'>
                            <div className='left-username-style'><b>{firstmsg.username}</b></div>
-                           <div><span className='first-msg-style'>{firstmsg.message.trim()}</span> </div></div>
+                           <div><span className='first-msg-style'>{firstmsg.message}</span> </div></div>
                            
-                           <span>{message.message.trim()}</span>
+                           <span>{message.message}</span>
                             </div>: null}
                            </div>
                       )
