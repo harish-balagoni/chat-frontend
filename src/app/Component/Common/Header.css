@@ -11,7 +11,7 @@
     height:15%;
     display: flex;
     justify-content: center;
-    align-self: center;
+    align-self: center;    
 }
 
 .header-profile{
@@ -54,35 +54,37 @@
 
 
 .options{
-    height: 200px;
-    width: 180px;
+    height: 8rem;
+    width: 8rem;
     position: absolute;
     right: 10%;
     top: 10%;
     background: #50535a;
-    box-shadow: 0px 0px 30px rgb(14 10 16 / 84%);
-    border-radius: 10px;
+    box-shadow: 0px 0px 1rem rgb(14 10 16 / 84%);
+    border-radius: 1rem
 }
 
 .option-item{
-    width: 90%;
-    height: 33.3%;
+    width: 7rem;
+    height: 4rem;
+    font-size: 1rem;
     justify-content: flex-start;
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 1rem;
     border: 1px solid white;
     border-width: 0px 0px 1px 0px;
     cursor: pointer;
 }
 
 .option-item-logout{
-    width: 90%;
-    height: 33.3%;
+    width: 7rem;
+    height: 4rem;
+    font-size: 1rem;
     justify-content: flex-start;
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 1rem;
     cursor: pointer;
 }
 

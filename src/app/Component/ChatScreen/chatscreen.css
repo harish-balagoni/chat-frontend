@@ -1,6 +1,7 @@
 .entire-area-subdiv{
     height: max-content;
     background-color: #202124;
+    padding-bottom: 0.5%;
 }
 .menu-active
 {
@@ -60,7 +61,7 @@
  .extendedimage
 {
     border-radius: 90%;
-    top: 12%;
+    top: 20%;
     left: 42%;
     display: flex;
     height:220px;
