@@ -190,6 +190,7 @@ class ChatRoom extends Component {
     return nextProps.client.username === this.props.client.username;
   }
   deleteMessage = (user,client,msgId) =>{
+    
     this.socket.emit("delete", { username:user, client:client, messageId:msgId });
   }
   
