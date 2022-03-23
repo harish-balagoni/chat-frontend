@@ -59,6 +59,7 @@ class ClientHeader extends Component {
         this.setState({ isShowOptions: true, isShowProfile: false })
     }
     handleBack = () => {
+        this.props.onCb(this.state.isShowOptions);
         this.props.history.goBack();
     }
    

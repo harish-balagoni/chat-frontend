@@ -190,7 +190,7 @@ class ChatRoom extends Component {
     return nextProps.client.username === this.props.client.username;
   }
   deleteMessage = (user,client,msgId) =>{
-    
+
     this.socket.emit("delete", { username:user, client:client, messageId:msgId });
   }
   
@@ -200,7 +200,7 @@ class ChatRoom extends Component {
       <>
       {this.state.forwardPopup ? <ForwardMessage message={this.state.forwardingMessage} handleclose={this.forwardPopup} /> : 
       <div className='chat-room' onClick={this.closePopup} >
-      <ClientHeader title={this.props.client.username} />
+      <ClientHeader title={this.props.client.username} onCb={(isShowOptions)=>{ console.log('cb called', isShowOptions)}}/>
       <div className='msg-container'>
         {messages && !!messages.length && messages.map((message, index) => {
           return (<div className='message-field' key={index}>

@@ -8,6 +8,7 @@ import ProfileUploader from '../ProfileUploader';
 import { loaderService } from '../../../service/loaderService';
 import CatchError from '../CatchError/CatchError';
 import { submitRegister } from '../../actions/actions';
+import Login from '../Login/Login';
 
 class Registration extends Component {
     constructor(props) {
